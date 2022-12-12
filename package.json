@@ -14,7 +14,7 @@
     "cross-fetch": "^3.1.5",
     "i18next": "^22.0.4",
     "i18next-chained-backend": "^4.0.1",
-    "i18next-http-backend": "^2.0.2",
+    "i18next-http-backend": "^2.1.0",
     "immer": "^9.0.16",
     "joi": "^17.7.0",
     "lodash": "^4.17.21",
