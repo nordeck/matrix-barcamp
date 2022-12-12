@@ -6,7 +6,7 @@
   "version": "1.0.1",
   "private": true,
   "dependencies": {
-    "@matrix-widget-toolkit/api": "^1.0.1",
+    "@matrix-widget-toolkit/api": "^1.0.2",
     "@matrix-widget-toolkit/react": "^1.0.2",
     "@matrix-widget-toolkit/semantic-ui": "^1.0.2",
     "@react-hookz/web": "^14.2.2",
