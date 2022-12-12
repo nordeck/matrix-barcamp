@@ -4,8 +4,6 @@
 
 A widget for organizing [Barcamps](https://de.wikipedia.org/wiki/Barcamp) in [Matrix](https://matrix.org/) chat rooms.
 
-Try the latest deployment at https://matrix-barcamp-widget.dev.nordeck.systems.
-
 ![](./docs/barcamp-lobby.png)
 
 <table>
