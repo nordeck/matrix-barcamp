@@ -1,0 +1,8 @@
+#root {
+  margin: 0;
+}
+
+/* Otherwise, scrollbars would have a white corner */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

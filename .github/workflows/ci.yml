@@ -1,0 +1,196 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  DOCKER_IMAGE: ghcr.io/nordeck/matrix-barcamp-widget
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      docker-tag: ${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # required for changesets
+          fetch-depth: '0'
+          # don't persist the credentials so the changesets action doesn't use the
+          # github actions token but the git token provided via environment variable
+          persist-credentials: false
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: prettier:check
+        run: yarn prettier:check
+
+      - name: depcheck
+        run: yarn depcheck
+
+      - name: lint
+        run: yarn lint
+
+      - name: type checking and declarations
+        run: yarn tsc
+
+      - name: check translations
+        run: yarn translate --fail-on-update
+
+      - name: test
+        run: yarn test:all
+
+      - name: build
+        run: yarn build
+
+      - name: generate disclaimer
+        run: yarn generate-disclaimer
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          labels: |
+            org.opencontainers.image.title=Matrix BarCamp
+            org.opencontainers.image.description=A widget for organizing barcamps in matrix chat rooms
+            org.opencontainers.image.vendor=Nordeck IT + Consulting GmbH
+          tags: |
+            type=sha,prefix=
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        id: dockerBuild
+        with:
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64,linux/s390x
+
+      - name: Generate GitHub token
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        id: generate_token
+        uses: tibdex/github-app-token@021a2405c7f990db57f5eae5397423dcc554159c # @v1.7.0
+        with:
+          app_id: ${{ secrets.GH_APP_OS_APP_ID }}
+          private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
+
+      - name: Create Release Pull Request or Publish Packages
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: changesets/action@e9cc34b540dd3ad1b030c57fd97269e8f6ad905a # @v1.4.1
+        with:
+          publish: yarn changeset tag
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ['chromium', 'firefox', 'webkit']
+    outputs:
+      docker-tag: ${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: build
+        run: yarn build
+
+      - name: generate disclaimer
+        run: yarn generate-disclaimer
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker build
+        uses: docker/build-push-action@v3
+        id: dockerBuild
+        with:
+          context: .
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run Playwright tests
+        env:
+          IMAGE_ID: ${{ steps.dockerBuild.outputs.imageid }}
+        run: yarn playwright test --project=${{ matrix.browser }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: playwright-report/
+          retention-days: 7
+
+  deploy:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs:
+      - build
+      - e2e
+    env:
+      AWS_REGION: eu-central-1
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION  }}
+
+      - name: Create Kubeconfig
+        run: |
+          # Extract the base64 encoded config data and write this to the KUBECONFIG
+          echo "${{ secrets.KUBECONFIG_DEV }}" | base64 -d > /tmp/config
+          chmod 600 /tmp/config
+
+          echo "KUBECONFIG=/tmp/config" >> $GITHUB_ENV
+
+      - name: Deploy to the dev cluster
+        run: helm -n default upgrade --install -f ./charts/matrix-barcamp-widget/values.dev.yaml --set image.tag=${{ needs.build.outputs.docker-tag }} matrix-barcamp-widget ./charts/matrix-barcamp-widget
+
+      - name: Cleanup Kubeconfig
+        if: always()
+        run: |
+          rm /tmp/config

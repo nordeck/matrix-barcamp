@@ -1,0 +1,9 @@
+{
+  "rules": {
+    // False positive in the playwright tests
+    "testing-library/prefer-screen-queries": "off",
+    // We are a bit more lax here
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  "extends": ["plugin:playwright/playwright-test"]
+}

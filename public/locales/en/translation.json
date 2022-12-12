@@ -1,0 +1,164 @@
+{
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "errors": {
+    "mutationFailed": "Error: Data could not be updated.",
+    "queryFailed": "Error: Data could not be loaded."
+  },
+  "iconPicker": {
+    "icon": "Icon \"{{icon}}\"",
+    "icons": "Available Icons",
+    "title": "Pick an icon"
+  },
+  "linkRoomDialog": {
+    "assign": "Assign",
+    "assignmentProcedure": "<0>When you assign a room, the widget will:</0><1><0>Add a link to the session room to the sticky note.</0><1>Update the title and topic to match the topic.</1><2>Setup the BarCamp and the Video Conference widget.</2></1>",
+    "cancel": "Cancel",
+    "createRoomMessage": "You must create a room in Element before you can assign it to a topic. Use a temporary name as a title (example: “Session 1”), disable ”end-to-end encryption”, and set the join rule to “Visible to space members”. Tip: You can also create the rooms before the planning session starts to speed-up the assignment process.",
+    "description": "Select a Matrix room where the topic “{{topicTitle}}” should be discussed. Each Matrix room can only host a single topic.",
+    "encryptedRoom": {
+      "message": "<0>Do you really want to assign this room?</0><1>The room you are trying to assign uses encryption. In encrypted rooms, participants that later join are unable to see the message history.</1><2>As an alternative you can create a new room and explicitly disabled “end-to-end encryption” on creation.</2>",
+      "title": "Encrypted room"
+    },
+    "room": "Matrix Room",
+    "roomNoResults": "Please create a new room in this space.",
+    "roomPlaceholder": "Select Room",
+    "title": "Assign a Matrix room to a topic"
+  },
+  "notPartOfASpace": {
+    "instructions": "The widget only works in rooms that belong to a space. Please create a new space, create a new room in that space, and try again.",
+    "title": "Your Matrix room is not part of a Matrix space."
+  },
+  "parkingLot": {
+    "explanation": "The Parking Lot collects topics before they are placed on the timetable. In addition, it allows to move sessions out of the timetable or to store sessions for later consideration.",
+    "placeholder": "You can park topics here that you don't want to place in the grid for now.",
+    "title": "Parking Lot"
+  },
+  "personalSpace": {
+    "close": "Close",
+    "explanation": "The Personal Space is a place to prepare a topic before they are submitted to the topic queue. Proposals remain private until they are submitted.",
+    "submission": {
+      "close": "Close topic submission for participants",
+      "notificationClosed": "Topic submission was closed.",
+      "notificationOpened": "Topic submission was opened.",
+      "open": "Open topic submission for participants"
+    },
+    "submissionClosed": {
+      "instructions": "Topic submission is not open yet, but you can already prepare your topics and submit them later.",
+      "title": "Submission closed"
+    },
+    "submitProposal": "Submit a topic",
+    "title": "Personal Space",
+    "topic": {
+      "alreadySubmitted": "Already Submitted",
+      "create": "Create new topic",
+      "delete": {
+        "modal": {
+          "content": "Do you want to delete your topic suggestion?",
+          "header": "Delete the topic suggestion?"
+        },
+        "title": "Delete topic"
+      },
+      "submit": "Submit"
+    }
+  },
+  "sessionGrid": {
+    "editModeSwitch": "Edit tracks and time slots",
+    "timeSlot": {
+      "commonEvent": {
+        "newName": "Break",
+        "title": "Common Event Title"
+      },
+      "createCommonEventTimeSlot": "Create a common event",
+      "createSessionsTimeSlot": "Create a time slot",
+      "dateTimeInputLabel": "Start day and time",
+      "dateTimeInputTooltip": "{{ startTime, datetime }}",
+      "delete": {
+        "modal": {
+          "content": "Do you want to delete the time slot at {{startTime, datetime}}? The topics that are currently assigned to this time slot, if any, will be moved to the parking lot.",
+          "header": "Delete the time slot?"
+        },
+        "title": "Delete time slot"
+      },
+      "duration": "{{duration}} min.",
+      "durationInputLabel": "Track duration in minutes",
+      "durationInputSuffix": "min.",
+      "end": "End of the BarCamp 👋",
+      "endTime": "{{endTime, datetime}}",
+      "rowLabel": "{{startTime, datetime}} {{duration}} min.",
+      "startTime": "{{startTime, datetime}}"
+    },
+    "title": "Session Grid",
+    "tracks": "Tracks"
+  },
+  "sessionLayout": {
+    "returnToLobby": "Return to “{{roomName}}”",
+    "timeslotTimes": "{{startTime, datetime}}–{{endTime, datetime}}"
+  },
+  "submittedTopics": {
+    "placeholder": "No suggestions. Be the first one to suggest a topic.",
+    "selectNext": "Select next topic",
+    "summary": {
+      "multiple_one": "Suggestions from {{author}} and {{count}} more…",
+      "multiple_other": "Suggestions from {{author}} and {{count}} more…",
+      "single": "Suggestion from {{author}}"
+    },
+    "tooltip": {
+      "description": "The next suggestions are from:",
+      "title": "Topic suggestions"
+    }
+  },
+  "topic": {
+    "closeDetailsButton": "Close details",
+    "delete": {
+      "modal": {
+        "content": "Do you want to delete the topic “{{name}}”?",
+        "header": "Delete the topic?"
+      },
+      "title": "Delete topic"
+    },
+    "description": "Description",
+    "descriptionLengthLimitReached": "Please provide a shorter description.",
+    "descriptionLengthZero": "Please provide a description.",
+    "descriptionPlaceholder": "Describe what you want to talk about…",
+    "linkRoom": "Link Room",
+    "pin": "Fix period",
+    "pinIcon": "This topic is scheduled for this period",
+    "showDetailsButton": "Show details",
+    "switchToRoom": "Switch to the session room",
+    "title": "Title",
+    "titleLengthLimitReached": "Please provide a shorter title.",
+    "titleLengthZero": "Please provide a title.",
+    "titlePlaceholder": "Your Topic",
+    "unpin": "Release period"
+  },
+  "track": {
+    "create": "Create a track",
+    "delete": {
+      "modal": {
+        "content": "Do you want to delete the track “{{name}}”? The topics that are currently assigned to this track, if any, will be moved to the parking lot.",
+        "header": "Delete the track?"
+      },
+      "title": "Delete track"
+    },
+    "name": "Track name",
+    "newName": "Track {{suffix}}"
+  },
+  "welcome": {
+    "encryptedRoom": {
+      "message": "<0>Do you really want to setup the BarCamp in this room?</0><1>The current room is using encryption. In encrypted rooms, participants that later join are unable to see the message history.</1><2>As an alternative you can create a new lobby room and explicitly disabled “end-to-end encryption” on creation.</2>",
+      "title": "Encrypted room"
+    },
+    "introduction": "A BarCamp is an open, participatory workshop-event with no fixed agenda. The participants suggest discussion topics, place them together on the agenda, and discuss them in small sessions. The event's agenda is planned with time slots, which can either be common events in that all participants can join, or session slots where topics can be discussed in parallel. Participants can choose freely on which topics they want to participate.",
+    "moderatorInstructions": "The BarCamp widget was installed into the Lobby room – the Lobby room is used to plan the sessions of the BarCamp. Next a moderator has to set up the Lobby room and configure the tracks and time slots of the agenda.",
+    "participantInstructions": "The BarCamp widget is not yet configured. Please wait till a moderator has configured the widget.",
+    "setup": "Setup BarCamp",
+    "title": "Matrix BarCamp Widget"
+  },
+  "widgets": {
+    "jitsi": {
+      "lobbyConferenceTitle": "Lobby",
+      "title": "Video Conference"
+    }
+  }
+}

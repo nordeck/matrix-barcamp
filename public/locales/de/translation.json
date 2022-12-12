@@ -1,0 +1,164 @@
+{
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "errors": {
+    "mutationFailed": "Fehler: Die Daten konnten nicht gespeichert werden.",
+    "queryFailed": "Fehler: Die Daten konnten nicht geladen werden."
+  },
+  "iconPicker": {
+    "icon": "Symbol \"{{icon}}\"",
+    "icons": "Verfügbare Symbole",
+    "title": "Symbol auswählen"
+  },
+  "linkRoomDialog": {
+    "assign": "Zuweisen",
+    "assignmentProcedure": "<0>Wenn du einen Raum zuweist, wird das Widget:</0><1><0>Einen Link zum Themenraum auf dem Thema hinzufügen.</0><1>Den Raumtitel und das Raumthema ändern.</1><2>Das BarCamp Widget und das Videokonferenz Widget im Raum bereitstellen.</2></1>",
+    "cancel": "Abbrechen",
+    "createRoomMessage": "Du musst die Räume in Element erstellen bevor du sie einem Thema zuweisen kannst. Nutze einen temporären Titel (Beispiel: „Session 1“), deaktiviere die „Ende-zu-Ende-Verschlüsselung“ und wähle als Raumsichtbarkeit „Für Space-Mitglieder sichtbar“. Beachte dass du mindestens Moderationsrechte in der Space sowie in den Themenräumen benötigst um die Zuweisung abzuschließen. Tipp: Du kannst die Räume auch bereits vor der Themenplanung anlegen um den späteren Zuweisungsprozess zu beschleunigen.",
+    "description": "Wähle einen Matrix Raum in dem das Thema „{{topicTitle}}“ diskutiert werden soll. Jeder Raum kann jeweils nur für ein einziges Thema benutzt werden.",
+    "encryptedRoom": {
+      "message": "<0>Möchtest du diesen Raum wirklich zuweisen?</0><1>Du versuchst einen Raum zuzuweisen der Verschlüsselung verwendet. In verschlüsselten Räumen können Teilnehmer die erst später beitreteten nicht die gesamte Nachrichtenhistorie lesen.</1><2>Alternativ kannst du einen neuen Raum erstellen und dabei die „Ende-zu-Ende-Verschlüsselung“ deaktiveren.</2>",
+      "title": "Verschlüsselter Raum"
+    },
+    "room": "Matrix Raum",
+    "roomNoResults": "Bitte erstelle zuerst einen neuem Matrix Raum in diesem Space.",
+    "roomPlaceholder": "Wähle einen Matrix Raum",
+    "title": "Zuweisung eines Matrix Raums zu einem Thema"
+  },
+  "notPartOfASpace": {
+    "instructions": "Diese Widget kann nur in einem Raum benutzt werden der sich in einem Space befindet. Bitte erstelle einen neuen Space, lege dort einen Raum an, und versuche es dort noch einmal.",
+    "title": "Dieser Matrix Raum ist nicht Teil eines Matrix Spaces."
+  },
+  "parkingLot": {
+    "explanation": "Auf dem Parkplatz werden Themen gesammelt, um anschließend auf der Agenda platziert zu werden. Außerdem können Themen aus der Agenda auf dem Parkplatz verschoben werden oder dort für später gelagert werden.",
+    "placeholder": "Hier kannst du Themen parken, die du vorerst nicht im Grid platzieren möchtest.",
+    "title": "Parkplatz"
+  },
+  "personalSpace": {
+    "close": "Schließen",
+    "explanation": "Im persönlichen Bereich können Themen vorbereitet werden bevor sie zur Themenwarteschlange hinzugefügt werden. Die Themen werden erst für andere Nutzer:innen sichtbar, wenn sie eingereicht wurden.",
+    "submission": {
+      "close": "Themeneinreichung sperren",
+      "notificationClosed": "Themeneinreichung ist nun gesperrt.",
+      "notificationOpened": "Themeneinreichung ist nun geöffnet.",
+      "open": "Themeneinreichung öffnen"
+    },
+    "submissionClosed": {
+      "instructions": "Die Themeneinreichung ist gesperrt, aber du kannst deine Themen bereits hier vorbereiten und später einreichen.",
+      "title": "Themeneinreichung gesperrt"
+    },
+    "submitProposal": "Thema vorschlagen",
+    "title": "Persönlicher Bereich",
+    "topic": {
+      "alreadySubmitted": "Bereits eingereicht",
+      "create": "Neues Thema",
+      "delete": {
+        "modal": {
+          "content": "Möchtest du deinen Themenvorschlag löschen?",
+          "header": "Diesen Themenvorschlag löschen?"
+        },
+        "title": "Themenvorschlag löschen"
+      },
+      "submit": "Einreichen"
+    }
+  },
+  "sessionGrid": {
+    "editModeSwitch": "Tracks und Zeiten bearbeiten",
+    "timeSlot": {
+      "commonEvent": {
+        "newName": "Pause",
+        "title": "Titel des gemeinsamen Zeitfensters"
+      },
+      "createCommonEventTimeSlot": "Ein gemeinsames Zeitfenster anlegen",
+      "createSessionsTimeSlot": "Ein Zeitfenster anlegen",
+      "dateTimeInputLabel": "Starttag und Zeit",
+      "dateTimeInputTooltip": "{{ startTime, datetime }}",
+      "delete": {
+        "modal": {
+          "content": "Möchtest du das Zeitfenster um {{startTime, datetime}} löschen? Die zugehörigen Themen (wenn vorhanden) landen auf dem Parkplatz.",
+          "header": "Dieses Zeitfenster löschen?"
+        },
+        "title": "Das Zeitfenster löschen"
+      },
+      "duration": "{{duration}} Min.",
+      "durationInputLabel": "Zeitfenster Dauer in Minuten",
+      "durationInputSuffix": "Min.",
+      "end": "Ende des BarCamps 👋",
+      "endTime": "{{endTime, datetime}}",
+      "rowLabel": "{{startTime, datetime}} {{duration}} min.",
+      "startTime": "{{startTime, datetime}}"
+    },
+    "title": "Agenda",
+    "tracks": "Tracks"
+  },
+  "sessionLayout": {
+    "returnToLobby": "Zurück zu „{{roomName}}“",
+    "timeslotTimes": "{{startTime, datetime}}–{{endTime, datetime}}"
+  },
+  "submittedTopics": {
+    "placeholder": "Keine Themenvorschläge. Schlage das erste Thema vor.",
+    "selectNext": "Nächstes Thema auswählen",
+    "summary": {
+      "multiple_one": "Vorschlag von {{author}} und ein weiterer Vorschlag…",
+      "multiple_other": "Vorschlag von {{author}} und {{count}} weitere Vorschläge…",
+      "single": "Vorschlag von {{author}}"
+    },
+    "tooltip": {
+      "description": "Die nächsten Vorschläge sind von:",
+      "title": "Themenvorschläge"
+    }
+  },
+  "topic": {
+    "closeDetailsButton": "Details schließen",
+    "delete": {
+      "modal": {
+        "content": "Möchtest du das Thema „{{name}}“ löschen?",
+        "header": "Dieses Thema löschen?"
+      },
+      "title": "Thema Löschen"
+    },
+    "description": "Beschreibung",
+    "descriptionLengthLimitReached": "Bitte gib eine kürzere Beschreibung ein.",
+    "descriptionLengthZero": "Bitte gib eine Beschreibung ein.",
+    "descriptionPlaceholder": "Beschreibe über was du sprechen möchtest…",
+    "linkRoom": "Raum zuweisen",
+    "pin": "Zeitraum fixieren",
+    "pinIcon": "Dieses Thema ist für diesen Zeitraum fest eingeplant",
+    "showDetailsButton": "Details anzeigen",
+    "switchToRoom": "Springe zum Themenraum",
+    "title": "Titel",
+    "titleLengthLimitReached": "Bitte gib einen kürzeren Titel ein.",
+    "titleLengthZero": "Bitte gib einen Titel ein.",
+    "titlePlaceholder": "Dein Thema",
+    "unpin": "Zeitraum freigeben"
+  },
+  "track": {
+    "create": "Neuen Track anlegen",
+    "delete": {
+      "modal": {
+        "content": "Möchtest du den Track „{{name}}“ löschen? Die zugehörigen Themen (wenn vorhanden) landen auf dem Parkplatz.",
+        "header": "Diesen Track löschen?"
+      },
+      "title": "Track löschen"
+    },
+    "name": "Trackname",
+    "newName": "Track {{suffix}}"
+  },
+  "welcome": {
+    "encryptedRoom": {
+      "message": "<0>Möchtest du das BarCamp wirklich in diesem Raum installieren?</0><1>Im aktuellen Raum wird Verschlüsselung verwendet. In verschlüsselten Räumen können Teilnehmer die erst später beitreteten nicht die gesamte Nachrichtenhistorie lesen.</1><2>Alternativ kannst du einen neuen Lobby-Raum erstellen und dabei die „Ende-zu-Ende-Verschlüsselung“ deaktiveren.</2>",
+      "title": "Verschlüsselter Raum"
+    },
+    "introduction": "Ein BarCamp ist ein offenes, auf Mitbestimmung ausgelegtes Workshop-Format ohne feste Agenda. Die Teilnehmer:innen bringen ihre eigenen Themen ein, platzieren sie gemeinsam auf der Agenda und behandeln diese in Sitzungen. Die Agenda des Formats besteht aus Zeitfenstern, die entweder gemeinsam mit allen stattfinden oder in denen die eingebrachten Themen parallel in (kleinen) Gruppen bearbeitet werden. Die Teilnehmer:innen können frei entscheiden, an welchen Themen sie mitarbeiten wollen.",
+    "moderatorInstructions": "Das BarCamp Widget wurde in einem Lobby-Raum installiert. Der Lobby-Raum wird genutzt, um die Agenda des BarCamps zu planen. Ein:e Moderator:in muss die Einrichtung durchführen und Zeitfenster und Tracks anlegen.",
+    "participantInstructions": "Das BarCamp Widget ist noch nicht vollständig eingerichtet. Bitte warte bis ein Moderator die Einrichtung abgeschlossen hat.",
+    "setup": "BarCamp einrichten",
+    "title": "Matrix BarCamp Widget"
+  },
+  "widgets": {
+    "jitsi": {
+      "lobbyConferenceTitle": "Lobby",
+      "title": "Video Konferenz"
+    }
+  }
+}

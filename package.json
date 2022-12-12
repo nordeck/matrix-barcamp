@@ -1,0 +1,122 @@
+{
+  "name": "matrix-barcamp-widget",
+  "description": "A widget for organizing barcamps in matrix chat rooms.",
+  "author": "Nordeck IT + Consulting GmbH",
+  "license": "Apache-2.0",
+  "version": "1.0.1",
+  "private": true,
+  "dependencies": {
+    "@matrix-widget-toolkit/api": "^1.0.1",
+    "@matrix-widget-toolkit/react": "^1.0.2",
+    "@matrix-widget-toolkit/semantic-ui": "^1.0.2",
+    "@react-hookz/web": "^14.2.2",
+    "@reduxjs/toolkit": "^1.9.1",
+    "cross-fetch": "^3.1.5",
+    "i18next": "^22.0.4",
+    "i18next-chained-backend": "^4.0.1",
+    "i18next-http-backend": "^2.0.2",
+    "immer": "^9.0.16",
+    "joi": "^17.7.0",
+    "lodash": "^4.17.21",
+    "loglevel": "^1.8.1",
+    "luxon": "^3.1.1",
+    "matrix-widget-api": "^1.1.1",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dom": "^17.0.2",
+    "react-focus-lock": "^2.9.2",
+    "react-focus-on": "^3.7.0",
+    "react-redux": "^8.0.5",
+    "react-use": "^17.4.0",
+    "rfc4648": "^1.5.2",
+    "rxjs": "^7.5.7",
+    "semantic-ui-react": "^2.1.4",
+    "styled-components": "^5.3.6"
+  },
+  "scripts": {
+    "start": "cross-env HTTPS=true BROWSER=none WDS_SOCKET_PORT=0 craco start",
+    "dev": "cross-env BROWSER=none ESLINT_NO_DEV_ERRORS=true TSC_COMPILE_ON_ERROR=true WDS_SOCKET_PORT=0 craco start",
+    "build": "cross-env GENERATE_SOURCEMAP=false INLINE_RUNTIME_CHUNK=false craco build",
+    "lint": "eslint . --max-warnings=0",
+    "test": "craco test",
+    "test:all": "craco test --coverage --watchAll=false",
+    "deduplicate": "yarn-deduplicate",
+    "depcheck": "depcheck --ignores=@types/jest,@types/node,prettier-plugin-organize-imports,typescript,i18next-parser,@changesets/cli",
+    "translate": "i18next \"src/**/*.{ts,tsx}\"",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
+    "prepare": "husky install",
+    "docker:build": "docker build -t matrix-barcamp-widget .",
+    "generate-disclaimer": "cp LICENSE ./build/LICENSE.txt && cp NOTICE ./build/NOTICE.txt && yarn licenses generate-disclaimer --prod >> ./build/NOTICE.txt && yarn licenses list --prod --json --no-progress > ./build/licenses.json",
+    "e2e": "playwright test --headed --project=chromium --workers=1 --reporter=dot",
+    "e2e:all": "yarn playwright test --reporter=dot"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn eslint --max-warnings=0",
+      "bash -c \"yarn tsc --pretty\"",
+      "prettier --write"
+    ],
+    "*.{package.json,js,jsx,ts,tsx}": [
+      "bash -c \"yarn depcheck\""
+    ],
+    "*.{json,js,jsx,ts,tsx}": [
+      "bash -c \"yarn translate --fail-on-update\""
+    ],
+    "*.{yaml,yml,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.5.2",
+    "@changesets/cli": "^2.25.2",
+    "@craco/craco": "^7.0.0",
+    "@matrix-widget-toolkit/testing": "^1.0.1",
+    "@playwright/test": "^1.28.1",
+    "@semantic-ui-react/craco-less": "^2.0.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^27.5.2",
+    "@types/lodash": "^4.14.191",
+    "@types/luxon": "^3.1.0",
+    "@types/node": "^16.18.4",
+    "@types/react": "^17.0.52",
+    "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/react-dom": "^17.0.18",
+    "@types/react-i18next": "^8.1.0",
+    "@types/styled-components": "^5.1.26",
+    "cross-env": "^7.0.3",
+    "depcheck": "^1.4.3",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-notice": "^0.9.10",
+    "eslint-plugin-playwright": "^0.11.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.2",
+    "i18next-parser": "6.6.0",
+    "lint-staged": "^13.0.4",
+    "nanoid": "^3.3.4",
+    "prettier": "^2.8.0",
+    "prettier-plugin-organize-imports": "^3.2.1",
+    "react-i18next": "^12.0.0",
+    "react-scripts": "5.0.1",
+    "testcontainers": "^9.0.1",
+    "typescript": "~4.6.4",
+    "yarn-deduplicate": "^6.0.0"
+  }
+}
