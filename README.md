@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/nordeck/matrix-barcamp/actions/workflows/ci.yml/badge.svg)](https://github.com/nordeck/matrix-barcamp/actions/workflows/ci.yml)
 
-A widget for organizing [Barcamps](https://de.wikipedia.org/wiki/Barcamp) in [Matrix](https://matrix.org/) chat rooms.
+A widget for organizing [Barcamps](https://en.wikipedia.org/wiki/BarCamp) in [Matrix](https://matrix.org/) chat rooms.
 
 ![](./docs/barcamp-lobby.png)
 
