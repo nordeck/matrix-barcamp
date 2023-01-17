@@ -190,7 +190,7 @@ jobs:
               ref: 'main',
               inputs: {
                 environment: '${{ secrets.GITOPS_DEPLOY_ENVIRONMENT}}',
-                application: 'element-barcamp',
+                application: 'matrix-barcamp',
                 tag: '${{ github.sha }}'
               }
             })
