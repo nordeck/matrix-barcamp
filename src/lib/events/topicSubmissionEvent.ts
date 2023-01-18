@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { RoomEvent } from '@matrix-widget-toolkit/api';
+import { RelatesTo, RoomEvent } from '@matrix-widget-toolkit/api';
 import Joi from 'joi';
 import { isValidEvent } from './validation';
 
@@ -29,11 +29,17 @@ export type TopicSubmissionEvent = {
   title: string;
   /** The description of the submission */
   description: string;
+  /** The relation to the start event of the session grid */
+  'm.relates_to'?: RelatesTo<'m.reference'>;
 };
 
 const topicSubmissionEventSchema = Joi.object<TopicSubmissionEvent, true>({
   title: Joi.string().min(1).required(),
   description: Joi.string().min(1).required(),
+  'm.relates_to': Joi.object({
+    rel_type: Joi.string().valid('m.reference').required(),
+    event_id: Joi.string().required(),
+  }),
 }).unknown();
 
 export function isValidTopicSubmissionEvent(

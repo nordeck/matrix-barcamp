@@ -73,6 +73,7 @@ describe('isValidSessionGridEvent', () => {
             },
           ],
           parkingLot: [{ topicId: 'topic-1' }],
+          topicStartEventId: '$start-event-id',
         },
         event_id: '$event-id',
         origin_server_ts: 0,
@@ -194,6 +195,9 @@ describe('isValidSessionGridEvent', () => {
     { parkingLot: [111] },
     { parkingLot: [{ topicId: null }] },
     { parkingLot: [{ topicId: 111 }] },
+    { topicStartEventId: null },
+    { topicStartEventId: 111 },
+    { topicStartEventId: '' },
   ])('should reject event with patch %p', (patch: Object) => {
     expect(
       isValidSessionGridEvent({

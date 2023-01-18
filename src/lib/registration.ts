@@ -26,6 +26,7 @@ import {
   WidgetEventCapability,
 } from 'matrix-widget-api';
 import {
+  ROOM_EVENT_BARCAMP_SESSION_GRID_START,
   ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION,
   STATE_EVENT_BARCAMP_LINKED_ROOM,
   STATE_EVENT_BARCAMP_SESSION_GRID,
@@ -48,6 +49,14 @@ export const widgetRegistration = {
 };
 
 export const capabilities = [
+  WidgetEventCapability.forRoomEvent(
+    EventDirection.Receive,
+    ROOM_EVENT_BARCAMP_SESSION_GRID_START
+  ),
+  WidgetEventCapability.forRoomEvent(
+    EventDirection.Send,
+    ROOM_EVENT_BARCAMP_SESSION_GRID_START
+  ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
     STATE_EVENT_BARCAMP_SESSION_GRID

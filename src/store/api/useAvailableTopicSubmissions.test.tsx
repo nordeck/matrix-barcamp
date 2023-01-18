@@ -21,6 +21,7 @@ import { ComponentType, PropsWithChildren } from 'react';
 import {
   mockInitializeSpaceParent,
   mockSessionGrid,
+  mockSessionGridStart,
   mockTopicSubmission,
 } from '../../lib/testUtils';
 import { StoreProvider } from '../StoreProvider';
@@ -44,6 +45,7 @@ describe('useAvailableTopicSubmissions', () => {
 
   it('should get available topics', async () => {
     mockInitializeSpaceParent(widgetApi);
+    widgetApi.mockSendRoomEvent(mockSessionGridStart());
     widgetApi.mockSendStateEvent(mockSessionGrid());
     widgetApi.mockSendRoomEvent(mockTopicSubmission());
 
@@ -64,6 +66,10 @@ describe('useAvailableTopicSubmissions', () => {
           content: {
             title: 'My topic',
             description: 'I would like to talk about…',
+            'm.relates_to': {
+              rel_type: 'm.reference',
+              event_id: '$start-event-id',
+            },
           },
         }),
       ],
@@ -74,7 +80,9 @@ describe('useAvailableTopicSubmissions', () => {
   it('should provide loading state', async () => {
     mockInitializeSpaceParent(widgetApi);
     widgetApi.mockSendStateEvent(mockSessionGrid());
-    widgetApi.receiveRoomEvents.mockImplementation(() => new Promise(() => {}));
+    widgetApi.readEventRelations.mockImplementation(
+      () => new Promise(() => {})
+    );
 
     const { result, waitForNextUpdate } = renderHook(
       useAvailableTopicSubmissions,

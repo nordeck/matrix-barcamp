@@ -30,6 +30,7 @@ import {
   RoomNameEvent,
   RoomTopicEvent,
   SessionGridEvent,
+  SessionGridStartEvent,
   SpaceChildEvent,
   SpaceParentEvent,
   TopicEvent,
@@ -115,11 +116,38 @@ export function mockSessionGrid({
       timeSlots: [],
       tracks: [],
       parkingLot: [],
+      topicStartEventId: '$start-event-id',
       ...content,
     },
     state_key,
     origin_server_ts: 0,
     event_id: '$event-id',
+    room_id,
+  };
+}
+
+/**
+ * Create a session grid start event with known test data.
+ *
+ * @remarks Only use for tests
+ */
+export function mockSessionGridStart({
+  event_id = '$start-event-id',
+  room_id = '!room-id',
+  content = {},
+}: {
+  event_id?: string;
+  room_id?: string;
+  content?: Partial<SessionGridStartEvent>;
+} = {}): RoomEvent<SessionGridStartEvent> {
+  return {
+    type: 'net.nordeck.barcamp.session_grid.start',
+    sender: '@user-id',
+    content: {
+      ...content,
+    },
+    origin_server_ts: 0,
+    event_id,
     room_id,
   };
 }
@@ -230,6 +258,10 @@ export function mockTopicSubmission({
     content: {
       title: 'My topic',
       description: 'I would like to talk about…',
+      'm.relates_to': {
+        rel_type: 'm.reference',
+        event_id: '$start-event-id',
+      },
       ...content,
     },
     origin_server_ts,

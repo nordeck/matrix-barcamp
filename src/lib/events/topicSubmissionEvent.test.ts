@@ -23,6 +23,26 @@ describe('isValidTopicSubmissionEvent', () => {
         content: {
           title: 'My Topic',
           description: 'I want to talk about…',
+          'm.relates_to': {
+            rel_type: 'm.reference',
+            event_id: '$event-id',
+          },
+        },
+        event_id: '$event-id',
+        origin_server_ts: 0,
+        room_id: '!room-id',
+        sender: '@user-id',
+        type: 'net.nordeck.barcamp.topic_submission',
+      })
+    ).toBe(true);
+  });
+
+  it('should accept event without relation', () => {
+    expect(
+      isValidTopicSubmissionEvent({
+        content: {
+          title: 'My Topic',
+          description: 'I want to talk about…',
         },
         event_id: '$event-id',
         origin_server_ts: 0,
@@ -59,6 +79,13 @@ describe('isValidTopicSubmissionEvent', () => {
     { description: null },
     { description: 111 },
     { description: '' },
+    { 'm.relates_to': { rel_type: undefined, event_id: '$event-id' } },
+    { 'm.relates_to': { rel_type: null, event_id: '$event-id' } },
+    { 'm.relates_to': { rel_type: '', event_id: '$event-id' } },
+    { 'm.relates_to': { rel_type: 'm.replace', event_id: '$event-id' } },
+    { 'm.relates_to': { rel_type: 'm.reference', event_id: undefined } },
+    { 'm.relates_to': { rel_type: 'm.reference', event_id: null } },
+    { 'm.relates_to': { rel_type: 'm.reference', event_id: '' } },
   ])('should reject event with patch %p', (patch: Object) => {
     expect(
       isValidTopicSubmissionEvent({

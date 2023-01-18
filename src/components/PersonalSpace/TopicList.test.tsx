@@ -182,6 +182,10 @@ describe('<TopicList/>', () => {
       {
         title: 'My Example Topic',
         description: 'A very good topic',
+        'm.relates_to': {
+          rel_type: 'm.reference',
+          event_id: '$start-event-id',
+        },
       }
     );
 

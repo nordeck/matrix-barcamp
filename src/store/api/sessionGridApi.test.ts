@@ -19,6 +19,7 @@ import { waitFor } from '@testing-library/react';
 import {
   mockInitializeSpaceParent,
   mockSessionGrid,
+  mockSessionGridStart,
   mockTopic,
   mockTopicSubmission,
 } from '../../lib/testUtils';
@@ -152,6 +153,12 @@ describe('setupSessionGrid', () => {
         .unwrap()
     ).resolves.toMatchObject({ event: expect.any(Object) });
 
+    expect(widgetApi.sendRoomEvent).toBeCalledTimes(1);
+    expect(widgetApi.sendRoomEvent).toBeCalledWith(
+      'net.nordeck.barcamp.session_grid.start',
+      {}
+    );
+
     expect(widgetApi.sendStateEvent).toBeCalledTimes(1);
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'net.nordeck.barcamp.session_grid',
@@ -174,6 +181,7 @@ describe('setupSessionGrid', () => {
             name: 'Track 1',
           },
         ],
+        topicStartEventId: expect.any(String),
       },
       { roomId: '!space-id', stateKey: '!room-id' }
     );
@@ -183,6 +191,8 @@ describe('setupSessionGrid', () => {
 describe('selectNextTopic', () => {
   it('should select next topic and add it to the parking lot', async () => {
     mockInitializeSpaceParent(widgetApi);
+
+    widgetApi.mockSendRoomEvent(mockSessionGridStart());
 
     widgetApi.mockSendRoomEvent(
       mockTopicSubmission({
@@ -257,6 +267,8 @@ describe('selectNextTopic', () => {
 
   it('should handle empty submission queue', async () => {
     mockInitializeSpaceParent(widgetApi);
+
+    widgetApi.mockSendRoomEvent(mockSessionGridStart());
 
     widgetApi.mockSendRoomEvent(
       mockTopicSubmission({
@@ -1910,6 +1922,7 @@ describe('updateSessionGrid', () => {
             ],
             timeSlots: [],
             tracks: [],
+            topicStartEventId: '$start-event-id',
           },
           room_id: '!space-id',
           sender: '@user-id',
@@ -1933,6 +1946,7 @@ describe('updateSessionGrid', () => {
         ],
         timeSlots: [],
         tracks: [],
+        topicStartEventId: '$start-event-id',
       },
       { roomId: '!space-id', stateKey: '!room-id' }
     );
