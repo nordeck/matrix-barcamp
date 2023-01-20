@@ -43,7 +43,7 @@ import {
 } from './events';
 
 export const widgetRegistration = {
-  name: 'BarCamp',
+  name: 'BarCamp (developed by Nordeck)',
   // "clock" suffix to get a custom icon
   type: 'net.nordeck.barcamp:clock',
 };
