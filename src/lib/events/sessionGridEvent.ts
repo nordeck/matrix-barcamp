@@ -142,6 +142,7 @@ export type SessionGridEvent = {
   timeSlots: TimeSlot[];
   sessions: Session[];
   parkingLot: ParkingLotEntry[];
+  topicStartEventId?: string;
 };
 
 const sessionGridEventSchema = Joi.object<SessionGridEvent, true>({
@@ -150,6 +151,7 @@ const sessionGridEventSchema = Joi.object<SessionGridEvent, true>({
   timeSlots: Joi.array().items(timeSlotSchema).min(0).required(),
   sessions: Joi.array().items(sessionSchema).min(0).required(),
   parkingLot: Joi.array().items(parkingLotEntrySchema).min(0).required(),
+  topicStartEventId: Joi.string(),
 }).unknown();
 
 export function isValidSessionGridEvent(

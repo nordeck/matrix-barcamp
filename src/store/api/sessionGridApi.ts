@@ -36,7 +36,9 @@ import {
 import { TrackChanges } from '../../components/SessionGrid/TrackTitle';
 import {
   isValidSessionGridEvent,
+  ROOM_EVENT_BARCAMP_SESSION_GRID_START,
   SessionGridEvent,
+  SessionGridStartEvent,
   STATE_EVENT_BARCAMP_SESSION_GRID,
   TimeSlot,
   TimeSlotTypes,
@@ -193,12 +195,19 @@ export const sessionGridApi = baseApi.injectEndpoints({
         }
 
         try {
+          const startEvent =
+            await widgetApi.sendRoomEvent<SessionGridStartEvent>(
+              ROOM_EVENT_BARCAMP_SESSION_GRID_START,
+              {}
+            );
+
           const content: SessionGridEvent = {
             consumedTopicSubmissions: [],
             parkingLot: [],
             sessions: [],
             timeSlots: [createTimeSlot()],
             tracks: [createTrack()],
+            topicStartEventId: startEvent.event_id,
           };
 
           const event = await widgetApi.sendStateEvent(

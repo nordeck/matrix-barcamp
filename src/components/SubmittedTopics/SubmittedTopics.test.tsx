@@ -26,6 +26,7 @@ import {
   mockInitializeSpaceParent,
   mockParticipantPowerLevelsEvent,
   mockSessionGrid,
+  mockSessionGridStart,
   mockTopicSubmission,
 } from '../../lib/testUtils';
 import { StoreProvider } from '../../store';
@@ -42,6 +43,7 @@ describe('<SubmittedTopics>', () => {
     widgetApi = mockWidgetApi();
 
     mockInitializeSpaceParent(widgetApi);
+    widgetApi.mockSendRoomEvent(mockSessionGridStart());
     widgetApi.mockSendStateEvent(mockSessionGrid());
 
     wrapper = ({ children }) => {
@@ -128,7 +130,7 @@ describe('<SubmittedTopics>', () => {
   });
 
   it('should render one topic', async () => {
-    widgetApi.clearRoomEvents();
+    widgetApi.clearRoomEvents({ type: 'net.nordeck.barcamp.topic_submission' });
     widgetApi.mockSendRoomEvent(
       mockTopicSubmission({
         content: {

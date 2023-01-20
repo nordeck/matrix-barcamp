@@ -55,6 +55,8 @@ export type {
   TimeSlotTypes,
   Track,
 } from './sessionGridEvent';
+export { ROOM_EVENT_BARCAMP_SESSION_GRID_START } from './sessionGridStartEvent';
+export type { SessionGridStartEvent } from './sessionGridStartEvent';
 export {
   isJoinableSpaceChildEvent,
   isValidSpaceChildEvent,

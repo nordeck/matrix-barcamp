@@ -25,6 +25,7 @@ import {
 } from '../../lib/events';
 import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
+import { sessionGridApi } from './sessionGridApi';
 
 const topicSubmissionEventEntityAdapter = createEntityAdapter<
   RoomEvent<TopicSubmissionEvent>
@@ -46,21 +47,51 @@ export const topicSubmissionApi = baseApi.injectEndpoints({
       EntityState<RoomEvent<TopicSubmissionEvent>>,
       void
     >({
-      async queryFn(_, { extra }) {
+      async queryFn(_, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
         const initialState =
           topicSubmissionEventEntityAdapter.getInitialState();
 
         try {
-          const events = await widgetApi.receiveRoomEvents(
-            ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION
-          );
+          const { event: sessionGrid } = await dispatch(
+            sessionGridApi.endpoints.getSessionGrid.initiate()
+          ).unwrap();
+
+          let submissions: RoomEvent<TopicSubmissionEvent>[] = [];
+
+          if (sessionGrid?.content.topicStartEventId) {
+            let from: string | undefined = undefined;
+            do {
+              const result = await widgetApi.readEventRelations(
+                sessionGrid.content.topicStartEventId,
+                {
+                  limit: 50,
+                  from,
+                  relationType: 'm.reference',
+                  eventType: ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION,
+                }
+              );
+
+              submissions.push(
+                ...result.chunk.filter(isValidTopicSubmissionEvent)
+              );
+
+              // typescript doesn't like circular types
+              from = result.nextToken as string | undefined;
+            } while (from !== undefined);
+          } else {
+            const events = await widgetApi.receiveRoomEvents(
+              ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION
+            );
+
+            submissions = events.filter(isValidTopicSubmissionEvent);
+          }
 
           return {
             data: topicSubmissionEventEntityAdapter.addMany(
               initialState,
-              events.filter(isValidTopicSubmissionEvent)
+              submissions
             ),
           };
         } catch (e) {
@@ -106,15 +137,27 @@ export const topicSubmissionApi = baseApi.injectEndpoints({
 
     createTopicSubmission: builder.mutation<
       RoomEvent<TopicSubmissionEvent>,
-      TopicSubmissionEvent
+      Omit<TopicSubmissionEvent, 'm.relates_to'>
     >({
-      async queryFn(content, { extra }) {
+      async queryFn(content, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
         try {
-          const data = await widgetApi.sendRoomEvent(
+          const { event: sessionGrid } = await dispatch(
+            sessionGridApi.endpoints.getSessionGrid.initiate()
+          ).unwrap();
+
+          const data = await widgetApi.sendRoomEvent<TopicSubmissionEvent>(
             ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION,
-            content
+            {
+              ...content,
+              ...(sessionGrid?.content.topicStartEventId && {
+                'm.relates_to': {
+                  rel_type: 'm.reference',
+                  event_id: sessionGrid.content.topicStartEventId,
+                },
+              }),
+            }
           );
 
           return { data };
