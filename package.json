@@ -6,7 +6,7 @@
   "version": "1.0.1",
   "private": true,
   "dependencies": {
-    "@matrix-widget-toolkit/api": "^3.0.0",
+    "@matrix-widget-toolkit/api": "^3.0.1",
     "@matrix-widget-toolkit/react": "^1.0.4",
     "@matrix-widget-toolkit/semantic-ui": "^1.0.4",
     "@react-hookz/web": "^14.2.2",
@@ -15,7 +15,7 @@
     "i18next": "^22.0.4",
     "i18next-chained-backend": "^4.2.0",
     "i18next-http-backend": "^2.1.1",
-    "immer": "^9.0.16",
+    "immer": "^9.0.18",
     "joi": "^17.7.0",
     "lodash": "^4.17.21",
     "loglevel": "^1.8.1",
