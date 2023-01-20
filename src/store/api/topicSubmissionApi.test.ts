@@ -16,7 +16,12 @@
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
-import { mockTopicSubmission } from '../../lib/testUtils';
+import {
+  mockInitializeSpaceParent,
+  mockSessionGrid,
+  mockSessionGridStart,
+  mockTopicSubmission,
+} from '../../lib/testUtils';
 import { createStore } from '../store';
 import {
   selectAvailableSubmittedTopics,
@@ -31,6 +36,10 @@ beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('getTopicSubmissions', () => {
   it('should return topic submissions', async () => {
+    mockInitializeSpaceParent(widgetApi);
+    widgetApi.mockSendRoomEvent(mockSessionGridStart());
+    widgetApi.mockSendStateEvent(mockSessionGrid());
+
     widgetApi.mockSendRoomEvent(
       mockTopicSubmission({
         event_id: '$event-1',
@@ -44,6 +53,65 @@ describe('getTopicSubmissions', () => {
       mockTopicSubmission({
         event_id: '$event-0',
         origin_server_ts: 1,
+      })
+    );
+
+    const store = createStore({ widgetApi });
+
+    await expect(
+      store
+        .dispatch(topicSubmissionApi.endpoints.getTopicSubmissions.initiate())
+        .unwrap()
+    ).resolves.toEqual({
+      ids: ['$event-0', '$event-1'],
+      entities: {
+        '$event-0': expect.objectContaining({
+          content: {
+            description: 'I would like to talk about…',
+            title: 'My topic',
+            'm.relates_to': {
+              rel_type: 'm.reference',
+              event_id: '$start-event-id',
+            },
+          },
+        }),
+        '$event-1': expect.objectContaining({
+          content: {
+            description: 'I would like to talk about…',
+            title: 'My second topic',
+            'm.relates_to': {
+              rel_type: 'm.reference',
+              event_id: '$start-event-id',
+            },
+          },
+        }),
+      },
+    });
+  });
+
+  it('should return topic submissions without relations', async () => {
+    mockInitializeSpaceParent(widgetApi);
+    widgetApi.mockSendStateEvent(
+      mockSessionGrid({ content: { topicStartEventId: undefined } })
+    );
+
+    widgetApi.mockSendRoomEvent(
+      mockTopicSubmission({
+        event_id: '$event-1',
+        origin_server_ts: 2,
+        content: {
+          title: 'My second topic',
+          'm.relates_to': undefined,
+        },
+      })
+    );
+    widgetApi.mockSendRoomEvent(
+      mockTopicSubmission({
+        event_id: '$event-0',
+        origin_server_ts: 1,
+        content: {
+          'm.relates_to': undefined,
+        },
       })
     );
 
@@ -114,6 +182,50 @@ describe('getTopicSubmissions', () => {
 
 describe('createTopicSubmission', () => {
   it('should create a topic submissions', async () => {
+    mockInitializeSpaceParent(widgetApi);
+    widgetApi.mockSendStateEvent(mockSessionGrid());
+
+    const store = createStore({ widgetApi });
+
+    await expect(
+      store
+        .dispatch(
+          topicSubmissionApi.endpoints.createTopicSubmission.initiate({
+            title: 'My new topic',
+            description: 'Hello World',
+          })
+        )
+        .unwrap()
+    ).resolves.toEqual(
+      expect.objectContaining({
+        content: {
+          description: 'Hello World',
+          title: 'My new topic',
+          'm.relates_to': {
+            rel_type: 'm.reference',
+            event_id: '$start-event-id',
+          },
+        },
+        sender: '@user-id',
+        type: 'net.nordeck.barcamp.topic_submission',
+      })
+    );
+
+    expect(widgetApi.sendRoomEvent).toBeCalledTimes(1);
+    expect(widgetApi.sendRoomEvent).toBeCalledWith(
+      'net.nordeck.barcamp.topic_submission',
+      {
+        description: 'Hello World',
+        title: 'My new topic',
+        'm.relates_to': {
+          rel_type: 'm.reference',
+          event_id: '$start-event-id',
+        },
+      }
+    );
+  });
+
+  it('should create a topic submissions without event relations', async () => {
     const store = createStore({ widgetApi });
 
     await expect(

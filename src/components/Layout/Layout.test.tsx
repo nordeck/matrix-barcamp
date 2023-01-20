@@ -206,6 +206,13 @@ describe('<Layout>', () => {
     await waitFor(() => {
       expect(widgetApi.sendStateEvent).toBeCalledTimes(6);
     });
+
+    expect(widgetApi.sendRoomEvent).toBeCalledTimes(1);
+    expect(widgetApi.sendRoomEvent).toBeCalledWith(
+      'net.nordeck.barcamp.session_grid.start',
+      {}
+    );
+
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'net.nordeck.barcamp.session_grid',
       {
@@ -214,6 +221,7 @@ describe('<Layout>', () => {
         sessions: [],
         timeSlots: [expect.any(Object)],
         tracks: [expect.any(Object)],
+        topicStartEventId: expect.any(String),
       },
       {
         roomId: '!space-id',
