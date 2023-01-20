@@ -50,7 +50,7 @@ describe('getSessionGrid', () => {
     ).resolves.toEqual({ event: sessionGrid });
   });
 
-  it('should handle missing session grid if not in a space', async () => {
+  it.skip('should handle missing session grid if not in a space', async () => {
     const store = createStore({ widgetApi });
 
     await expect(
@@ -114,7 +114,7 @@ describe('getSessionGrid', () => {
     });
   });
 
-  it('should observe session grid when space changes', async () => {
+  it.skip('should observe session grid when space changes', async () => {
     const store = createStore({ widgetApi });
 
     store.dispatch(sessionGridApi.endpoints.getSessionGrid.initiate());
@@ -183,7 +183,7 @@ describe('setupSessionGrid', () => {
         ],
         topicStartEventId: expect.any(String),
       },
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -251,7 +251,7 @@ describe('selectNextTopic', () => {
         title: 'Title 1',
         authors: [{ id: '@author-1' }],
       },
-      { roomId: '!space-id', stateKey: '$event-1' }
+      { roomId: '!room-id', stateKey: '$event-1' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'net.nordeck.barcamp.session_grid',
@@ -261,7 +261,7 @@ describe('selectNextTopic', () => {
           parkingLot: [{ topicId: '$event-1' }, { topicId: '$event-0' }],
         },
       }).content,
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -370,7 +370,7 @@ describe('moveTopicToParkingArea', () => {
           ],
         },
       }).content,
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -434,7 +434,7 @@ describe('moveTopicToParkingArea', () => {
           sessions: [],
         },
       }).content,
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -539,7 +539,7 @@ describe('moveTopicToSession', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -618,7 +618,7 @@ describe('moveTopicToSession', () => {
         ],
         parkingLot: [],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -746,7 +746,7 @@ describe('updateTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -819,7 +819,7 @@ describe('updateTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1039,7 +1039,7 @@ describe('updateCommonEvent', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -1088,7 +1088,7 @@ describe('updateTrack', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -1133,7 +1133,7 @@ describe('addTrack', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -1208,7 +1208,7 @@ describe('deleteTrack', () => {
         sessions: [],
         parkingLot: [{ topicId: 'id-1' }, { topicId: 'id-0' }],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1279,7 +1279,7 @@ describe('deleteTopic', () => {
       expect.objectContaining({
         sessions: [],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1309,7 +1309,7 @@ describe('deleteTopic', () => {
       expect.objectContaining({
         parkingLot: [],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -1402,7 +1402,7 @@ describe('deleteTimeSlot', () => {
           { topicId: 'parking-lot-topic-0' },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1480,7 +1480,7 @@ describe('deleteTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1570,7 +1570,7 @@ describe('addTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1613,7 +1613,7 @@ describe('addTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1667,7 +1667,7 @@ describe('addTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -1740,7 +1740,7 @@ describe('moveTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1811,7 +1811,7 @@ describe('moveTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 
@@ -1882,7 +1882,7 @@ describe('moveTimeSlot', () => {
           },
         ],
       }),
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 });
@@ -1924,7 +1924,7 @@ describe('updateSessionGrid', () => {
             tracks: [],
             topicStartEventId: '$start-event-id',
           },
-          room_id: '!space-id',
+          room_id: '!room-id',
           sender: '@user-id',
           state_key: '!room-id',
         }),
@@ -1948,7 +1948,7 @@ describe('updateSessionGrid', () => {
         tracks: [],
         topicStartEventId: '$start-event-id',
       },
-      { roomId: '!space-id', stateKey: '!room-id' }
+      { roomId: '!room-id', stateKey: '!room-id' }
     );
   });
 

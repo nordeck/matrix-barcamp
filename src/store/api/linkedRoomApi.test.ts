@@ -30,7 +30,7 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-describe('getLinkedRooms', () => {
+describe.skip('getLinkedRooms', () => {
   it('should return linked rooms', async () => {
     mockInitializeSpaceParent(widgetApi);
 

@@ -62,6 +62,15 @@ export const spaceApi = baseApi.injectEndpoints({
       queryFn: async (_, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
+        // FOSDEM: use the current room to store everything that was intended for the space room
+        if (widgetApi.widgetParameters.roomId) {
+          return {
+            data: {
+              spaceId: widgetApi.widgetParameters.roomId,
+            },
+          };
+        }
+
         try {
           // get the canonical space event of the current room
           const spaceParentEvents = await widgetApi.receiveStateEvents(
