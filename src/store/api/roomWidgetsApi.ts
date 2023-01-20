@@ -55,31 +55,12 @@ export const roomWidgetsApi = baseApi.injectEndpoints({
         const barcampWidgetId = widgetApi.widgetId;
 
         try {
-          const creatorUserId = widgetApi.widgetParameters.userId ?? '';
-          const jitsiWidget = await applyWidget(
-            widgetApi,
-            roomId,
-            createJitsiWidget(
-              roomId,
-              creatorUserId,
-              // We don't have the name of the lobby room, let's just call the
-              // conference "Lobby"
-              t('widgets.jitsi.lobbyConferenceTitle', 'Lobby')
-            )
-          );
-
           const widgetsLayout = await applyWidgetsLayout(widgetApi, roomId, {
             widgets: {
-              [jitsiWidget.state_key]: {
-                container: 'top',
-                index: 0,
-                width: 50,
-                height: 100,
-              },
               [barcampWidgetId]: {
                 container: 'top',
-                index: 1,
-                width: 50,
+                index: 0,
+                width: 100,
                 height: 100,
               },
             },
@@ -88,7 +69,7 @@ export const roomWidgetsApi = baseApi.injectEndpoints({
           return {
             data: {
               widgetsLayout,
-              widgets: [jitsiWidget],
+              widgets: [],
             },
           };
         } catch (e) {

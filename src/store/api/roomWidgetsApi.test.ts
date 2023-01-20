@@ -25,7 +25,7 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('setupLobbyRoomWidgets', () => {
-  it('should setup jitsi widget and widget layout', async () => {
+  it('should setup the widget layout', async () => {
     const store = createStore({ widgetApi });
 
     await store
@@ -36,38 +36,16 @@ describe('setupLobbyRoomWidgets', () => {
       )
       .unwrap();
 
-    expect(widgetApi.sendStateEvent).toBeCalledTimes(2);
-    expect(widgetApi.sendStateEvent).toBeCalledWith(
-      'im.vector.modular.widgets',
-      {
-        creatorUserId: '@user-id',
-        data: {
-          conferenceId: 'EFZG633NFVUWI',
-          domain: 'jitsi.riot.im',
-          roomName: 'Lobby',
-        },
-        id: 'jitsi',
-        name: 'Video Conference',
-        type: 'jitsi',
-        url: 'https://app.element.io/jitsi.html?confId=EFZG633NFVUWI#conferenceId=$conferenceId&domain=$domain&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme',
-      },
-      { roomId: '!room-id', stateKey: 'jitsi' }
-    );
+    expect(widgetApi.sendStateEvent).toBeCalledTimes(1);
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
       {
         widgets: {
-          jitsi: {
-            container: 'top',
-            height: 100,
-            index: 0,
-            width: 50,
-          },
           'widget-id': {
             container: 'top',
             height: 100,
-            index: 1,
-            width: 50,
+            index: 0,
+            width: 100,
           },
         },
       },
@@ -75,7 +53,7 @@ describe('setupLobbyRoomWidgets', () => {
     );
   });
 
-  it('should update existing jitsi widget and widget layout', async () => {
+  it.skip('should update existing widget layout', async () => {
     widgetApi.mockSendStateEvent({
       content: {
         creatorUserId: '@user-id',

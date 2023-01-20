@@ -202,7 +202,7 @@ describe('<Layout>', () => {
     );
 
     await waitFor(() => {
-      expect(widgetApi.sendStateEvent).toBeCalledTimes(5);
+      expect(widgetApi.sendStateEvent).toBeCalledTimes(4);
     });
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(1);
@@ -244,17 +244,9 @@ describe('<Layout>', () => {
       { roomId: '!room-id' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
-      'im.vector.modular.widgets',
-      expect.objectContaining({
-        type: 'jitsi',
-      }),
-      { roomId: '!room-id', stateKey: 'jitsi' }
-    );
-    expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
       {
         widgets: {
-          jitsi: expect.any(Object),
           'widget-id': expect.any(Object),
         },
       },
@@ -293,7 +285,7 @@ describe('<Layout>', () => {
     expect(confirmModal).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(widgetApi.sendStateEvent).toBeCalledTimes(5);
+      expect(widgetApi.sendStateEvent).toBeCalledTimes(4);
     });
   });
 
