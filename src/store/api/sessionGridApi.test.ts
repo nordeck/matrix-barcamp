@@ -265,6 +265,56 @@ describe('selectNextTopic', () => {
     );
   });
 
+  it('should consider the custom author of the next topic and add it to the parking lot', async () => {
+    mockInitializeSpaceParent(widgetApi);
+
+    widgetApi.mockSendRoomEvent(mockSessionGridStart());
+
+    widgetApi.mockSendRoomEvent(
+      mockTopicSubmission({
+        content: {
+          title: 'Title 1',
+          description: 'Description 1',
+          author: '@author-2',
+        },
+        origin_server_ts: 1,
+        event_id: '$event-1',
+        sender: '@author-1',
+      })
+    );
+
+    widgetApi.mockSendStateEvent(mockSessionGrid());
+
+    const store = createStore({ widgetApi });
+
+    await expect(
+      store
+        .dispatch(sessionGridApi.endpoints.selectNextTopic.initiate())
+        .unwrap()
+    ).resolves.toMatchObject({ event: expect.any(Object) });
+
+    expect(widgetApi.sendStateEvent).toBeCalledTimes(2);
+    expect(widgetApi.sendStateEvent).toBeCalledWith(
+      'net.nordeck.barcamp.topic',
+      {
+        description: 'Description 1',
+        title: 'Title 1',
+        authors: [{ id: '@author-2' }],
+      },
+      { roomId: '!room-id', stateKey: '$event-1' }
+    );
+    expect(widgetApi.sendStateEvent).toBeCalledWith(
+      'net.nordeck.barcamp.session_grid',
+      mockSessionGrid({
+        content: {
+          consumedTopicSubmissions: ['$event-1'],
+          parkingLot: [{ topicId: '$event-1' }],
+        },
+      }).content,
+      { roomId: '!room-id', stateKey: '!room-id' }
+    );
+  });
+
   it('should handle empty submission queue', async () => {
     mockInitializeSpaceParent(widgetApi);
 

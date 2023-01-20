@@ -481,7 +481,13 @@ export const sessionGridApi = baseApi.injectEndpoints({
             content: {
               title: nextTopicSubmission.content.title,
               description: nextTopicSubmission.content.description,
-              authors: [{ id: nextTopicSubmission.sender }],
+              authors: [
+                {
+                  id:
+                    nextTopicSubmission.content.author ??
+                    nextTopicSubmission.sender,
+                },
+              ],
             },
           })
         );
