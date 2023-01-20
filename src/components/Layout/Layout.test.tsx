@@ -222,35 +222,28 @@ describe('<Layout>', () => {
         topicStartEventId: expect.any(String),
       },
       {
-        roomId: '!room-id',
         stateKey: '!room-id',
       }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'm.room.history_visibility',
-      { history_visibility: 'shared' },
-      { roomId: '!room-id' }
+      { history_visibility: 'shared' }
     );
-    expect(widgetApi.sendStateEvent).toBeCalledWith(
-      'm.room.power_levels',
-      {
-        users: {
-          '@user-id': 100,
-        },
-        events: {
-          'net.nordeck.barcamp.topic_submission': 50,
-        },
+    expect(widgetApi.sendStateEvent).toBeCalledWith('m.room.power_levels', {
+      users: {
+        '@user-id': 100,
       },
-      { roomId: '!room-id' }
-    );
+      events: {
+        'net.nordeck.barcamp.topic_submission': 50,
+      },
+    });
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
       {
         widgets: {
           'widget-id': expect.any(Object),
         },
-      },
-      { roomId: '!room-id' }
+      }
     );
   });
 

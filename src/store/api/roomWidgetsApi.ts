@@ -211,8 +211,8 @@ async function applyWidget(
   widget: WidgetsEvent
 ): Promise<StateEvent<WidgetsEvent>> {
   const widgetsEvents = await widgetApi.receiveStateEvents(
-    STATE_EVENT_WIDGETS,
-    { roomIds: [roomId] }
+    STATE_EVENT_WIDGETS
+    //{ roomIds: [roomId] }
   );
   const widgetsEvent = last(
     widgetsEvents
@@ -232,7 +232,7 @@ async function applyWidget(
   }
 
   return await widgetApi.sendStateEvent(STATE_EVENT_WIDGETS, content, {
-    roomId,
+    //roomId,
     stateKey: id,
   });
 }
@@ -243,8 +243,8 @@ async function applyWidgetsLayout(
   widgetsLayout: WidgetsLayoutEvent
 ): Promise<StateEvent<WidgetsLayoutEvent>> {
   const widgetsLayoutEvents = await widgetApi.receiveStateEvents(
-    STATE_EVENT_WIDGETS_LAYOUT,
-    { roomIds: [roomId] }
+    STATE_EVENT_WIDGETS_LAYOUT
+    //{ roomIds: [roomId] }
   );
   const widgetsLayoutEvent = last(
     widgetsLayoutEvents.filter(isValidWidgetsLayoutEvent)
@@ -260,8 +260,8 @@ async function applyWidgetsLayout(
 
   return await widgetApi.sendStateEvent(
     STATE_EVENT_WIDGETS_LAYOUT,
-    widgetsLayout,
-    { roomId }
+    widgetsLayout
+    //{ roomId }
   );
 }
 

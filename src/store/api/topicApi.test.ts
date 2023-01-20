@@ -265,7 +265,7 @@ describe('createTopic', () => {
         description: 'My Description',
         authors: [{ id: '@user-1' }],
       },
-      { stateKey: '$topic-1', roomId: '!room-id' }
+      { stateKey: '$topic-1' }
     );
   });
 
@@ -338,7 +338,7 @@ describe('updateTopic', () => {
         description: 'Another Description',
         authors: topic.content.authors,
       },
-      { stateKey: '$topic-1', roomId: '!room-id' }
+      { stateKey: '$topic-1' }
     );
   });
 

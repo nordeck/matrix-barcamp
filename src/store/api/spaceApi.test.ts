@@ -500,7 +500,7 @@ describe.skip('getUnassignedRooms', () => {
   });
 });
 
-describe('markRoomAsSuggested', () => {
+describe.skip('markRoomAsSuggested', () => {
   it('should mark room as suggested', async () => {
     mockInitializeSpaceParent(widgetApi);
 

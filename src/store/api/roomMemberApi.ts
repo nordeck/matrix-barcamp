@@ -22,7 +22,6 @@ import {
 } from '@matrix-widget-toolkit/api';
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit';
 import { isError } from 'lodash';
-import { Symbols } from 'matrix-widget-api';
 import { bufferTime, filter } from 'rxjs';
 import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
@@ -67,8 +66,8 @@ export const roomMemberApi = baseApi.injectEndpoints({
           }
 
           const events = await widgetApi.receiveStateEvents(
-            STATE_EVENT_ROOM_MEMBER,
-            { roomIds: [spaceId] }
+            STATE_EVENT_ROOM_MEMBER
+            //{ roomIds: [spaceId] }
           );
 
           return {
@@ -110,7 +109,7 @@ export const roomMemberApi = baseApi.injectEndpoints({
 
         const subscription = widgetApi
           .observeStateEvents(STATE_EVENT_ROOM_MEMBER, {
-            roomIds: Symbols.AnyRoom,
+            //roomIds: Symbols.AnyRoom,
           })
           .pipe(
             filter(isValidRoomMemberStateEvent),

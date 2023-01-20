@@ -25,7 +25,6 @@ import { t } from 'i18next';
 import produce from 'immer';
 import { first, isError, last } from 'lodash';
 import { DateTime, Duration } from 'luxon';
-import { Symbols } from 'matrix-widget-api';
 import { nanoid } from 'nanoid';
 import { bufferTime, filter } from 'rxjs';
 import { randomIcon } from '../../components/IconPicker';
@@ -93,7 +92,10 @@ export const sessionGridApi = baseApi.injectEndpoints({
         try {
           const events = await widgetApi.receiveStateEvents(
             STATE_EVENT_BARCAMP_SESSION_GRID,
-            { roomIds: [roomId], stateKey }
+            {
+              //roomIds: [roomId],
+              stateKey,
+            }
           );
 
           const gridEvent = last(events.filter(isValidSessionGridEvent));
@@ -132,7 +134,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
 
         const subscription = widgetApi
           .observeStateEvents(STATE_EVENT_BARCAMP_SESSION_GRID, {
-            roomIds: Symbols.AnyRoom,
+            //roomIds: Symbols.AnyRoom,
           })
           .pipe(
             filter(isValidSessionGridEvent),
@@ -213,7 +215,10 @@ export const sessionGridApi = baseApi.injectEndpoints({
           const event = await widgetApi.sendStateEvent(
             STATE_EVENT_BARCAMP_SESSION_GRID,
             content,
-            { roomId, stateKey }
+            {
+              //roomId,
+              stateKey,
+            }
           );
 
           return { data: { event } };
@@ -677,7 +682,10 @@ export async function updateSessionGrid(
     const newEvent = await widgetApi.sendStateEvent(
       STATE_EVENT_BARCAMP_SESSION_GRID,
       nextContent,
-      { roomId: event.room_id, stateKey: event.state_key }
+      {
+        //roomId: event.room_id,
+        stateKey: event.state_key,
+      }
     );
 
     return { data: { event: newEvent } };
