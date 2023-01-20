@@ -1832,10 +1832,10 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
-"@matrix-widget-toolkit/api@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-3.0.0.tgz#b05a49d6b7ee894d6f2e029168849bd22ef43818"
-  integrity sha512-eDaavO2s2YaUqjD1q7X8F4KfRhb5i7nRVBhYADfXtXp6p9hR/CzloVU/bN+L/tPhYn3zBiijmL+N0eisSNR/wQ==
+"@matrix-widget-toolkit/api@^3.0.0", "@matrix-widget-toolkit/api@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-3.0.1.tgz#cd4e5f9edc3972c9c34d55a9e578c15ba9898141"
+  integrity sha512-7pI87vxdi+L096eqw3syl6+MJd+lLNs397Pa8U5PBB/xSjK6Q6yv4KkB9K45cyuxv6zk1mg3pc2sl/p96qH0zw==
   dependencies:
     matrix-widget-api "^1.1.1"
     qs "^6.11.0"
@@ -6533,10 +6533,10 @@ image-size@~0.5.0:
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
 
-immer@^9.0.16, immer@^9.0.7:
-  version "9.0.16"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.16.tgz#8e7caab80118c2b54b37ad43e05758cdefad0198"
-  integrity sha512-qenGE7CstVm1NrHQbMh8YaSzTZTFNP3zPqr3YU0S0UY441j4bJTg4A2Hh5KAhwgaiU6ZZ1Ar6y/2f4TblnMReQ==
+immer@^9.0.16, immer@^9.0.18, immer@^9.0.7:
+  version "9.0.18"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.18.tgz#d2faee58fd0e34f017f329b98cdab37826fa31b8"
+  integrity sha512-eAPNpsj7Ax1q6Y/3lm2PmlwRcFzpON7HSNQ3ru5WQH1/PSpnyed/HpNOELl2CxLKoj4r+bAHgdyKqW5gc2Se1A==
 
 immutable@^4.0.0:
   version "4.0.0"
@@ -9323,10 +9323,10 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
-prettier-plugin-organize-imports@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-3.2.1.tgz#7e0e0a18457e0166e740daaff1aed1c08069fcb9"
-  integrity sha512-bty7C2Ecard5EOXirtzeCAqj4FU4epeuWrQt/Z+sh8UVEpBlBZ3m3KNPz2kFu7KgRTQx/C9o4/TdquPD1jOqjQ==
+prettier-plugin-organize-imports@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-3.2.2.tgz#91993365e017daa5d0d28d8183179834224d8dd1"
+  integrity sha512-e97lE6odGSiHonHJMTYC0q0iLXQyw0u5z/PJpvP/3vRy6/Zi9kLBwFAbEGjDzIowpjQv8b+J04PDamoUSQbzGA==
 
 prettier@^2.7.1, prettier@^2.8.3:
   version "2.8.3"
