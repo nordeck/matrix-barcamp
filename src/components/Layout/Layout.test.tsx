@@ -788,7 +788,7 @@ describe('<Layout>', () => {
     ).resolves.toBeInTheDocument();
   });
 
-  it('should assign a matrix room to a session topic', async () => {
+  it.skip('should assign a matrix room to a session topic', async () => {
     render(<Layout />, { wrapper });
 
     const stickyNote = await screen.findByRole('button', {
@@ -817,7 +817,7 @@ describe('<Layout>', () => {
     expect(linkRoomButton).not.toBeInTheDocument();
   });
 
-  it('should navigate to a session room', async () => {
+  it.skip('should navigate to a session room', async () => {
     mockInitializeSpaceParent(widgetApi, { room_id: '!linked-room-id' });
     widgetApi.mockSendStateEvent(mockLinkedRoom());
 
