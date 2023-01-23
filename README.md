@@ -4,8 +4,6 @@
 
 A widget for organizing [Barcamps](https://en.wikipedia.org/wiki/BarCamp) in [Matrix](https://matrix.org/) chat rooms.
 
-![](./docs/barcamp-lobby.png)
-
 <table>
   <tr>
     <td>
@@ -57,7 +55,7 @@ The minimal Element version to use this widget is `1.11.8`.
 
 ### Installation
 
-After checkout, run `yarn install` to download the required dependencies
+After checkout, run `yarn install` to download the required dependencies.
 
 > **Warning** Do not use `npm install` when working with this package.
 
@@ -94,7 +92,7 @@ In the project directory, you can run:
 ### Versioning
 
 This package uses automated versioning.
-Each change should be accompanied with a specification of the impact (`patch`, `minor`, or `major`) and a description of the change.
+Each change should be accompanied by a specification of the impact (`patch`, `minor`, or `major`) and a description of the change.
 Use `yarn changeset` to generate a new changeset for a pull request.
 Learn more in the [`.changeset` folder](./.changeset).
 
