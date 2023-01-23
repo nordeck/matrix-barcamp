@@ -85,7 +85,7 @@
     "@craco/craco": "^7.0.0",
     "@matrix-widget-toolkit/testing": "^2.1.0",
     "@playwright/test": "^1.29.2",
-    "@semantic-ui-react/craco-less": "^2.0.2",
+    "@semantic-ui-react/craco-less": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
