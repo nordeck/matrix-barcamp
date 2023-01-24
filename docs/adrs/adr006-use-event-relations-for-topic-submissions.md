@@ -100,12 +100,12 @@ Resulting data model:
   │                                      │
   │   net.nordeck.barcamp.session_grid   │
   │                                      │
-  └──────────────────────────────────────┘
-       ▲
+  └────┬─────────────────────────────────┘
        │
        │ topicStartEventId
        │
-  ┌────┴─────────────────────────────────┐
+       ▼
+  ┌──────────────────────────────────────┐
   │                                      │
   │net.nordeck.barcamp.session_grid.start│
   │                                      │
