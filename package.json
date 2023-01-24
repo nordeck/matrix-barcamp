@@ -108,7 +108,7 @@
     "eslint-plugin-playwright": "^0.12.0",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
-    "i18next-parser": "7.2.0",
+    "i18next-parser": "7.6.0",
     "lint-staged": "^13.1.0",
     "nanoid": "^3.3.4",
     "prettier": "^2.8.3",
