@@ -42,3 +42,15 @@ At this time, encryption is not supported.
 1. Enter your virtual environment, e.g. `source venv/bin/activate`
 2. Run the bot `python main.py`
 
+## Deployment
+
+Yon can build and run the widget using Docker:
+
+```sh
+docker build --tag=ghcr.io/nordeck/matrix-barcamp-bot:latest .
+# copy config.toml.sample to config.toml and edit your credentials
+docker run --rm -it \
+--mount type=bind,source=$(pwd)/config.toml,dst=/usr/src/app/config.toml \
+--mount type=bind,source=$(pwd)/session.txt,dst=/usr/src/app/session.txt \
+ghcr.io/nordeck/matrix-barcamp-bot:latest
+```
