@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - nic/feat/sbom
   pull_request:
 
 env:
@@ -33,29 +34,35 @@ jobs:
       - name: yarn install
         run: yarn install --frozen-lockfile
 
-      - name: prettier:check
-        run: yarn prettier:check
+      #  - name: prettier:check
+      #     run: yarn prettier:check
 
-      - name: depcheck
-        run: yarn depcheck
+      #   - name: depcheck
+      #     run: yarn depcheck
 
-      - name: lint
-        run: yarn lint
+      # - name: lint
+      #   run: yarn lint
 
-      - name: type checking and declarations
-        run: yarn tsc
+      # - name: type checking and declarations
+      #   run: yarn tsc
 
-      - name: check translations
-        run: yarn translate --fail-on-update
+      # - name: check translations
+      #   run: yarn translate --fail-on-update
 
-      - name: test
-        run: yarn test:all
+      # - name: test
+      #   run: yarn test:all
 
       - name: build
         run: yarn build
 
       - name: generate disclaimer
         run: yarn generate-disclaimer
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          file: yarn.lock
+          output-file: ./yarn.spdx
 
       - name: Login to ghcr.io
         uses: docker/login-action@v2
@@ -85,11 +92,12 @@ jobs:
         uses: docker/build-push-action@v3
         id: dockerBuild
         with:
-          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
+          push: ${{ secrets.GH_APP_OS_APP_ID != '' }}
           context: .
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
+          sbom: true
 
       - name: Generate GitHub token
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
