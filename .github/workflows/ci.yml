@@ -87,7 +87,7 @@ jobs:
         id: dockerBuild
         with:
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
-          context: .
+          context: matrix-barcamp-bot
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
