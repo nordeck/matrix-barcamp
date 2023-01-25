@@ -26,6 +26,15 @@ class MyConfig(botlib.Config):
     _homeserver: str = ""
     _username: str = ""
     _password: str = ""
+    _session_stored_file: str = "session.txt"
+
+    @property
+    def session_stored_file(self) -> str:
+        return self._session_stored_file
+
+    @session_stored_file.setter
+    def session_stored_file(self, value: str) -> None:
+        self._session_stored_file = value
 
     @property
     def homeserver(self) -> str:
@@ -58,7 +67,12 @@ config.load_toml('config.toml')
 config.encryption_enabled = False  # barcamp widget isn't encrypted
 config.ignore_unverified_devices = True  # TOFU
 
-creds = botlib.Creds(homeserver=config.homeserver, username=config.username, password=config.password)
+creds = botlib.Creds(
+    homeserver=config.homeserver,
+    username=config.username,
+    password=config.password,
+    session_stored_file=config.session_stored_file
+    )
 bot = botlib.Bot(creds, config)
 
 PREFIX = '!'
