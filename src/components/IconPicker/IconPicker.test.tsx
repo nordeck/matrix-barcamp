@@ -42,7 +42,7 @@ describe('<IconPicker>', () => {
 
     const list = screen.getByRole('listbox', { name: /available icons/i });
 
-    expect(within(list).getAllByRole('option')).toHaveLength(25);
+    expect(within(list).getAllByRole('option')).toHaveLength(30);
     expect(
       within(list).getByRole('option', { name: 'Icon "dog"', selected: true })
     ).toBeInTheDocument();
@@ -109,12 +109,12 @@ describe('<IconPicker>', () => {
 
     expect(
       within(list).getByRole('option', {
-        name: 'Icon "compass"',
+        name: 'Icon "server"',
         selected: true,
       })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('combobox', { name: 'Icon "compass"', expanded: true })
+      screen.getByRole('combobox', { name: 'Icon "server"', expanded: true })
     ).toBeInTheDocument();
 
     // Go to end
@@ -122,12 +122,15 @@ describe('<IconPicker>', () => {
 
     expect(
       within(list).getByRole('option', {
-        name: 'Icon "fire"',
+        name: 'Icon "face surprise"',
         selected: true,
       })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('combobox', { name: 'Icon "fire"', expanded: true })
+      screen.getByRole('combobox', {
+        name: 'Icon "face surprise"',
+        expanded: true,
+      })
     ).toBeInTheDocument();
 
     // Wrap over last
