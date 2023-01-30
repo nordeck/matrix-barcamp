@@ -43,7 +43,7 @@ const Container = styled(Segment)<{ open: boolean }>(({ open }) => ({
       },
 }));
 
-const IconButton = styled(Button)({
+const IconButton = styled(Button)(({ theme }) => ({
   '&&&&': {
     fontSize: '2em',
     margin: 0,
@@ -51,8 +51,9 @@ const IconButton = styled(Button)({
     borderColor: 'transparent',
     boxShadow: 'none',
     verticalAlign: 'middle',
+    color: theme.type === 'dark' ? 'white !important' : 'black !important',
   },
-});
+}));
 
 const Title = styled.div({
   marginBottom: '1em',
