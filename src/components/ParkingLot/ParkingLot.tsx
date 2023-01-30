@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
+import { DispatchWithoutAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, Segment } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import { ParkingLotEntry } from '../../lib/events';
 import {
   useDeleteTopicMutation,
@@ -28,10 +29,29 @@ import { SubmittedTopics } from '../SubmittedTopics';
 import { Tooltip } from '../Tooltip';
 import { TopicList } from './TopicList';
 
-const Container = styled(Segment)({
+const Container = styled(Segment)<{ open: boolean }>(({ open }) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  '&&&': open
+    ? {}
+    : {
+        paddingLeft: 0,
+        paddingRight: 0,
+        marginLeft: 0,
+        marginRight: 0,
+      },
+}));
+
+const IconButton = styled(Button)({
+  '&&&&': {
+    fontSize: '2em',
+    margin: 0,
+    padding: 0,
+    borderColor: 'transparent',
+    boxShadow: 'none',
+    verticalAlign: 'middle',
+  },
 });
 
 const Title = styled.div({
@@ -41,36 +61,45 @@ const Title = styled.div({
 
 type ParkingLotProps = {
   topics: ParkingLotEntry[];
+  open?: boolean;
+  onImageClick?: DispatchWithoutAction;
 };
 
-export function ParkingLot({ topics }: ParkingLotProps) {
+export function ParkingLot({ topics, open, onImageClick }: ParkingLotProps) {
   const { t } = useTranslation();
   const [selectNextTopic] = useSelectNextTopicMutation();
   const [deleteTopic] = useDeleteTopicMutation();
   const [updateTopic] = useUpdateTopicMutation();
 
   return (
-    <Container>
+    <Container open={open}>
       <Tooltip
+        suppress={!open}
         content={t(
           'parkingLot.explanation',
           'The Parking Lot collects topics before they are placed on the timetable. In addition, it allows to move sessions out of the timetable or to store sessions for later consideration.'
         )}
       >
         <Title>
-          <Icon size="big" className="parking" />
-          {t('parkingLot.title', 'Parking Lot')}
+          <IconButton icon="parking" basic size="big" onClick={onImageClick} />
+          {open && t('parkingLot.title', 'Parking Lot')}
         </Title>
       </Tooltip>
 
-      <TopicList
-        topics={topics}
-        onDeleteTopic={(topicId) => deleteTopic({ topicId })}
-        onTopicChange={(topicId, changes) => updateTopic({ topicId, changes })}
-      />
+      {open && (
+        <>
+          <TopicList
+            topics={topics}
+            onDeleteTopic={(topicId) => deleteTopic({ topicId })}
+            onTopicChange={(topicId, changes) =>
+              updateTopic({ topicId, changes })
+            }
+          />
 
-      <SubmittedTopics onSelectNextTopic={selectNextTopic} />
-      <PersonalSpace />
+          <SubmittedTopics onSelectNextTopic={selectNextTopic} />
+          <PersonalSpace />
+        </>
+      )}
     </Container>
   );
 }

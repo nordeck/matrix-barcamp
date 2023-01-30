@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ParkingLotEntry, Session, TimeSlot, Track } from '../../lib/events';
 import {
   useMoveTimeSlotMutation,
@@ -40,9 +40,9 @@ const LeftContainer = styled.div({
   minWidth: 0,
 });
 
-const RightContainer = styled.div({
-  width: 250,
-});
+const RightContainer = styled.div<{ open: boolean }>(({ open }) => ({
+  width: open ? 250 : 35,
+}));
 
 export function LobbyLayout({
   timeSlots,
@@ -58,6 +58,8 @@ export function LobbyLayout({
   const [moveTopicToParkingArea] = useMoveTopicToParkingAreaMutation();
   const [moveTopicToSession] = useMoveTopicToSessionMutation();
   const [moveTimeSlot] = useMoveTimeSlotMutation();
+
+  const [parkingLotOpen, setParkingLotOpen] = useState(true);
 
   return (
     <DragAndDropProvider
@@ -79,8 +81,12 @@ export function LobbyLayout({
             sessions={sessions}
           />
         </LeftContainer>
-        <RightContainer>
-          <ParkingLot topics={parkingLotTopics} />
+        <RightContainer open={parkingLotOpen}>
+          <ParkingLot
+            open={parkingLotOpen}
+            topics={parkingLotTopics}
+            onImageClick={() => setParkingLotOpen((old) => !old)}
+          />
         </RightContainer>
       </Container>
     </DragAndDropProvider>
