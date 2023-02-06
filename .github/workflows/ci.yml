@@ -82,7 +82,7 @@ jobs:
             type=sha,prefix=
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         id: dockerBuild
         with:
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
@@ -141,7 +141,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         id: dockerBuild
         with:
           context: .
