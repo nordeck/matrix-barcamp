@@ -16,7 +16,7 @@
     "i18next-chained-backend": "^4.2.0",
     "i18next-http-backend": "^2.1.1",
     "immer": "^9.0.19",
-    "joi": "^17.7.0",
+    "joi": "^17.7.1",
     "lodash": "^4.17.21",
     "loglevel": "^1.8.1",
     "luxon": "^3.2.1",
