@@ -111,7 +111,7 @@
     "i18next-parser": "7.6.0",
     "lint-staged": "^13.1.0",
     "nanoid": "^3.3.4",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "prettier-plugin-organize-imports": "^3.2.2",
     "react-i18next": "^12.1.4",
     "react-scripts": "5.0.1",
