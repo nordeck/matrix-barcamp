@@ -2506,10 +2506,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.52.tgz#2fd2dc6bfa185601b15457398d4ba1ef27f81251"
   integrity sha512-cfkwWw72849SNYp3Zx0IcIs25vABmFh73xicxhCkTcvtZQeIez15PpwQN8fY3RD7gv1Wrxlc9MEtfMORZDEsGw==
 
-"@types/node@^16.18.13":
-  version "16.18.13"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.13.tgz#c572f8837094c6e3b73918a68674c784f6877fc0"
-  integrity sha512-l0/3XZ153UTlNOnZK8xSNoJlQda9/WnYgiTdcKKPJSZjdjI9MU+A9oMXOesAWLSnqAaaJhj3qfQsU07Dr8OUwg==
+"@types/node@^16.18.14":
+  version "16.18.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.14.tgz#5465ce598486a703caddbefe8603f8a2cffa3461"
+  integrity sha512-wvzClDGQXOCVNU4APPopC2KtMYukaF1MN/W3xAmslx22Z4/IF1/izDMekuyoUlwfnDHYCIZGaj7jMwnJKBTxKw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -6458,10 +6458,10 @@ i18next-http-backend@^2.1.1:
   dependencies:
     cross-fetch "3.1.5"
 
-i18next-parser@7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/i18next-parser/-/i18next-parser-7.6.0.tgz#6cf39b07513b1852a072b4ce70e088b3273c4785"
-  integrity sha512-NpBhaPzQXo9mo5nBP/eniOgUOlbDEd6WV7oEslUz3cxM8vClCz4c09iJ16tWUOTqbqSwoN2qhU2Y8w23SMwSnw==
+i18next-parser@7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/i18next-parser/-/i18next-parser-7.7.0.tgz#ce61f339ed0fe12ab2fdae101c59c77c62f26fc1"
+  integrity sha512-t64bvrr+G+wbZSEr3nZ61j3l7YFvJnPBNTlS90VM3KnxRf6gmtZv76ppUXBEdepr2CGkO+ZY6arzBJ8gGs2suQ==
   dependencies:
     "@babel/runtime" "^7.15.4"
     broccoli-plugin "^4.0.7"
@@ -7906,10 +7906,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-luxon@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.2.1.tgz#14f1af209188ad61212578ea7e3d518d18cee45f"
-  integrity sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==
+luxon@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.3.0.tgz#d73ab5b5d2b49a461c47cedbc7e73309b4805b48"
+  integrity sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==
 
 lz-string@^1.4.4:
   version "1.4.4"
