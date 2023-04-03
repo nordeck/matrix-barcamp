@@ -1849,10 +1849,10 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
-"@matrix-widget-toolkit/api@^3.0.0", "@matrix-widget-toolkit/api@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-3.0.1.tgz#cd4e5f9edc3972c9c34d55a9e578c15ba9898141"
-  integrity sha512-7pI87vxdi+L096eqw3syl6+MJd+lLNs397Pa8U5PBB/xSjK6Q6yv4KkB9K45cyuxv6zk1mg3pc2sl/p96qH0zw==
+"@matrix-widget-toolkit/api@^3.0.0", "@matrix-widget-toolkit/api@^3.0.1", "@matrix-widget-toolkit/api@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-3.1.0.tgz#71c7495b54677b3680ce376cbe0a4cc58bd0c5b4"
+  integrity sha512-cvysIn2vY/4WNFQCs/ExLQkVyrgDDmJQxKH8Twi/fKyUyrm7jq8legOdOKCeAOmmqJ3iD3Ayhc1mcPOAaUYSIw==
   dependencies:
     matrix-widget-api "^1.1.1"
     qs "^6.11.0"
@@ -1887,12 +1887,12 @@
     semantic-ui-less "^2.5.0"
     semantic-ui-react "^2.1.3"
 
-"@matrix-widget-toolkit/testing@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/testing/-/testing-2.1.0.tgz#c0e0af29d6faebec4680586d7b0bfa48085893d3"
-  integrity sha512-BfIFd3bJHx7kuSg2k9FMVvcvswKi083fIK1QZ/Lz/cYjIwOL+7ApcumbRV886c5Rc/UfKAL2DbxerL+y1TMZRg==
+"@matrix-widget-toolkit/testing@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/testing/-/testing-2.2.1.tgz#d86b803d74e51435c23e6b9698a20b653fbc8c32"
+  integrity sha512-uR71zz7orXJ/9l4xQ5nFYKHT8xrj9hwZcdzvWaP1774CzozWvNI4bdypysrWEnf+S60TqhkcTwz2YoS9c85ggQ==
   dependencies:
-    "@matrix-widget-toolkit/api" "^3.0.0"
+    "@matrix-widget-toolkit/api" "^3.1.0"
     lodash "^4.17.21"
     matrix-widget-api "^1.1.1"
     rxjs "^7.8.0"
