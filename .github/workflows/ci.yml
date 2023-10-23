@@ -18,7 +18,7 @@ jobs:
     outputs:
       docker-tag: ${{ steps.meta.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # required for changesets
           fetch-depth: '0'
@@ -59,7 +59,7 @@ jobs:
         run: yarn generate-disclaimer
 
       - name: Login to ghcr.io
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -70,7 +70,7 @@ jobs:
 
       - name: Generate Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         env:
           DOCKER_METADATA_PR_HEAD_SHA: true
         with:
@@ -118,7 +118,7 @@ jobs:
     outputs:
       docker-tag: ${{ steps.meta.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
         with:
@@ -135,7 +135,7 @@ jobs:
         run: yarn generate-disclaimer
 
       - name: Login to ghcr.io
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
