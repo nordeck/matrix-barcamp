@@ -1,5 +1,18 @@
 # matrix-barcamp-widget
 
+## 1.1.0
+
+### Minor Changes
+
+- 439247e: Use event relations to read topic submissions.
+- 3b2c59f: Include `arm64` and `s390x` builds.
+
+### Patch Changes
+
+- 3b2c59f: Fix personal area not being shared among users on the same device.
+- 3b2c59f: Use of "track" instead of "room" to avoid confusion between matrix rooms and barcamp tracks.
+- 3b2c59f: Fix spelling errors in the German translation
+
 ## 1.0.1
 
 ### Patch Changes
