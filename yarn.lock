@@ -6583,12 +6583,12 @@ i18next-browser-languagedetector@^7.0.1:
   dependencies:
     "@babel/runtime" "^7.19.4"
 
-i18next-chained-backend@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-4.2.0.tgz#8d2ccba6f2faca14d2bc5023ba61c759215b99a9"
-  integrity sha512-p3qhv6GMouhpcFPnOBqSDsQyVrwZu+PKr+kXaEAGE+w9O39t4pbpBsFYjxh4Nvhn8MUEXstaDx4ZuQvsNlI5fg==
+i18next-chained-backend@^4.6.2:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-4.6.2.tgz#96bd1fd8c0f719154040665b435cf3f032d7ccec"
+  integrity sha512-2P092fR+nAPQlGzPUoIIxbwo7PTBqQYgLxwv1XhSTQUAUoelLo5LkX+FqRxxSDg9WEAsrc8+2WL6mJtMGIa6WQ==
   dependencies:
-    "@babel/runtime" "^7.19.4"
+    "@babel/runtime" "^7.23.2"
 
 i18next-http-backend@^2.4.2:
   version "2.4.2"
