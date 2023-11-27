@@ -8,7 +8,7 @@
   "dependencies": {
     "@matrix-widget-toolkit/api": "^3.2.2",
     "@matrix-widget-toolkit/react": "^1.0.6",
-    "@matrix-widget-toolkit/semantic-ui": "^1.0.4",
+    "@matrix-widget-toolkit/semantic-ui": "^1.0.8",
     "@react-hookz/web": "^14.2.2",
     "@reduxjs/toolkit": "^1.9.3",
     "cross-fetch": "^3.1.5",
