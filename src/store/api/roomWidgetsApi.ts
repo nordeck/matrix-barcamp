@@ -20,7 +20,9 @@ import {
   WidgetApi,
 } from '@matrix-widget-toolkit/api';
 import { t } from 'i18next';
+import Joi from 'joi';
 import { isEqual, isError, last } from 'lodash';
+import log from 'loglevel';
 import { base32 } from 'rfc4648';
 import { getEnvironment } from '../../lib/environment';
 import {
@@ -127,27 +129,60 @@ export const roomWidgetsApi = baseApi.injectEndpoints({
             createJitsiWidget(roomId, creatorUserId, roomName)
           );
 
-          const widgetsLayout = await applyWidgetsLayout(widgetApi, roomId, {
-            widgets: {
-              [jitsiWidget.state_key]: {
-                container: 'top',
-                index: 0,
-                width: 80,
-                height: 100,
+          const extraWidgets = [];
+          for (const extraWidget of getExtraWidgetsWidgets(creatorUserId)) {
+            const widget = await applyWidget(widgetApi, roomId, extraWidget);
+
+            extraWidgets.push(widget);
+          }
+
+          let widgetsLayout: StateEvent<WidgetsLayoutEvent>;
+          if (extraWidgets.length > 0) {
+            widgetsLayout = await applyWidgetsLayout(widgetApi, roomId, {
+              widgets: {
+                [jitsiWidget.state_key]: {
+                  container: 'top',
+                  index: 0,
+                  width: 50,
+                  height: 100,
+                },
+                [extraWidgets[0].state_key]: {
+                  container: 'top',
+                  index: 1,
+                  width: 30,
+                  height: 100,
+                },
+                [barcampWidget.state_key]: {
+                  container: 'top',
+                  index: 2,
+                  width: 20,
+                  height: 100,
+                },
               },
-              [barcampWidget.state_key]: {
-                container: 'top',
-                index: 1,
-                width: 20,
-                height: 100,
+            });
+          } else {
+            widgetsLayout = await applyWidgetsLayout(widgetApi, roomId, {
+              widgets: {
+                [jitsiWidget.state_key]: {
+                  container: 'top',
+                  index: 0,
+                  width: 80,
+                  height: 100,
+                },
+                [barcampWidget.state_key]: {
+                  container: 'top',
+                  index: 1,
+                  width: 20,
+                  height: 100,
+                },
               },
-            },
-          });
+            });
+          }
 
           return {
             data: {
               widgetsLayout,
-              widgets: [jitsiWidget],
+              widgets: [jitsiWidget, ...extraWidgets],
             },
           };
         } catch (e) {
@@ -222,6 +257,42 @@ function createJitsiWidget(
     id: 'jitsi',
     creatorUserId,
   };
+}
+
+const extraWidgetsSchema = Joi.array<
+  Array<{
+    id: string;
+    type: string;
+    name: string;
+    url: string;
+  }>
+>().items(
+  Joi.object({
+    id: Joi.string().required(),
+    type: Joi.string().required(),
+    name: Joi.string().required(),
+    url: Joi.string().uri().required(),
+  }).unknown(true)
+);
+
+export function getExtraWidgetsWidgets(creatorUserId: string): WidgetsEvent[] {
+  const widgetsRaw = getEnvironment('REACT_APP_EXTRA_WIDGETS', '[]');
+  const { error, value: widgets = [] } = extraWidgetsSchema.validate(
+    JSON.parse(widgetsRaw)
+  );
+
+  if (error) {
+    log.warn('Error while validating event', error);
+    return [];
+  }
+
+  return widgets.map((w) => ({
+    type: w.type,
+    url: w.url,
+    name: w.name,
+    id: w.id,
+    creatorUserId,
+  }));
 }
 
 async function applyWidget(
