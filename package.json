@@ -113,7 +113,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
     "i18next-parser": "8.9.0",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.2.0",
     "nanoid": "^3.3.4",
     "prettier": "^2.8.4",
     "prettier-plugin-organize-imports": "^3.2.2",
