@@ -85,7 +85,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.6.0",
-    "@changesets/cli": "^2.26.0",
+    "@changesets/cli": "^2.27.1",
     "@craco/craco": "^7.1.0",
     "@matrix-widget-toolkit/testing": "^2.3.2",
     "@playwright/test": "^1.30.0",
