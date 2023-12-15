@@ -1,5 +1,11 @@
 # matrix-barcamp-widget
 
+## 1.2.0
+
+### Minor Changes
+
+- 69065f5: Sign the release containers with cosign.
+
 ## 1.1.0
 
 ### Minor Changes
