@@ -2054,17 +2054,17 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
 
-"@react-hookz/deep-equal@^1.0.2":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@react-hookz/deep-equal/-/deep-equal-1.0.3.tgz#e044bca38c1612ea8c1596ef858ef7cfea49dd7a"
-  integrity sha512-lGZR5l3YRjzeIOHtJhiq96vQKrsq+9lsCyv+0fROMQeSNWtLLzX3R+psHNi6nsoP3XEhspiZ92nsiPmdNo8ztQ==
+"@react-hookz/deep-equal@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@react-hookz/deep-equal/-/deep-equal-1.0.4.tgz#68a71f36cbc88724b3ce6f4036183778b6e7f282"
+  integrity sha512-N56fTrAPUDz/R423pag+n6TXWbvlBZDtTehaGFjK0InmN+V2OFWLE/WmORhmn6Ce7dlwH5+tQN1LJFw3ngTJVg==
 
-"@react-hookz/web@^14.2.2":
-  version "14.7.1"
-  resolved "https://registry.yarnpkg.com/@react-hookz/web/-/web-14.7.1.tgz#5e39e6fc21331cc4ae95f36e8135ad763e6c29fb"
-  integrity sha512-kU1CccZDXvQ9G4vcCCpX3mDQqYKkuLXGFOtPMgmbZ9KrvkEduMRH4JqSVXp1nI/bGI1GJ0KAWm4UEb1x5eDGAg==
+"@react-hookz/web@^24.0.2":
+  version "24.0.2"
+  resolved "https://registry.yarnpkg.com/@react-hookz/web/-/web-24.0.2.tgz#8db0e083ffdf1c1419c65960cb36fb7d3acf330c"
+  integrity sha512-LhWw/LzhxKYRZDRIKd42mCMqRa9pTMSpwpwnfpa0hYoUNcrHw//3NlpoPlynkmKT3G88mumTTuV0HeWnNkarog==
   dependencies:
-    "@react-hookz/deep-equal" "^1.0.2"
+    "@react-hookz/deep-equal" "^1.0.4"
 
 "@reduxjs/toolkit@^1.9.3":
   version "1.9.3"
