@@ -31,7 +31,7 @@
     "rfc4648": "^1.5.3",
     "rxjs": "^7.8.0",
     "semantic-ui-react": "^2.1.5",
-    "styled-components": "^5.3.6"
+    "styled-components": "^6.1.6"
   },
   "engines": {
     "node": ">=20.0.0",
