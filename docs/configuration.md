@@ -17,3 +17,7 @@ REACT_APP_ELEMENT_BASE_URL=https://app.element.io
 # Defaults to `jitsi.riot.im`
 REACT_APP_JITSI_HOST_NAME=jitsi.riot.im
 ```
+
+### Customization
+
+More environment variables for UI customization [@matrix-widget-toolkit/mui](https://www.npmjs.com/package/@matrix-widget-toolkit/mui#customization).
