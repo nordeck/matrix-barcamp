@@ -1,0 +1,12 @@
+# helm upgrade -n env-demo --install matrix-barcamp-bot ./charts/matrix-barcamp-bot -f ./charts/matrix-barcamp-bot/values.demo.yaml
+
+image:
+  tag: "efb4729"
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClassName: gp2
+
+config:
+  secretName: "matrix-barcamp-bot-config"
