@@ -1,6 +1,7 @@
 # Matrix BarCamp
 
 [![CI](https://github.com/nordeck/matrix-barcamp/actions/workflows/ci.yml/badge.svg)](https://github.com/nordeck/matrix-barcamp/actions/workflows/ci.yml)
+[![Matrix](https://img.shields.io/matrix/nordeck%3Amatrix.org)](https://matrix.to/#/#nordeck:matrix.org)
 
 A widget for organizing [Barcamps](https://en.wikipedia.org/wiki/BarCamp) in [Matrix](https://matrix.org/) chat rooms.
 
