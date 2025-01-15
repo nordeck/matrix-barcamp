@@ -4,9 +4,9 @@ Nordeck establishes a clear process for reporting and addressing security vulner
 
 ## Supported Versions
 
-| Package        | Version | Supported          |
-| -------------- | ------- | ------------------ |
-| matrix-barcamp | >= 1.x  | :white_check_mark: |
+| Package               | Version | Supported          |
+| --------------------- | ------- | ------------------ |
+| matrix-barcamp-widget | >= 1.x  | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
