@@ -113,6 +113,8 @@ Yon can run the widget using Docker:
 docker run --rm -p 8080:8080 ghcr.io/nordeck/matrix-barcamp-widget:latest
 ```
 
+Be sure, that you also read the security notes in the base image [@matrix-widget-toolkit/widget-server](https://github.com/nordeck/matrix-widget-toolkit/tree/main/containers/widget-server) docs.
+
 We also provide a [HELM chart](./charts/).
 
 ## Verify the Container Images
