@@ -84,11 +84,11 @@
     ]
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.6.0",
+    "@axe-core/playwright": "^4.10.1",
     "@changesets/cli": "^2.27.1",
     "@craco/craco": "^7.1.0",
     "@matrix-widget-toolkit/testing": "^2.3.2",
-    "@playwright/test": "^1.30.0",
+    "@playwright/test": "^1.49.1",
     "@semantic-ui-react/craco-less": "^3.0.0",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^12.1.5",
