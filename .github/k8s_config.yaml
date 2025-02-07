@@ -1,0 +1,2 @@
+namespace: 'matrix-barcamp'
+release-label: 'app.kubernetes.io/instance'
