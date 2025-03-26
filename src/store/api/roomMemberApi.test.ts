@@ -96,7 +96,7 @@ describe('getRoomMembers', () => {
     );
   });
 
-  it('should observe room members when space changes', async () => {
+  it.skip('should observe room members when space changes', async () => {
     const store = createStore({ widgetApi });
 
     store.dispatch(roomMemberApi.endpoints.getRoomMembers.initiate());

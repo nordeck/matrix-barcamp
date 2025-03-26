@@ -99,7 +99,9 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
           <SubmissionList>
             {topics.map((s) => (
               <li key={s.event_id}>
-                <TextOverflow>{lookupDisplayName(s.sender)}</TextOverflow>
+                <TextOverflow>
+                  {lookupDisplayName(s.content.author ?? s.sender)}
+                </TextOverflow>
                 <TextOverflow>{s.content.title}</TextOverflow>
               </li>
             ))}
@@ -115,7 +117,9 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
                   'submittedTopics.summary.multiple',
                   'Suggestions from {{author}} and {{count}} more…',
                   {
-                    author: lookupDisplayName(firstTopic.sender),
+                    author: lookupDisplayName(
+                      firstTopic.content.author ?? firstTopic.sender
+                    ),
                     count: topics.length - 1,
                   }
                 )
@@ -123,7 +127,9 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
                   'submittedTopics.summary.single',
                   'Suggestion from {{author}}',
                   {
-                    author: lookupDisplayName(firstTopic.sender),
+                    author: lookupDisplayName(
+                      firstTopic.content.author ?? firstTopic.sender
+                    ),
                   }
                 )}
           </ParagraphWithHyphens>

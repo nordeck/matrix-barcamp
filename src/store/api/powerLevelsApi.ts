@@ -47,7 +47,7 @@ export const powerLevelsApi = baseApi.injectEndpoints({
           const events = await widgetApi.receiveStateEvents(
             STATE_EVENT_POWER_LEVELS,
             {
-              roomIds: roomId ? [roomId] : undefined,
+              //roomIds: roomId ? [roomId] : undefined,
               stateKey: '',
             }
           );
@@ -78,7 +78,7 @@ export const powerLevelsApi = baseApi.injectEndpoints({
 
         const subscription = widgetApi
           .observeStateEvents(STATE_EVENT_POWER_LEVELS, {
-            roomIds: roomId ? [roomId] : undefined,
+            //roomIds: roomId ? [roomId] : undefined,
             stateKey: '',
           })
           .pipe(
@@ -109,7 +109,10 @@ export const powerLevelsApi = baseApi.injectEndpoints({
         try {
           const powerLevelsEvents = await widgetApi.receiveStateEvents(
             STATE_EVENT_POWER_LEVELS,
-            { stateKey: '', roomIds: roomId ? [roomId] : undefined }
+            {
+              stateKey: '',
+              //roomIds: roomId ? [roomId] : undefined,
+            }
           );
           const powerLevelEvent = last(
             powerLevelsEvents.filter(isValidPowerLevelStateEvent)
@@ -129,8 +132,8 @@ export const powerLevelsApi = baseApi.injectEndpoints({
 
           const data = await widgetApi.sendStateEvent(
             STATE_EVENT_POWER_LEVELS,
-            powerLevels,
-            { roomId }
+            powerLevels
+            //{ roomId }
           );
 
           return { data };
