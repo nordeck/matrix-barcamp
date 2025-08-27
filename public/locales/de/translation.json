@@ -157,7 +157,6 @@
   },
   "widgets": {
     "jitsi": {
-      "lobbyConferenceTitle": "Lobby",
       "title": "Video Konferenz"
     }
   }

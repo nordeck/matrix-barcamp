@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - nic/env/fosdem-2023
   pull_request:
   merge_group:
 
@@ -145,6 +146,54 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
         run: |
           ct install --config=".github/k8s_config.yaml" --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args="--set=image.tag=${{ needs.build.outputs.docker-tag }}"
+
+  build-bot:
+    name: Build Bot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      docker-tag: ${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        env:
+          DOCKER_METADATA_PR_HEAD_SHA: true
+        with:
+          images: ghcr.io/nordeck/matrix-barcamp-bot
+          labels: |
+            org.opencontainers.image.title=Matrix BarCamp Bot
+            org.opencontainers.image.description=A bot accompanying the BarCamp widget to support clients without support for the required widget API calls
+            org.opencontainers.image.vendor=Nordeck IT + Consulting GmbH
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        id: dockerBuild
+        with:
+          push: ${{ secrets.GH_APP_OS_APP_ID != '' }}
+          context: matrix-barcamp-bot
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          #platforms: linux/amd64,linux/arm64,linux/s390x
 
   e2e:
     runs-on: ubuntu-latest

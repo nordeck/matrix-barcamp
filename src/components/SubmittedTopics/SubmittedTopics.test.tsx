@@ -183,6 +183,87 @@ describe('<SubmittedTopics>', () => {
     ]);
   });
 
+  it('should render a topic with a custom author', async () => {
+    widgetApi.clearRoomEvents({ type: 'net.nordeck.barcamp.topic_submission' });
+    widgetApi.mockSendRoomEvent(
+      mockTopicSubmission({
+        content: {
+          title: 'Goals',
+          description:
+            'Discussing goals in a group setting can be fun and useful.',
+          author: '@walter-trinkenschuh',
+        },
+        origin_server_ts: 0,
+        event_id: '$event-0',
+        sender: '@klaus-durchdenwald',
+      })
+    );
+
+    render(<SubmittedTopics onSelectNextTopic={() => {}} />, {
+      wrapper,
+    });
+
+    await expect(
+      screen.findByText(/suggestion from @walter-trinkenschuh/i)
+    ).resolves.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /select next topic/i })
+    ).toBeInTheDocument();
+
+    await userEvent.hover(
+      screen.getByText(/suggestion from @walter-trinkenschuh/i)
+    );
+
+    await expect(
+      screen.findByText(/topic suggestions/i)
+    ).resolves.toBeInTheDocument();
+
+    expect(screen.getAllByRole('listitem').map((e) => e.textContent)).toEqual([
+      '@walter-trinkenschuhGoals',
+    ]);
+  });
+
+  it('should render multiple topics with a custom author and the topic', async () => {
+    widgetApi.mockSendRoomEvent(
+      mockTopicSubmission({
+        content: {
+          title: 'Goals',
+          description:
+            'Discussing goals in a group setting can be fun and useful.',
+          author: '@walter-trinkenschuh',
+        },
+        origin_server_ts: 0,
+        event_id: '$event-0',
+        sender: '@klaus-durchdenwald',
+      })
+    );
+
+    render(<SubmittedTopics onSelectNextTopic={() => {}} />, { wrapper });
+
+    await expect(
+      screen.findByText(/suggestions from @walter-trinkenschuh and 4 more/i)
+    ).resolves.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /select next topic/i })
+    ).toBeInTheDocument();
+
+    await userEvent.hover(
+      screen.getByText(/suggestions from @walter-trinkenschuh and 4 more/i)
+    );
+
+    await expect(
+      screen.findByText(/topic suggestions/i)
+    ).resolves.toBeInTheDocument();
+
+    expect(screen.getAllByRole('listitem').map((e) => e.textContent)).toEqual([
+      '@walter-trinkenschuhGoals',
+      '@guenter-nachtnebelPredictions',
+      '@karl-handschuhFails',
+      '@walter-trinkenschuhHypotheticals',
+      '@uwe-bierhalsMoonshots',
+    ]);
+  });
+
   it('should select the next topic', async () => {
     const onSelectNextTopic = jest.fn();
 

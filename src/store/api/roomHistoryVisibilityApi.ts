@@ -43,7 +43,10 @@ export const roomHistoryVisibilityApi = baseApi.injectEndpoints({
           const roomHistoryVisibilityEvents =
             await widgetApi.receiveStateEvents(
               STATE_EVENT_ROOM_HISTORY_VISIBILITY,
-              { roomIds: roomId ? [roomId] : undefined, stateKey: '' }
+              {
+                //roomIds: roomId ? [roomId] : undefined,
+                stateKey: '',
+              }
             );
 
           const roomHistoryVisibilityEvent = last(
@@ -69,8 +72,8 @@ export const roomHistoryVisibilityApi = baseApi.injectEndpoints({
           const event =
             await widgetApi.sendStateEvent<RoomHistoryVisibilityEvent>(
               STATE_EVENT_ROOM_HISTORY_VISIBILITY,
-              roomHistoryVisibility,
-              { roomId }
+              roomHistoryVisibility
+              //{ roomId }
             );
 
           return { data: { event } };

@@ -52,8 +52,7 @@ describe('patchRoomHistoryVisibility', () => {
 
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'm.room.history_visibility',
-      { history_visibility: 'shared' },
-      { roomId: '!room-id' }
+      { history_visibility: 'shared' }
     );
   });
 
@@ -81,8 +80,7 @@ describe('patchRoomHistoryVisibility', () => {
 
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'm.room.history_visibility',
-      { history_visibility: 'shared' },
-      { roomId: '!room-id' }
+      { history_visibility: 'shared' }
     );
   });
 

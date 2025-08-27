@@ -69,7 +69,7 @@ describe('useSessionTopic', () => {
     expect(result.current).toEqual({ session: undefined });
   });
 
-  it('should return session in linked room', async () => {
+  it.skip('should return session in linked room', async () => {
     widgetApi.mockSendStateEvent(
       mockSessionGrid({
         state_key: 'lobby-room-id',

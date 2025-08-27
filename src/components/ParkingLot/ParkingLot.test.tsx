@@ -140,7 +140,7 @@ describe('<ParkingLot>', () => {
 
   it('should make topics read-only for participants', async () => {
     widgetApi.mockSendStateEvent(
-      mockParticipantPowerLevelsEvent({ room_id: '!space-id' })
+      mockParticipantPowerLevelsEvent({ room_id: '!room-id' })
     );
 
     render(<ParkingLot topics={parkingLotTopics.slice(0, 1)} />, { wrapper });
