@@ -34,7 +34,7 @@ const List = styled.div<{ canDrop?: boolean }>(({ canDrop, theme }) => ({
   background: canDrop
     ? `repeating-linear-gradient(45deg, ${theme.pageBackground}, ${theme.pageBackground} 10px, transparent 10px, transparent 20px)`
     : undefined,
-}));
+})) as React.ComponentType<React.HTMLProps<HTMLDivElement> & { canDrop?: boolean }>;
 
 function ParkingLotPlaceholder() {
   const { t } = useTranslation();
@@ -70,6 +70,7 @@ export function TopicList({
     >
       {(provided) => (
         <List
+          key="parking-lot-list"
           {...provided.droppableProps}
           ref={provided.innerRef}
           canDrop={canDrop}
@@ -98,7 +99,7 @@ export function TopicList({
             <ParkingLotPlaceholder />
           )}
 
-          {provided.placeholder}
+          {provided.placeholder as React.ReactNode}
         </List>
       )}
     </Droppable>

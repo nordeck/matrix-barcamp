@@ -17,7 +17,9 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
+import { expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { AxeResults } from 'axe-core';
 import log from 'loglevel';
 import { Settings } from 'luxon';
 import { TextDecoder, TextEncoder } from 'util';
@@ -25,9 +27,9 @@ import { TextDecoder, TextEncoder } from 'util';
 import './i18n';
 
 // Use a different configuration for i18next during tests
-jest.mock('./i18n', () => {
-  const i18n = jest.requireActual('i18next');
-  const { initReactI18next } = jest.requireActual('react-i18next');
+vi.mock('./i18n', async () => {
+  const { default: i18n } = await vi.importActual<{ default: typeof import('i18next') }>('i18next');
+  const { initReactI18next } = await vi.importActual<{ initReactI18next: typeof import('react-i18next')['initReactI18next'] }>('react-i18next');
 
   i18n.use(initReactI18next).init({
     fallbackLng: 'en',
@@ -37,13 +39,42 @@ jest.mock('./i18n', () => {
     resources: { en: {} },
   });
 
-  return i18n;
+  return { default: i18n };
+});
+
+// Add support for axe
+expect.extend({
+  toHaveNoViolations(results: AxeResults) {
+    const violations = results.violations ?? [];
+
+    return {
+      pass: violations.length === 0,
+      actual: violations,
+      message() {
+        if (violations.length === 0) {
+          return '';
+        }
+
+        return `Expected no accessibility violations but received some.
+
+${violations
+  .map(
+    (violation) => `[${violation.impact}] ${violation.id}
+${violation.description}
+${violation.helpUrl}
+`,
+  )
+  .join('\n')}
+`;
+      },
+    };
+  },
 });
 
 // store original instance
 const DateTimeFormat = Intl.DateTimeFormat;
 function mockDateTimeFormatTimeZone(timeZone: string): void {
-  jest
+  vi
     .spyOn(Intl, 'DateTimeFormat')
     .mockImplementation(
       (locale, options) => new DateTimeFormat(locale, { ...options, timeZone })

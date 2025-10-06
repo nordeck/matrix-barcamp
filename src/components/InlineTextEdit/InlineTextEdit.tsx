@@ -14,50 +14,43 @@
  * limitations under the License.
  */
 
+import { TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Input } from 'semantic-ui-react';
 import { styled } from '../StyledComponentsThemeProvider';
 
-const AutoSizeInput = styled(Input)({
-  '&&&&&': {
-    display: 'inline-grid',
-
+const AutoSizeInput = styled(TextField)({
+  '& .MuiInputBase-root': {
     fontSize: 'inherit',
     fontWeight: 'inherit',
     fontStyle: 'inherit',
     lineHeight: 'inherit',
     color: 'inherit',
     background: 'transparent',
+    border: 'none',
+    padding: '4px',
+    borderRadius: '8px',
+    '&:before, &:after': {
+      display: 'none',
+    },
+    '&.Mui-focused': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    },
   },
-
-  '&&&&& > input, &&&&&::after': {
+  '& .MuiInputBase-input': {
+    padding: 0,
     fontSize: 'inherit',
     fontWeight: 'inherit',
     fontFamily: 'inherit',
     lineHeight: 'inherit',
     color: 'inherit',
-    background: 'transparent',
-    padding: 4,
-
-    gridArea: '1 / 1',
   },
-
-  // This adds a hidden text node with the same styling and content to
-  // automatically sizes the text input to its contents.
-  '&&&&&::after': {
-    content: "attr(data-value) ' '",
-    visibility: 'hidden',
-    whiteSpace: 'pre-wrap',
-
-    border: '1px solid transparent',
-  },
-});
+}) as React.ComponentType<React.ComponentProps<typeof TextField>>;
 
 const ReadOnly = styled.span({
   padding: '4px',
   border: 'solid 1px transparent',
   borderRadius: 8,
-});
+}) as React.ComponentType<React.HTMLProps<HTMLSpanElement>>;
 
 export function InlineTextEdit({
   label,
@@ -85,7 +78,7 @@ export function InlineTextEdit({
   }
 
   if (readOnly) {
-    return <ReadOnly>{value}</ReadOnly>;
+    return <ReadOnly key="readonly">{value}</ReadOnly>;
   }
 
   return (
@@ -95,15 +88,18 @@ export function InlineTextEdit({
         e.preventDefault();
       }}
     >
-      <AutoSizeInput data-value={input}>
-        <input
-          aria-label={label}
-          size={1}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onBlur={handleSubmit}
-        />
-      </AutoSizeInput>
+      <AutoSizeInput
+        key="autosize"
+        variant="standard"
+        aria-label={label}
+        size="small"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onBlur={handleSubmit}
+        InputProps={{
+          disableUnderline: true,
+        }}
+      />
 
       {/* Required to make submit on enter to work in every env */}
       <input type="submit" hidden />

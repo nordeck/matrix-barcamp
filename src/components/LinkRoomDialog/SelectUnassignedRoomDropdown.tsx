@@ -17,7 +17,7 @@
 import { first } from 'lodash';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown, DropdownItemProps } from 'semantic-ui-react';
+import { Autocomplete, TextField } from '@mui/material';
 import { useGetUnassignedRoomsQuery } from '../../store';
 
 export function SelectUnassignedRoomDropdown({
@@ -44,23 +44,29 @@ export function SelectUnassignedRoomDropdown({
     }
   }, [onChange, roomId, unassignedRooms]);
 
-  const options = unassignedRooms.map<DropdownItemProps>((r) => ({
-    key: r.roomId,
-    value: r.roomId,
-    text: r.roomName,
+  const options = unassignedRooms.map((r) => ({
+    id: r.roomId,
+    label: r.roomName,
   }));
 
+  const selectedOption = options.find(option => option.id === roomId) || null;
+
   return (
-    <Dropdown
-      selection
-      placeholder={t('linkRoomDialog.roomPlaceholder', 'Select Room')}
-      fluid
+    <Autocomplete
+      id={id}
       options={options}
-      value={roomId}
-      searchInput={{ id }}
-      onChange={(_, v) => onChange(v.value?.toString())}
-      search
-      noResultsMessage={t(
+      value={selectedOption}
+      onChange={(_, newValue) => onChange(newValue?.id)}
+      getOptionLabel={(option) => option.label}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          placeholder={t('linkRoomDialog.roomPlaceholder', 'Select Room')}
+          variant="outlined"
+          fullWidth
+        />
+      )}
+      noOptionsText={t(
         'linkRoomDialog.roomNoResults',
         'Please create a new room in this space.'
       )}

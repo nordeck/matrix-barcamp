@@ -16,7 +16,7 @@
 
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Button } from 'semantic-ui-react';
+import { Button } from '@mui/material';
 import { Tooltip } from './Tooltip';
 
 describe('<Tooltip>', () => {

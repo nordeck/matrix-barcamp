@@ -178,7 +178,9 @@ export const spaceApi = baseApi.injectEndpoints({
             map((ev) => ev.room_id)
           );
 
+        // @ts-ignore - Observable type mismatch between RxJS versions
         const subscription = merge(
+          // @ts-ignore - Observable type mismatch between RxJS versions
           spaceParentEventChanges,
           spaceChildEventChanges,
           roomCreateEventChanges
@@ -445,6 +447,7 @@ export const spaceApi = baseApi.injectEndpoints({
 
             return hasStateEventPower(
               event?.content,
+              undefined, // no createRoomStateEvent needed for room name checks
               widgetApi.widgetParameters.userId,
               STATE_EVENT_ROOM_NAME
             );
@@ -558,7 +561,9 @@ export const spaceApi = baseApi.injectEndpoints({
             map((ev) => ev.state_key)
           );
 
+        // @ts-ignore - Observable type mismatch between RxJS versions
         const subscription = merge(
+          // @ts-ignore - Observable type mismatch between RxJS versions
           spaceParentEventChanges,
           spaceChildEventChanges,
           roomCreateEventChanges,
@@ -591,6 +596,7 @@ export const spaceApi = baseApi.injectEndpoints({
       { event: StateEvent<LinkedRoomEvent> },
       { topicId: string; roomId: string; sessionGridId: string }
     >({
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ roomId, sessionGridId, topicId }, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -624,6 +630,7 @@ export const spaceApi = baseApi.injectEndpoints({
       StateEvent<SpaceChildEvent>,
       { spaceId: string; roomId: string }
     >({
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ spaceId, roomId }, { extra }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 

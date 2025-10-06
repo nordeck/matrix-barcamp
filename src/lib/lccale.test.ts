@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-import { CircularProgress, Box } from '@mui/material';
+import { Settings } from 'luxon';
+import { describe, expect, it } from 'vitest';
+import { setLocale } from './locale';
 
-export function LoaderLayout() {
-  return (
-    <Box
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <CircularProgress size={60} />
-    </Box>
-  );
-}
+describe('setLocale', () => {
+  it('should set luxon locale', () => {
+    setLocale('de');
+
+    expect(Settings.defaultLocale).toEqual('de');
+  });
+
+  it('should set HTML lang', () => {
+    setLocale('de');
+
+    expect(document.documentElement.lang).toEqual('de');
+  });
+});

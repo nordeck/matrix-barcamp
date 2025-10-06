@@ -33,16 +33,16 @@ const Container = styled.div({
   // Make sure that shadows are not cut off
   paddingRight: 1,
   paddingBottom: 2,
-});
+}) as React.ComponentType<React.HTMLProps<HTMLDivElement>>;
 
 const LeftContainer = styled.div({
   flex: 1,
   minWidth: 0,
-});
+}) as React.ComponentType<React.HTMLProps<HTMLDivElement>>;
 
 const RightContainer = styled.div({
   width: 250,
-});
+}) as React.ComponentType<React.HTMLProps<HTMLDivElement>>;
 
 export function LobbyLayout({
   timeSlots,
@@ -71,15 +71,15 @@ export function LobbyLayout({
         moveTopicToSession({ topicId, timeSlotId, trackId });
       }}
     >
-      <Container>
-        <LeftContainer>
+      <Container key="lobby-container">
+        <LeftContainer key="left-container">
           <SessionGrid
             tracks={tracks}
             timeSlots={timeSlots}
             sessions={sessions}
           />
         </LeftContainer>
-        <RightContainer>
+        <RightContainer key="right-container">
           <ParkingLot topics={parkingLotTopics} />
         </RightContainer>
       </Container>

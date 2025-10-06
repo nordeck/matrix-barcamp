@@ -27,10 +27,8 @@ import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
 import { sessionGridApi } from './sessionGridApi';
 
-const topicSubmissionEventEntityAdapter = createEntityAdapter<
-  RoomEvent<TopicSubmissionEvent>
->({
-  selectId: (event) => event.event_id,
+const topicSubmissionEventEntityAdapter = createEntityAdapter({
+  selectId: (event: RoomEvent<TopicSubmissionEvent>) => event.event_id,
   sortComparer: compareOriginServerTS,
 });
 
@@ -44,7 +42,7 @@ const topicSubmissionEventEntityAdapter = createEntityAdapter<
 export const topicSubmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getTopicSubmissions: builder.query<
-      EntityState<RoomEvent<TopicSubmissionEvent>>,
+      EntityState<RoomEvent<TopicSubmissionEvent>, string>,
       void
     >({
       async queryFn(_, { extra, dispatch }) {
@@ -124,7 +122,7 @@ export const topicSubmissionApi = baseApi.injectEndpoints({
           )
           .subscribe(async (events) => {
             updateCachedData((state) =>
-              topicSubmissionEventEntityAdapter.upsertMany(state, events)
+              topicSubmissionEventEntityAdapter.upsertMany(state, events ?? [])
             );
           });
 
@@ -180,7 +178,7 @@ const { selectAll: selectSubmittedTopics } =
   topicSubmissionEventEntityAdapter.getSelectors();
 
 export function selectAvailableSubmittedTopics(
-  state: EntityState<RoomEvent<TopicSubmissionEvent>>,
+  state: EntityState<RoomEvent<TopicSubmissionEvent>, string>,
   consumedTopicSubmissions: string[]
 ): RoomEvent<TopicSubmissionEvent>[] {
   return selectSubmittedTopics(state).filter(

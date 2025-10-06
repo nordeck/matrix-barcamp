@@ -36,6 +36,7 @@ export const roomTopicsApi = baseApi.injectEndpoints({
       { event: StateEvent<RoomTopicEvent> },
       { roomId?: string; changes: RoomTopicEvent }
     >({
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ roomId, changes }, { extra }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 

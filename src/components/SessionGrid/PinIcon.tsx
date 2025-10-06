@@ -15,14 +15,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Icon } from 'semantic-ui-react';
-import styled from 'styled-components';
+import { Box } from '@mui/material';
+import { PushPin as MuiPinIcon } from '@mui/icons-material';
 import { useGetTopicQuery } from '../../store';
 import { Tooltip } from '../Tooltip/Tooltip';
-
-const PinIconContainer = styled.div(() => ({
-  alignSelf: 'end',
-}));
 
 export function PinIcon({ topicId }: { topicId: string }) {
   const { t } = useTranslation();
@@ -38,9 +34,9 @@ export function PinIcon({ topicId }: { topicId: string }) {
     <>
       {topic?.content.pinned ? (
         <Tooltip content={tooltipText}>
-          <PinIconContainer>
-            <Icon name="pin" aria-label={tooltipText} />
-          </PinIconContainer>
+          <Box sx={{ alignSelf: 'end' }}>
+            <MuiPinIcon aria-label={tooltipText} fontSize="small" />
+          </Box>
         </Tooltip>
       ) : undefined}
     </>

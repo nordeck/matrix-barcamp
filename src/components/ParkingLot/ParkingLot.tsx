@@ -15,7 +15,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Icon, Segment } from 'semantic-ui-react';
+import { Card, CardContent, Typography, Stack } from '@mui/material';
+import { LocalParking as ParkingIcon } from '@mui/icons-material';
 import { ParkingLotEntry } from '../../lib/events';
 import {
   useDeleteTopicMutation,
@@ -23,21 +24,9 @@ import {
   useUpdateTopicMutation,
 } from '../../store';
 import { PersonalSpace } from '../PersonalSpace';
-import { styled } from '../StyledComponentsThemeProvider';
 import { SubmittedTopics } from '../SubmittedTopics';
 import { Tooltip } from '../Tooltip';
 import { TopicList } from './TopicList';
-
-const Container = styled(Segment)({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-});
-
-const Title = styled.div({
-  marginBottom: '1em',
-  fontWeight: 'bold',
-});
 
 type ParkingLotProps = {
   topics: ParkingLotEntry[];
@@ -50,27 +39,33 @@ export function ParkingLot({ topics }: ParkingLotProps) {
   const [updateTopic] = useUpdateTopicMutation();
 
   return (
-    <Container>
-      <Tooltip
-        content={t(
-          'parkingLot.explanation',
-          'The Parking Lot collects topics before they are placed on the timetable. In addition, it allows to move sessions out of the timetable or to store sessions for later consideration.'
-        )}
-      >
-        <Title>
-          <Icon size="big" className="parking" />
-          {t('parkingLot.title', 'Parking Lot')}
-        </Title>
-      </Tooltip>
+    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <Tooltip
+          content={t(
+            'parkingLot.explanation',
+            'The Parking Lot collects topics before they are placed on the timetable. In addition, it allows to move sessions out of the timetable or to store sessions for later consideration.'
+          )}
+        >
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2, fontWeight: 'bold' }}>
+            <ParkingIcon fontSize="large" />
+            <Typography variant="h6" component="h2">
+              {t('parkingLot.title', 'Parking Lot')}
+            </Typography>
+          </Stack>
+        </Tooltip>
 
-      <TopicList
-        topics={topics}
-        onDeleteTopic={(topicId) => deleteTopic({ topicId })}
-        onTopicChange={(topicId, changes) => updateTopic({ topicId, changes })}
-      />
+        <TopicList
+          topics={topics}
+          onDeleteTopic={(topicId) => deleteTopic({ topicId })}
+          onTopicChange={(topicId, changes) => updateTopic({ topicId, changes })}
+        />
 
-      <SubmittedTopics onSelectNextTopic={selectNextTopic} />
-      <PersonalSpace />
-    </Container>
+        <Stack spacing={2} sx={{ mt: 'auto' }}>
+          <SubmittedTopics onSelectNextTopic={selectNextTopic} />
+          <PersonalSpace />
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }

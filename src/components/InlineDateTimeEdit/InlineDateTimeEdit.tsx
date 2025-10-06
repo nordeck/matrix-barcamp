@@ -17,81 +17,8 @@
 import { DateTime } from 'luxon';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Input } from 'semantic-ui-react';
-import { styled } from '../StyledComponentsThemeProvider';
+import { TextField, Box } from '@mui/material';
 import { Tooltip } from '../Tooltip';
-
-const Container = styled.div({
-  display: 'flex',
-  alignItems: 'baseline',
-  flexDirection: 'column',
-  marginLeft: -4,
-});
-
-const DateTimeInput = styled(Input)(({ theme }) => ({
-  marginBottom: 8,
-
-  '&&&&&': {
-    display: 'inline-grid',
-
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    fontStyle: 'inherit',
-    lineHeight: 'inherit',
-    color: 'inherit',
-    background: 'transparent',
-  },
-
-  '&&&&& > input, &&&&&::after, &&&&&::before': {
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    fontFamily: 'inherit',
-    lineHeight: 'inherit',
-    color: 'inherit',
-    background: 'transparent',
-    padding: 4,
-
-    gridArea: '1 / 1',
-  },
-
-  '&&&&& > input': {
-    colorScheme: theme.type === 'dark' ? 'dark' : undefined,
-  },
-
-  // workaround for firefox that doesn't shrink the input
-  // field based on the "max" attribute by default
-  '@-moz-document url-prefix()': {
-    '&&&&& > input': {
-      width: '12em',
-    },
-    '&&&&&::after, &&&&&::before': {
-      width: 'calc(12em - 1.5em)',
-    },
-  },
-
-  '&&&&&::before, &&&&&::after': {
-    pointerEvents: 'none',
-    whiteSpace: 'pre-wrap',
-    marginRight: '1.5em',
-    color: 'inherit',
-
-    border: '1px solid transparent',
-  },
-
-  // This adds a hidden text node with the same styling and content to
-  // automatically sizes the text input to its contents.
-  '&&&&&::before': {
-    content: "attr(data-value) '\u00a0' attr(data-suffix)",
-    visibility: 'hidden',
-  },
-
-  // This adds a text node with the label that is displayed in the
-  // input field.
-  '&&&&&::after': {
-    content: 'attr(data-suffix)',
-    textAlign: 'right',
-  },
-}));
 
 type InlineDateTimeEditProps = {
   value: string;
@@ -155,14 +82,14 @@ export function InlineDateTimeEdit({
   }
 
   return (
-    <Container>
+    <Box sx={{ display: 'flex', alignItems: 'baseline', flexDirection: 'column', ml: -0.5 }}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
       >
-        <DateTimeInput
+        <TextField
           type="datetime-local"
           name="meeting-date-time"
           value={DateTime.fromISO(input).toLocal().toISO({
@@ -179,10 +106,16 @@ export function InlineDateTimeEdit({
             setInput(isoDate);
           }}
           aria-label={label}
+          size="small"
+          variant="outlined"
+          sx={{ mb: 1 }}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         {/* Required to make submit on enter to work in every env */}
         <input type="submit" hidden />
       </form>
-    </Container>
+    </Box>
   );
 }

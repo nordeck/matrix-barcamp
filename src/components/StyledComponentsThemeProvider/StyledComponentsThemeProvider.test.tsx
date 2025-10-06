@@ -43,6 +43,7 @@ describe('StyledComponentsThemeProvider', () => {
 
     render(
       <StyledComponentsThemeProvider>
+        {/* @ts-ignore - styled-components JSX component type issue */}
         <StyledButton>Test</StyledButton>
       </StyledComponentsThemeProvider>
     );

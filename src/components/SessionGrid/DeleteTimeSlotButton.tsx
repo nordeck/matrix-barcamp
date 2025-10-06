@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+import { Delete } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'semantic-ui-react';
 import { TimeSlot } from '../../lib/events';
 import { ConfirmDeleteDialog } from '../ConfirmDialog';
 import { Tooltip } from '../Tooltip';
@@ -36,13 +37,13 @@ export function DeleteTimeSlotButton({
   const startTime = DateTime.fromISO(timeSlot.startTime);
 
   const trigger = (
-    <Button
+    <IconButton
       aria-label={deleteTimeSlotTitle}
-      circular
-      compact
       disabled={onDelete === undefined}
-      icon="trash"
-    />
+      size="small"
+    >
+      <Delete />
+    </IconButton>
   );
 
   if (!onDelete) {

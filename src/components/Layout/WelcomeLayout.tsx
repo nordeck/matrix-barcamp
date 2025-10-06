@@ -17,12 +17,13 @@
 import { Trans, useTranslation } from 'react-i18next';
 import {
   Button,
+  Card,
+  CardContent,
   Container,
   Grid,
-  Header,
-  Icon,
-  Segment,
-} from 'semantic-ui-react';
+  Typography,
+} from '@mui/material';
+import { AccessTime as ClockIcon } from '@mui/icons-material';
 import { ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION } from '../../lib/events';
 import {
   useHasRoomEncryptionQuery,
@@ -101,12 +102,23 @@ function ModeratorWelcomeLayout() {
           onConfirm={handleSetup}
           confirmTitle={setupTitle}
         >
-          <Button primary fluid loading={isLoading}>
+        <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={isLoading}
+          >
             {setupTitle}
           </Button>
         </ConfirmDialog>
       ) : (
-        <Button primary fluid onClick={handleSetup} loading={isLoading}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleSetup}
+          disabled={isLoading}
+        >
           {setupTitle}
         </Button>
       )}
@@ -132,31 +144,33 @@ export function WelcomeLayout() {
   const { t } = useTranslation();
 
   return (
-    <Container>
-      <Segment>
-        <Grid stackable>
-          <Grid.Column width={4} textAlign="center">
-            <Icon name="clock" size="massive" />
-          </Grid.Column>
-          <Grid.Column width={12}>
-            <Header as="h1">
-              {t('welcome.title', 'Matrix BarCamp Widget')}
-            </Header>
-            <p>
-              {t(
-                'welcome.introduction',
-                "A BarCamp is an open, participatory workshop-event with no fixed agenda. The participants suggest discussion topics, place them together on the agenda, and discuss them in small sessions. The event's agenda is planned with time slots, which can either be common events in that all participants can join, or session slots where topics can be discussed in parallel. Participants can choose freely on which topics they want to participate."
-              )}
-            </p>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
+      <Card>
+        <CardContent>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={3} sx={{ textAlign: 'center' }}>
+              <ClockIcon sx={{ fontSize: 128, color: 'primary.main' }} />
+            </Grid>
+            <Grid item xs={12} md={9}>
+              <Typography variant="h1" component="h1" gutterBottom>
+                {t('welcome.title', 'Matrix BarCamp Widget')}
+              </Typography>
+              <Typography variant="body1" paragraph>
+                {t(
+                  'welcome.introduction',
+                  "A BarCamp is an open, participatory workshop-event with no fixed agenda. The participants suggest discussion topics, place them together on the agenda, and discuss them in small sessions. The event's agenda is planned with time slots, which can either be common events in that all participants can join, or session slots where topics can be discussed in parallel. Participants can choose freely on which topics they want to participate."
+                )}
+              </Typography>
 
-            {canModerate ? (
-              <ModeratorWelcomeLayout />
-            ) : (
-              <ParticipantWelcomeLayout />
-            )}
-          </Grid.Column>
-        </Grid>
-      </Segment>
+              {canModerate ? (
+                <ModeratorWelcomeLayout />
+              ) : (
+                <ParticipantWelcomeLayout />
+              )}
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
     </Container>
   );
 }

@@ -16,9 +16,9 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, Message } from 'semantic-ui-react';
+import { Alert, Button } from '@mui/material';
+import { Info, Add } from '@mui/icons-material';
 import { usePowerLevels } from '../../store';
-import { ButtonWithIcon } from '../ButtonWithIcon';
 import { styled } from '../StyledComponentsThemeProvider';
 import { usePersonalTopics } from './PersonalTopicsContextProvider';
 import { TopicSubmission } from './TopicSubmission';
@@ -47,27 +47,40 @@ export function TopicList() {
   return (
     <>
       {!canParticipantsSubmitTopics && (
-        <Message
-          icon="info circle"
-          header={t(
-            'personalSpace.submissionClosed.title',
-            'Submission closed'
-          )}
-          content={t(
+        <Alert
+          severity="info"
+          icon={<Info />}
+          sx={{ mb: 2 }}
+        >
+          <strong>
+            {t(
+              'personalSpace.submissionClosed.title',
+              'Submission closed'
+            )}
+          </strong>
+          <br />
+          {t(
             'personalSpace.submissionClosed.instructions',
             'Topic submission is not open yet, but you can already prepare your topics and submit them later.'
           )}
-        />
+        </Alert>
       )}
 
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <TopicContainer>
         {topics.map((topic) => (
           <TopicSubmission key={topic.localId} topic={topic} />
         ))}
-        <ButtonWithIcon basic onClick={createTopic} primary fluid>
-          <Icon name="plus" />
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<Add />}
+          onClick={createTopic}
+          fullWidth
+          sx={{ minHeight: 120 }}
+        >
           {t('personalSpace.topic.create', 'Create new topic')}
-        </ButtonWithIcon>
+        </Button>
       </TopicContainer>
     </>
   );

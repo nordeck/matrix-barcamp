@@ -15,15 +15,23 @@
  */
 
 import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
+import {
   PropsWithChildren,
+  ReactElement,
   ReactNode,
+  cloneElement,
   useCallback,
   useRef,
   useState,
 } from 'react';
 import { AutoFocusInside, FocusOn, InFocusGuard } from 'react-focus-on';
 import { useTranslation } from 'react-i18next';
-import { Button, Modal } from 'semantic-ui-react';
 import { useId } from '../utils';
 
 export type ConfirmDialogProps = PropsWithChildren<{
@@ -65,43 +73,48 @@ export function ConfirmDialog({
   const headerId = useId();
   const contentId = useId();
 
+  const trigger = children as ReactElement;
+  const triggerWithHandler = cloneElement(trigger, {
+    onClick: handleOpen,
+  });
+
   return (
-    <Modal
-      open={modalOpen}
-      onOpen={handleOpen}
-      onClose={handleClose}
-      role="dialog"
-      aria-labelledby={headerId}
-      aria-describedby={contentId}
-      aria-modal="true"
-      trigger={children}
-    >
-      <Modal.Header id={headerId}>
-        <div ref={headerRef}>{title}</div>
-      </Modal.Header>
-      <Modal.Content id={contentId}>
-        <FocusOn shards={[headerRef, actionsRef]} scrollLock={false}>
-          {message}
-        </FocusOn>
-      </Modal.Content>
-      <Modal.Actions>
-        <div ref={actionsRef}>
-          <AutoFocusInside className="actions">
-            <InFocusGuard>
-              <Button positive basic onClick={handleClose}>
-                {t('cancel', 'Cancel')}
-              </Button>
-              <Button
-                negative={negative}
-                positive={!negative}
-                onClick={handleConfirm}
-              >
-                {confirmTitle}
-              </Button>
-            </InFocusGuard>
-          </AutoFocusInside>
-        </div>
-      </Modal.Actions>
-    </Modal>
+    <>
+      {triggerWithHandler}
+      <Dialog
+        open={modalOpen}
+        onClose={handleClose}
+        role="dialog"
+        aria-labelledby={headerId}
+        aria-describedby={contentId}
+      >
+        <DialogTitle id={headerId}>
+          <div ref={headerRef}>{title}</div>
+        </DialogTitle>
+        <DialogContent id={contentId}>
+          <FocusOn shards={[headerRef, actionsRef]} scrollLock={false}>
+            {message}
+          </FocusOn>
+        </DialogContent>
+        <DialogActions>
+          <div ref={actionsRef}>
+            <AutoFocusInside className="actions">
+              <InFocusGuard>
+                <Button variant="outlined" onClick={handleClose}>
+                  {t('cancel', 'Cancel')}
+                </Button>
+                <Button
+                  color={negative ? 'error' : 'primary'}
+                  variant="contained"
+                  onClick={handleConfirm}
+                >
+                  {confirmTitle}
+                </Button>
+              </InFocusGuard>
+            </AutoFocusInside>
+          </div>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

@@ -62,6 +62,7 @@ describe('<TimeSlotRow>', () => {
           <DragAndDropProvider>
             <EditModeProvider>
               <table>
+                {/* @ts-ignore - react-beautiful-dnd JSX component type issue */}
                 <Droppable
                   type="timeSlot"
                   droppableId={stringifyDroppableId({ type: 'timeSlot' })}

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
+import { Button, styled } from '@mui/material';
 import React from 'react';
-import { Button } from 'semantic-ui-react';
-import { styled } from './StyledComponentsThemeProvider';
 
 export function withRefFix<P extends Record<string, unknown>>(
   Component: React.ComponentType<P>
@@ -29,12 +28,10 @@ export function withRefFix<P extends Record<string, unknown>>(
   };
 }
 
-export const ButtonWithIcon = withRefFix(
-  styled(Button)({
-    '&&&&&': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  })
-);
+const StyledButton = styled(Button)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+export const ButtonWithIcon = withRefFix(StyledButton);

@@ -29,11 +29,11 @@ import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
 import { spaceApi } from './spaceApi';
 
-const topicEventEntityAdapter = createEntityAdapter<StateEvent<TopicEvent>>({
-  selectId: (event) => event.state_key,
+const topicEventEntityAdapter = createEntityAdapter({
+  selectId: (event: StateEvent<TopicEvent>) => event.state_key,
 });
 
-type GetTopicsResult = EntityState<StateEvent<TopicEvent>>;
+type GetTopicsResult = EntityState<StateEvent<TopicEvent>, string>;
 type GetTopicResult = { topic: StateEvent<TopicEvent> };
 
 /**
@@ -120,7 +120,7 @@ export const topicApi = baseApi.injectEndpoints({
               spaceApi.endpoints.getSpaceRoom.initiate()
             ).unwrap();
 
-            const changeEvents = events.filter((ev) => ev.room_id === spaceId);
+            const changeEvents = events?.filter((ev) => ev.room_id === spaceId) ?? [];
 
             if (changeEvents.length > 0) {
               updateCachedData((state) =>
@@ -206,6 +206,7 @@ export const topicApi = baseApi.injectEndpoints({
       { event: StateEvent<TopicEvent> },
       { id: string; content: TopicEvent }
     >({
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ id, content }, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -235,6 +236,7 @@ export const topicApi = baseApi.injectEndpoints({
 
           dispatch(
             topicApi.util.updateQueryData('getTopics', undefined, (draft) => {
+              // @ts-ignore - Entity adapter type mismatch
               topicEventEntityAdapter.upsertOne(draft, event);
             })
           );
@@ -292,6 +294,7 @@ export const topicApi = baseApi.injectEndpoints({
         }
       },
 
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ topicId, changes }, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 

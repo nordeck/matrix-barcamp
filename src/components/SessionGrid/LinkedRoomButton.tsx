@@ -16,6 +16,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Login, Warning } from '@mui/icons-material';
 import {
   selectLinkedRoomForTopic,
   useGetLinkedRoomsQuery,
@@ -59,7 +60,6 @@ export function LinkedRoomButton({ topicId }: LinkedRoomButtonProps) {
     return (
       <Tooltip content={switchToRoomLabel}>
         <StickyNoteButton
-          icon="sign-in"
           disabled={!linkedRoom}
           aria-label={switchToRoomLabel}
           onClick={() => {
@@ -67,7 +67,9 @@ export function LinkedRoomButton({ topicId }: LinkedRoomButtonProps) {
               navigateToRoom(linkedRoom.state_key);
             }
           }}
-        />
+        >
+          <Login fontSize="small" />
+        </StickyNoteButton>
       </Tooltip>
     );
   }
@@ -76,10 +78,10 @@ export function LinkedRoomButton({ topicId }: LinkedRoomButtonProps) {
     return (
       <LinkRoomDialog topicId={topicId}>
         <StickyNoteButton
-          icon="exclamation triangle"
-          negative
-          content={t('topic.linkRoom', 'Link Room')}
-        />
+          aria-label={t('topic.linkRoom', 'Link Room')}
+        >
+          <Warning fontSize="small" />
+        </StickyNoteButton>
       </LinkRoomDialog>
     );
   }

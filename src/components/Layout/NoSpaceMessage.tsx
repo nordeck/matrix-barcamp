@@ -15,25 +15,28 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Container, Message } from 'semantic-ui-react';
+import { Container, Alert, AlertTitle, Typography } from '@mui/material';
+import { Warning as WarningIcon } from '@mui/icons-material';
 
 export function NoSpaceMessage() {
   const { t } = useTranslation();
 
   return (
-    <Container>
-      <Message
-        icon="exclamation triangle"
-        error
-        header={t(
-          'notPartOfASpace.title',
-          'Your Matrix room is not part of a Matrix space.'
-        )}
-        content={t(
-          'notPartOfASpace.instructions',
-          'The widget only works in rooms that belong to a space. Please create a new space, create a new room in that space, and try again.'
-        )}
-      />
+    <Container maxWidth="md" sx={{ py: 3 }}>
+      <Alert severity="error" icon={<WarningIcon />}>
+        <AlertTitle>
+          {t(
+            'notPartOfASpace.title',
+            'Your Matrix room is not part of a Matrix space.'
+          )}
+        </AlertTitle>
+        <Typography variant="body2">
+          {t(
+            'notPartOfASpace.instructions',
+            'The widget only works in rooms that belong to a space. Please create a new space, create a new room in that space, and try again.'
+          )}
+        </Typography>
+      </Alert>
     </Container>
   );
 }

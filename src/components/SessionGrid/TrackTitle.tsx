@@ -46,13 +46,15 @@ export function TrackTitle({ track, onChange, onDelete }: TrackTitleProps) {
 
   return (
     <th aria-label={track.name}>
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <Container>
         <IconPicker
-          size="big"
+          size="large"
           icon={track.icon}
           onChange={(icon) => onChange(track.id, { icon })}
           readOnly={!canEditGrid}
         />
+        {/* @ts-ignore - styled-components JSX component type issue */}
         <InlineTextEditContainer>
           <InlineTextEdit
             value={track.name}

@@ -18,9 +18,18 @@ import { useEffect, useRef, useState } from 'react';
 import { AutoFocusInside, FocusOn, InFocusGuard } from 'react-focus-on';
 import { useTranslation } from 'react-i18next';
 import { usePrevious } from 'react-use';
-import { Button, ButtonGroup, Icon, Modal } from 'semantic-ui-react';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Typography,
+  Stack
+} from '@mui/material';
+import { Person, Help, Lightbulb } from '@mui/icons-material';
 import { usePowerLevels } from '../../store';
-import { ButtonWithIcon } from '../ButtonWithIcon';
 import { useNotifications } from '../NotificationsProvider';
 import { styled } from '../StyledComponentsThemeProvider';
 import { Tooltip } from '../Tooltip';
@@ -31,13 +40,9 @@ import { TopicSubmissionToggle } from './TopicSubmissionToggle';
 
 const SideBySide = styled.div({
   display: 'flex',
-  alignItems: 'baseline',
-  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
   gap: 8,
-
-  '& > *:first-child': {
-    flex: '1',
-  },
 });
 
 export function PersonalSpace() {
@@ -82,60 +87,74 @@ export function PersonalSpace() {
   ]);
 
   return (
-    <ButtonGroup fluid>
-      <Modal
+    <>
+      <Stack direction="row" spacing={0} sx={{ width: '100%' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<Lightbulb />}
+          onClick={() => setOpen(true)}
+          fullWidth
+          sx={{
+            borderRadius: canModerate ? '4px 0 0 4px' : '4px',
+            height: 40
+          }}
+        >
+          {t('personalSpace.submitProposal', 'Submit a topic')}
+        </Button>
+        {canModerate && <TopicSubmissionToggle />}
+      </Stack>
+
+      <Dialog
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         open={open}
-        role="dialog"
+        maxWidth="md"
+        fullWidth
         aria-labelledby={headerId}
-        aria-modal="true"
-        trigger={
-          <ButtonWithIcon primary>
-            <Icon name="idea" />
-            {t('personalSpace.submitProposal', 'Submit a topic')}
-          </ButtonWithIcon>
-        }
       >
-        <Modal.Header id={headerId}>
+        <DialogTitle id={headerId}>
           <SideBySide ref={headerRef}>
-            <div>
-              <Icon name="user" />
-              {t('personalSpace.title', 'Personal Space')}
-            </div>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Person />
+              <Typography variant="h6">
+                {t('personalSpace.title', 'Personal Space')}
+              </Typography>
+            </Stack>
             <Tooltip
               content={t(
                 'personalSpace.explanation',
                 'The Personal Space is a place to prepare a topic before they are submitted to the topic queue. Proposals remain private until they are submitted.'
               )}
             >
-              <Button icon="help" circular basic floated="right" />
+              <IconButton size="small">
+                <Help />
+              </IconButton>
             </Tooltip>
           </SideBySide>
-        </Modal.Header>
-        <Modal.Content>
-          <Modal.Description>
-            <FocusOn shards={[headerRef, actionsRef]} scrollLock={false}>
-              <PersonalTopicsContextProvider>
-                <TopicList />
-              </PersonalTopicsContextProvider>
-            </FocusOn>
-          </Modal.Description>
-        </Modal.Content>
-        <Modal.Actions>
+        </DialogTitle>
+        <DialogContent>
+          <FocusOn shards={[headerRef, actionsRef]} scrollLock={false}>
+            <PersonalTopicsContextProvider>
+              <TopicList />
+            </PersonalTopicsContextProvider>
+          </FocusOn>
+        </DialogContent>
+        <DialogActions>
           <div ref={actionsRef}>
             <AutoFocusInside className="actions">
               <InFocusGuard>
-                <Button basic positive onClick={() => setOpen(false)}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => setOpen(false)}
+                >
                   {t('personalSpace.close', 'Close')}
                 </Button>
               </InFocusGuard>
             </AutoFocusInside>
           </div>
-        </Modal.Actions>
-      </Modal>
-
-      {canModerate && <TopicSubmissionToggle />}
-    </ButtonGroup>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

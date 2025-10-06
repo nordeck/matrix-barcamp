@@ -15,56 +15,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { Input } from 'semantic-ui-react';
-import { styled } from '../StyledComponentsThemeProvider';
-
-const StyledInput = styled(Input)<{ 'data-error': boolean }>(
-  ({ 'data-error': error, theme }) => ({
-    '&&&&&': {
-      position: 'relative',
-      display: 'inline-grid',
-      fontSize: 'inherit',
-      fontWeight: 'inherit',
-      fontStyle: 'inherit',
-      lineHeight: 'inherit',
-      color: 'inherit',
-      background: 'transparent',
-    },
-
-    '&&&&&& input': {
-      fontSize: 'inherit',
-      fontWeight: 'inherit',
-      fontFamily: 'inherit',
-      lineHeight: 'inherit',
-      color: 'inherit',
-      background: 'transparent',
-      gridArea: '1 / 1',
-      paddingRight: '4rem',
-
-      flex: '1',
-
-      '&:invalid': {
-        borderColor: theme.errorColor,
-      },
-    },
-
-    // This adds the `xx / xx` text at the right corner.
-    '&::after': {
-      content: 'attr(data-suffix)',
-      textAlign: 'right',
-      pointerEvents: 'none',
-      whiteSpace: 'pre-wrap',
-      color: error ? theme.errorColor : '#434343',
-      gridArea: '1 / 1',
-      fontSize: '.9rem',
-      alignSelf: 'center',
-      fontWeight: 'bold',
-      position: 'absolute',
-      right: 4,
-      marginRight: 4,
-    },
-  })
-);
+import { TextField, Box, Typography } from '@mui/material';
 
 export function TextInput({
   value,
@@ -110,17 +61,20 @@ export function TextInput({
     }
   }, [lengthExceededText, lengthZeroText, maxLength, text]);
 
+  const errorMessage = text.length === 0 ? lengthZeroText : (maxLength && text.length > maxLength) ? lengthExceededText : '';
+
   return (
-    <StyledInput
-      data-error={isError}
-      data-suffix={`${text.length} / ${maxLength}`}
-      className={className}
-    >
-      <input
-        ref={ref}
-        aria-label={label}
+    <Box className={className} sx={{ position: 'relative' }}>
+      <TextField
+        inputRef={ref}
+        label={label}
         placeholder={placeholder}
         value={text}
+        error={!!isError}
+        helperText={errorMessage}
+        fullWidth
+        variant="outlined"
+        size="small"
         onFocus={() => {
           ref.current?.reportValidity();
         }}
@@ -136,7 +90,21 @@ export function TextInput({
             onBlur?.(text);
           }
         }}
+        InputProps={{
+          endAdornment: maxLength && (
+            <Typography
+              variant="caption"
+              sx={{
+                color: isError ? 'error.main' : 'text.secondary',
+                fontWeight: 'bold',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {text.length} / {maxLength}
+            </Typography>
+          ),
+        }}
       />
-    </StyledInput>
+    </Box>
   );
 }

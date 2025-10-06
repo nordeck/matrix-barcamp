@@ -17,15 +17,14 @@
 import { ReactNode, useState } from 'react';
 import { FocusOn } from 'react-focus-on';
 import { useTranslation } from 'react-i18next';
-import { Icon, Modal } from 'semantic-ui-react';
+import { Dialog, DialogContent } from '@mui/material';
+import { OpenInFull, Close } from '@mui/icons-material';
 import { styled } from '../StyledComponentsThemeProvider';
 import { Tooltip } from '../Tooltip';
 import { StickyNote, StickyNoteButton, StickyNoteProps } from './StickyNote';
 
-const ExpandIcon = styled(Icon)({
-  '&&&&:before': {
-    content: '"\\f424"',
-  },
+const ExpandIcon = styled(OpenInFull)({
+  fontSize: '16px',
 });
 
 const HeaderSlotContainer = styled.div({
@@ -53,59 +52,68 @@ export function ExpandableStickyNote({
   const modalText = t('topic.showDetailsButton', 'Show details');
   const closeDetailsButtonText = t('topic.closeDetailsButton', 'Close details');
 
-  return (
-    <StickyNote
-      {...props}
-      headerSlot={
-        <HeaderSlotContainer>
-          {props.headerSlot}
-          <Modal
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            open={open}
-            size="tiny"
-            aria-modal="true"
-            role="dialog"
-            trigger={
-              <div>
-                {/* div is required to keep the click target working */}
-                <Tooltip content={modalText}>
-                  <StickyNoteButton
-                    icon={<ExpandIcon />}
-                    aria-label={modalText}
-                  />
-                </Tooltip>
-              </div>
-            }
+  // @ts-ignore - styled-components JSX component type issue
+  const headerSlotContainer = (
+    // @ts-ignore - styled-components JSX component type issue
+    <HeaderSlotContainer>
+      {props.headerSlot}
+      <div>
+        {/* div is required to keep the click target working */}
+        <Tooltip content={modalText}>
+          <StickyNoteButton
+            onClick={() => setOpen(true)}
+            aria-label={modalText}
           >
-            <FocusOn scrollLock={false}>
-              <StickyNote
-                {...props}
-                collapsed={false}
-                large
-                headerSlot={
-                  <>
-                    <Tooltip
-                      content={closeDetailsButtonText}
-                      position="bottom right"
+            {/* @ts-ignore - styled-components JSX component type issue */}
+            <ExpandIcon />
+          </StickyNoteButton>
+        </Tooltip>
+      </div>
+    </HeaderSlotContainer>
+  );
+
+  return (
+    <>
+      <StickyNote
+        {...props}
+        headerSlot={headerSlotContainer}
+      >
+        {children}
+      </StickyNote>
+      <Dialog
+        onClose={() => setOpen(false)}
+        open={open}
+        maxWidth="sm"
+        fullWidth
+        aria-modal="true"
+      >
+        <DialogContent sx={{ p: 0 }}>
+          <FocusOn scrollLock={false}>
+            <StickyNote
+              {...props}
+              collapsed={false}
+              large
+              headerSlot={
+                <>
+                  <Tooltip
+                    content={closeDetailsButtonText}
+                    placement="bottom-end"
+                  >
+                    <StickyNoteButton
+                      aria-label={closeDetailsButtonText}
+                      onClick={() => setOpen(false)}
+                      size="large"
                     >
-                      <StickyNoteButton
-                        icon="close"
-                        aria-label={closeDetailsButtonText}
-                        onClick={() => setOpen(false)}
-                        size={'large'}
-                      />
-                    </Tooltip>
-                    {expandedHeaderSlot}
-                  </>
-                }
-              />
-            </FocusOn>
-          </Modal>
-        </HeaderSlotContainer>
-      }
-    >
-      {children}
-    </StickyNote>
+                      <Close />
+                    </StickyNoteButton>
+                  </Tooltip>
+                  {expandedHeaderSlot}
+                </>
+              }
+            />
+          </FocusOn>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

@@ -15,60 +15,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { Form } from 'semantic-ui-react';
-import { styled } from '../StyledComponentsThemeProvider';
-
-const StyledFormField = styled(Form.Field)<{ 'data-error': boolean }>(
-  ({ 'data-error': error, theme }) => ({
-    '&&&&&': {
-      display: 'inline-grid',
-      width: '100%',
-      position: 'relative',
-    },
-
-    '&&&&&& textarea': {
-      resize: 'none',
-    },
-
-    '&&&&&&& > textarea, &&&&&::after, &&&&&::before': {
-      fontSize: 'inherit',
-      fontWeight: 'inherit',
-      fontFamily: 'inherit',
-      lineHeight: 'inherit',
-      color: 'inherit',
-      background: 'transparent',
-      padding: 4,
-
-      borderColor: error ? theme.errorColor : undefined,
-
-      gridArea: '1 / 1',
-    },
-
-    // This adds a hidden text node with the same styling and content to
-    // automatically sizes the text input to its contents.
-    '&&&&&::before': {
-      content: "attr(data-value) ' ' attr(data-suffix)",
-      visibility: 'hidden',
-      whiteSpace: 'pre-wrap',
-      wordBreak: 'break-word',
-      border: '1px solid transparent',
-      paddingRight: 8,
-    },
-
-    // This adds the `xx / xx` text at the bottom right corner.
-    '&&&&&&::after': {
-      content: 'attr(data-suffix)',
-      pointerEvents: 'none',
-      whiteSpace: 'pre-wrap',
-      color: error ? theme.errorColor : '#434343',
-      fontSize: '.9rem',
-      fontWeight: 'bold',
-      position: 'absolute',
-      bottom: 0,
-      right: 4,
-    },
-  })
-);
+import { TextField, Box, Typography } from '@mui/material';
 
 export function TextArea({
   value,
@@ -116,36 +63,53 @@ export function TextArea({
     }
   }, [lengthExceededText, lengthZeroText, maxLength, text]);
 
+  const errorMessage = text.length === 0 ? lengthZeroText : (maxLength && text.length > maxLength) ? lengthExceededText : '';
+
   return (
-    <div className={`field ${className ?? ''}`}>
-      <StyledFormField
-        data-error={isError}
-        data-suffix={`${text.length} / ${maxLength}`}
-        data-value={text}
-      >
-        <textarea
-          ref={ref}
-          aria-label={label}
-          placeholder={placeholder}
-          rows={rows}
-          value={text}
-          onFocus={() => {
-            ref.current?.reportValidity();
+    <Box className={className} sx={{ position: 'relative' }}>
+      <TextField
+        inputRef={ref}
+        label={label}
+        placeholder={placeholder}
+        value={text}
+        error={!!isError}
+        helperText={errorMessage}
+        fullWidth
+        variant="outlined"
+        multiline
+        rows={rows || 4}
+        onFocus={() => {
+          ref.current?.reportValidity();
+        }}
+        onChange={(e) => {
+          setText(e.target.value);
+          onChange?.(e.target.value);
+        }}
+        onBlur={() => {
+          if (text.length === 0) {
+            setText(value);
+            onChange?.(value);
+          } else if (!isError) {
+            onBlur?.(text);
+          }
+        }}
+      />
+      {maxLength && (
+        <Typography
+          variant="caption"
+          sx={{
+            color: isError ? 'error.main' : 'text.secondary',
+            fontWeight: 'bold',
+            position: 'absolute',
+            bottom: 8,
+            right: 8,
+            backgroundColor: 'background.paper',
+            px: 0.5,
           }}
-          onChange={(e) => {
-            setText(e.target.value);
-            onChange?.(e.target.value);
-          }}
-          onBlur={() => {
-            if (text.length === 0) {
-              setText(value);
-              onChange?.(value);
-            } else if (!isError) {
-              onBlur?.(text);
-            }
-          }}
-        />
-      </StyledFormField>
-    </div>
+        >
+          {text.length} / {maxLength}
+        </Typography>
+      )}
+    </Box>
   );
 }

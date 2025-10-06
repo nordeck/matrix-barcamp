@@ -16,47 +16,24 @@
 
 import { first } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { Header, Icon, Segment } from 'semantic-ui-react';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Alert,
+} from '@mui/material';
+import { StickyNote2 as NoteIcon } from '@mui/icons-material';
 import {
   useAvailableTopicSubmissions,
   usePowerLevels,
   useSpaceMembers,
 } from '../../store';
-import { ButtonWithIcon } from '../ButtonWithIcon';
-import { styled } from '../StyledComponentsThemeProvider';
 import { Tooltip } from '../Tooltip';
-
-const SubmissionList = styled.ol({
-  paddingLeft: '1.75em',
-});
-
-const PiledSegment = styled(Segment)({
-  '&&&&&': {
-    zIndex: 1,
-    margin: '1rem 0em',
-  },
-});
-
-const PlaceholderSegment = styled(Segment)({
-  '&&&&&': {
-    minHeight: 0,
-    margin: '1rem 0em',
-  },
-});
-
-const TextOverflow = styled.div({
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-  overflow: 'hidden',
-});
-
-const TooltipContainer = styled.div({
-  maxWidth: 194,
-});
-
-const ParagraphWithHyphens = styled.p({
-  hyphens: 'auto',
-});
 
 type SubmittedTopicsProps = {
   onSelectNextTopic: () => void;
@@ -74,42 +51,92 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
 
   if (!firstTopic) {
     return (
-      <PlaceholderSegment placeholder attached>
+      <Alert severity="info" sx={{ my: 2 }}>
         {t(
           'submittedTopics.placeholder',
           'No suggestions. Be the first one to suggest a topic.'
         )}
-      </PlaceholderSegment>
+      </Alert>
     );
   }
 
+  const tooltipContent = (
+    <Box sx={{ maxWidth: 194 }}>
+      <Typography variant="h6" gutterBottom>
+        {t('submittedTopics.tooltip.title', 'Topic suggestions')}
+      </Typography>
+      <Typography variant="body2" paragraph>
+        {t(
+          'submittedTopics.tooltip.description',
+          'The next suggestions are from:'
+        )}
+      </Typography>
+      <List dense>
+        {topics.map((s) => (
+          <ListItem key={s.event_id} disablePadding>
+            <ListItemText
+              primary={
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    whiteSpace: 'nowrap', 
+                    textOverflow: 'ellipsis', 
+                    overflow: 'hidden' 
+                  }}
+                >
+                  {lookupDisplayName(s.sender)}
+                </Typography>
+              }
+              secondary={
+                <Typography 
+                  variant="caption" 
+                  sx={{ 
+                    whiteSpace: 'nowrap', 
+                    textOverflow: 'ellipsis', 
+                    overflow: 'hidden' 
+                  }}
+                >
+                  {s.content.title}
+                </Typography>
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
-    <Tooltip
-      content={
-        <TooltipContainer>
-          <Header as="h5">
-            {t('submittedTopics.tooltip.title', 'Topic suggestions')}
-          </Header>
-          <p>
-            {t(
-              'submittedTopics.tooltip.description',
-              'The next suggestions are from:'
-            )}
-          </p>
-          <SubmissionList>
-            {topics.map((s) => (
-              <li key={s.event_id}>
-                <TextOverflow>{lookupDisplayName(s.sender)}</TextOverflow>
-                <TextOverflow>{s.content.title}</TextOverflow>
-              </li>
-            ))}
-          </SubmissionList>
-        </TooltipContainer>
-      }
-    >
-      <div>
-        <PiledSegment attached piled={topics.length > 1}>
-          <ParagraphWithHyphens>
+    <Tooltip content={tooltipContent}>
+      <Card 
+        sx={{ 
+          my: 2,
+          position: 'relative',
+          zIndex: topics.length > 1 ? 2 : 1,
+          '&::before': topics.length > 1 ? {
+            content: '""',
+            position: 'absolute',
+            top: -4,
+            left: 4,
+            right: -4,
+            bottom: 4,
+            backgroundColor: 'background.paper',
+            borderRadius: 1,
+            border: '1px solid',
+            borderColor: 'divider',
+            zIndex: -1,
+          } : undefined
+        }}
+      >
+        <CardContent>
+          <Typography 
+            variant="body2" 
+            paragraph 
+            sx={{ 
+              hyphens: 'auto',
+              wordBreak: 'break-word'
+            }}
+          >
             {topics.length > 1
               ? t(
                   'submittedTopics.summary.multiple',
@@ -126,16 +153,21 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
                     author: lookupDisplayName(firstTopic.sender),
                   }
                 )}
-          </ParagraphWithHyphens>
+          </Typography>
 
           {canModerate && (
-            <ButtonWithIcon fluid onClick={onSelectNextTopic} basic positive>
-              <Icon name="sticky note" />
+            <Button 
+              fullWidth 
+              variant="outlined" 
+              color="success"
+              onClick={onSelectNextTopic}
+              startIcon={<NoteIcon />}
+            >
               {t('submittedTopics.selectNext', 'Select next topic')}
-            </ButtonWithIcon>
+            </Button>
           )}
-        </PiledSegment>
-      </div>
+        </CardContent>
+      </Card>
     </Tooltip>
   );
 }

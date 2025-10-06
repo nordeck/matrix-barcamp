@@ -25,7 +25,7 @@ import {
 describe('<EditModeProvider/>', () => {
   it('should provide context', () => {
     const { result } = renderHook(() => useEditMode(), {
-      wrapper: ({ children }) => (
+      wrapper: ({ children }: { children: React.ReactNode }) => (
         <EditModeProvider>{children}</EditModeProvider>
       ),
     });
@@ -38,7 +38,7 @@ describe('<EditModeProvider/>', () => {
 
   it('should provide default value', () => {
     const { result } = renderHook(() => useEditMode(), {
-      wrapper: ({ children }) => (
+      wrapper: ({ children }: { children: React.ReactNode }) => (
         <EditModeProvider enableEdit>{children}</EditModeProvider>
       ),
     });
@@ -69,7 +69,7 @@ describe('<EditModeProvider/>', () => {
 
   it('should update the value', () => {
     const { result } = renderHook(() => useEditMode(), {
-      wrapper: ({ children }) => (
+      wrapper: ({ children }: { children: React.ReactNode }) => (
         <EditModeProvider>{children}</EditModeProvider>
       ),
     });

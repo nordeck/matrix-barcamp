@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock';
 import { useTranslation } from 'react-i18next';
-import { Button, Icon, IconProps, List, Popup, Ref } from 'semantic-ui-react';
-import { styled } from '../StyledComponentsThemeProvider';
+import {
+  Popover,
+  List,
+  ListItem,
+  ListItemButton,
+  IconButton,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useId } from '../utils';
 import { iconSet } from './icons';
 
@@ -28,17 +34,7 @@ const GridContainer = styled(List)({
   gap: 8,
 });
 
-function ForceFocus({ focus, ...props }: { focus: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (focus) {
-      ref.current?.focus();
-    }
-  }, [ref, focus]);
-
-  return <div ref={ref} tabIndex={0} {...props} />;
-}
+// Removed ForceFocus as it's not needed with MUI ListItemButton
 
 function IconGrid({
   id,
@@ -58,53 +54,51 @@ function IconGrid({
   return (
     <GridContainer
       id={id}
-      selection
       role="listbox"
       aria-label={t('iconPicker.icons', 'Available Icons')}
     >
       {icons.map((icon, i) => (
-        <List.Item
-          key={icon}
-          as={ForceFocus}
-          focus={icon === selected}
-          role="option"
-          active={icon === selected}
-          aria-selected={icon === selected}
-          aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
-            icon,
-          })}
-          onFocus={() => onChange(icon)}
-          onClick={() => onSubmit(icon)}
-          onKeyDown={(e: KeyboardEvent) => {
-            const isSubmit = e.code === 'Space' || e.code === 'Enter';
-            const isPrevious = e.code === 'ArrowLeft' || e.code === 'ArrowUp';
-            const isNext = e.code === 'ArrowRight' || e.code === 'ArrowDown';
-            const isFirst = e.code === 'Home';
-            const isLast = e.code === 'End';
+        <ListItem key={icon} disablePadding>
+          <ListItemButton
+            selected={icon === selected}
+            role="option"
+            aria-selected={icon === selected}
+            aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
+              icon,
+            })}
+            onFocus={() => onChange(icon)}
+            onClick={() => onSubmit(icon)}
+            onKeyDown={(e: React.KeyboardEvent) => {
+              const isSubmit = e.code === 'Space' || e.code === 'Enter';
+              const isPrevious = e.code === 'ArrowLeft' || e.code === 'ArrowUp';
+              const isNext = e.code === 'ArrowRight' || e.code === 'ArrowDown';
+              const isFirst = e.code === 'Home';
+              const isLast = e.code === 'End';
 
-            if (isSubmit) {
-              onSubmit(icon);
-              // If we don't prevent, enter reopens the popup immediately
-              e.preventDefault();
-            } else if (isPrevious) {
-              onChange(icons[i === 0 ? icons.length - 1 : i - 1]);
-            } else if (isNext) {
-              onChange(icons[(i + 1) % icons.length]);
-            } else if (isFirst) {
-              onChange(icons[0]);
-            } else if (isLast) {
-              onChange(icons[icons.length - 1]);
-            }
-          }}
-        >
-          <Icon size="large" className={icon} />
-        </List.Item>
+              if (isSubmit) {
+                onSubmit(icon);
+                // If we don't prevent, enter reopens the popup immediately
+                e.preventDefault();
+              } else if (isPrevious) {
+                onChange(icons[i === 0 ? icons.length - 1 : i - 1]);
+              } else if (isNext) {
+                onChange(icons[(i + 1) % icons.length]);
+              } else if (isFirst) {
+                onChange(icons[0]);
+              } else if (isLast) {
+                onChange(icons[icons.length - 1]);
+              }
+            }}
+          >
+            <i className={`${icon} large`} style={{ fontSize: '1.5em' }} />
+          </ListItemButton>
+        </ListItem>
       ))}
     </GridContainer>
   );
 }
 
-type IconSizeProp = IconProps['size'];
+type IconSizeProp = 'small' | 'medium' | 'large';
 
 export type IconPickerProps = {
   size?: IconSizeProp;
@@ -133,7 +127,7 @@ export function IconPicker({
           icon,
         })}
       >
-        <Icon size={size} className={icon} />
+        <i className={icon} style={{ fontSize: size === 'large' ? '1.5em' : size === 'small' ? '0.8em' : '1em' }} />
       </span>
     );
   }
@@ -141,37 +135,38 @@ export function IconPicker({
   const displayedIcon = open ? selectedIcon : icon;
 
   return (
-    <Popup
-      open={open}
-      onClose={() => {
-        setOpen(false);
-      }}
-      onOpen={() => {
-        setSelectedIcon(icon);
-        setOpen(true);
-      }}
-      trigger={
-        <div aria-label={t('iconPicker.title', 'Pick an icon')}>
-          <Ref innerRef={buttonRef}>
-            <Button
-              size={size}
-              icon
-              circular
-              role="combobox"
-              aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
-                icon: displayedIcon,
-              })}
-              aria-expanded={open}
-              aria-controls={listId}
-            >
-              <Icon className={displayedIcon} />
-            </Button>
-          </Ref>
-        </div>
-      }
-      on="click"
-      position="bottom left"
-    >
+    <>
+      <div aria-label={t('iconPicker.title', 'Pick an icon')}>
+        <IconButton
+          ref={buttonRef}
+          size={size}
+          role="combobox"
+          aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
+            icon: displayedIcon,
+          })}
+          aria-expanded={open}
+          aria-controls={listId}
+          onClick={() => {
+            if (open) {
+              setOpen(false);
+            } else {
+              setSelectedIcon(icon);
+              setOpen(true);
+            }
+          }}
+        >
+          <i className={displayedIcon} style={{ fontSize: size === 'large' ? '1.5em' : size === 'small' ? '0.8em' : '1em' }} />
+        </IconButton>
+      </div>
+      <Popover
+        open={open}
+        anchorEl={buttonRef.current}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
       <FocusLock
         autoFocus={false}
         onDeactivation={() => {
@@ -193,6 +188,7 @@ export function IconPicker({
           }}
         />
       </FocusLock>
-    </Popup>
+      </Popover>
+    </>
   );
 }

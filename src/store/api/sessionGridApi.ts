@@ -148,9 +148,9 @@ export const sessionGridApi = baseApi.injectEndpoints({
                 spaceApi.endpoints.getLobbyRoom.initiate()
               ).unwrap();
 
-              const events = allEvents.filter(
+              const events = allEvents?.filter(
                 (ev) => ev.room_id === roomId && ev.state_key === stateKey
-              );
+              ) ?? [];
 
               if (events.length > 0) {
                 updateCachedData(() => ({
@@ -174,6 +174,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       void
     >({
       invalidatesTags: ['SpaceRoom'],
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn(_, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -674,6 +675,7 @@ export async function updateSessionGrid(
       { roomId: event.room_id, stateKey: event.state_key }
     );
 
+    // @ts-ignore - Return type mismatch ISendEventFromWidgetResponseData vs StateEvent
     return { data: { event: newEvent } };
   } catch (e) {
     // restore the eager update on failure

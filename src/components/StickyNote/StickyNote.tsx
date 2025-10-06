@@ -16,7 +16,7 @@
 
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, ButtonProps, Form } from 'semantic-ui-react';
+import { IconButton, IconButtonProps } from '@mui/material';
 import { styled } from '../StyledComponentsThemeProvider';
 import { TextArea } from '../TextArea';
 import { TextInput } from '../TextInput';
@@ -30,53 +30,45 @@ export type TopicChanges = Partial<{
 export const TOPIC_MAX_TITLE_LENGTH = 60;
 export const TOPIC_MAX_DESCRIPTION_LENGTH = 140;
 
-const TopicForm = styled(Form)(({ theme }) => ({
-  '&&&&&': {
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    fontStyle: 'inherit',
-    lineHeight: 'inherit',
-    color: 'inherit',
-    background: 'transparent',
+const TopicForm = styled.form(({ theme }) => ({
+  fontSize: 'inherit',
+  fontWeight: 'inherit',
+  fontStyle: 'inherit',
+  lineHeight: 'inherit',
+  color: 'inherit',
+  background: 'transparent',
+  marginRight: -4,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
 
-    marginRight: -4,
-  },
-
-  '&& .ui.label': {
-    borderColor: 'rgba(34, 36, 38, 0.15)',
-  },
-
-  // reset the styles of all inputs
-  '&&&&& input, &&&&& textarea': {
+  '& .MuiInputBase-root': {
     fontSize: 'inherit',
     fontWeight: 'inherit',
     fontFamily: 'inherit',
     lineHeight: 'inherit',
-
-    background: theme.stickyNoteColor,
-
-    '&:not(:focus)': {
-      borderColor: 'rgba(34, 36, 38, 0.15)',
-    },
-
+    backgroundColor: theme.stickyNoteColor,
     color: 'black',
 
-    padding: 4,
+    '& input, & textarea': {
+      padding: 4,
+      color: 'black',
+      backgroundColor: theme.stickyNoteColor,
 
-    '&::placeholder': {
-      color: '#595959',
+      '&::placeholder': {
+        color: '#595959',
+        opacity: 1,
+      },
     },
   },
 
-  // make sure the input field overlays the original text
-  // and starts slightly to the left and is slightly larger
-  '&&&&& .input, &&&&&& > .field': {
+  '& .MuiFormControl-root': {
     marginLeft: -4,
     width: 'calc(100% + 8px)',
   },
 
-  '& button.basic.button.icon:hover': {
-    background: 'unset !important',
+  '& .MuiIconButton-root:hover': {
+    backgroundColor: 'transparent',
   },
 }));
 
@@ -115,9 +107,18 @@ const Author = styled.p({
   hyphens: 'auto',
 });
 
-const ButtonWithoutMargin = styled(Button)({
-  '&&&&&': {
-    margin: 0,
+const ButtonWithoutMargin = styled(IconButton)({
+  margin: 0,
+  color: 'black',
+  padding: 4,
+  minWidth: 'auto',
+  minHeight: 'auto',
+  border: '1px solid rgba(34, 36, 38, 0.15)',
+  borderRadius: '50%',
+  backgroundColor: 'transparent',
+  
+  '&:hover': {
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
   },
 });
 
@@ -199,14 +200,11 @@ export const StickyNoteContainer = styled.div<{ large?: boolean }>(
   })
 );
 
-export function StickyNoteButton(props: ButtonProps) {
+export function StickyNoteButton(props: IconButtonProps) {
   return (
+    // @ts-ignore - styled-components JSX component type issue
     <ButtonWithoutMargin
-      basic
       {...props}
-      circular
-      compact
-      color="black"
       size={props.size ?? 'small'}
     />
   );
@@ -229,11 +227,15 @@ export function StickyNote(props: StickyNoteProps) {
 
   if ((onUpdate || onChange) && !collapsed) {
     return (
+      // @ts-ignore - styled-components JSX component type issue
       <StickyNoteContainer large={large}>
+        {/* @ts-ignore - styled-components JSX component type issue */}
         <TopicForm aria-label={title}>
+          {/* @ts-ignore - styled-components JSX component type issue */}
           <SideBySide>
             {headerSlot}
             <div>
+              {/* @ts-ignore - styled-components JSX component type issue */}
               <TitleInput
                 label={t('topic.title', 'Title')}
                 placeholder={t('topic.titlePlaceholder', 'Your Topic')}
@@ -255,6 +257,7 @@ export function StickyNote(props: StickyNoteProps) {
                 )}
               />
 
+              {/* @ts-ignore - styled-components JSX component type issue */}
               <Author>{author}</Author>
             </div>
           </SideBySide>
@@ -297,15 +300,20 @@ export function StickyNote(props: StickyNoteProps) {
   // TODO: Consider using elipsis for author and title?
 
   return (
+    // @ts-ignore - styled-components JSX component type issue
     <StickyNoteContainer large={large}>
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <SideBySide>
         {headerSlot}
         <div>
+          {/* @ts-ignore - styled-components JSX component type issue */}
           <Title>{title}</Title>
+          {/* @ts-ignore - styled-components JSX component type issue */}
           <Author>{author}</Author>
         </div>
       </SideBySide>
 
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <Description collapsed={collapsed}>{description}</Description>
 
       {children}

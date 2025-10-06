@@ -14,19 +14,9 @@
  * limitations under the License.
  */
 
-import { CircularProgress, Box } from '@mui/material';
+import { Settings } from 'luxon';
 
-export function LoaderLayout() {
-  return (
-    <Box
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <CircularProgress size={60} />
-    </Box>
-  );
+export function setLocale(locale: string): void {
+  Settings.defaultLocale = locale;
+  document.documentElement.lang = locale;
 }

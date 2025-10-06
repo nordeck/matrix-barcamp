@@ -16,9 +16,9 @@
 
 import { WidgetApi } from '@matrix-widget-toolkit/api';
 import {
-  SemanticUiThemeProvider,
-  SemanticUiWidgetApiProvider,
-} from '@matrix-widget-toolkit/semantic-ui';
+  MuiThemeProvider,
+  MuiWidgetApiProvider,
+} from '@matrix-widget-toolkit/mui';
 import { Suspense } from 'react';
 import { Layout } from './components/Layout';
 import {
@@ -38,18 +38,18 @@ export function AppWrapper({
   return (
     // Fallback suspense if no higher one is registered (used for i18n)
     <Suspense fallback={<></>}>
-      <SemanticUiThemeProvider>
+      <MuiThemeProvider>
         <StyledComponentsThemeProvider>
           <NotificationsProvider>
-            <SemanticUiWidgetApiProvider
+            <MuiWidgetApiProvider
               widgetApiPromise={widgetApiPromise}
               widgetRegistration={widgetRegistration}
             >
               <App />
-            </SemanticUiWidgetApiProvider>
+            </MuiWidgetApiProvider>
           </NotificationsProvider>
         </StyledComponentsThemeProvider>
-      </SemanticUiThemeProvider>
+      </MuiThemeProvider>
     </Suspense>
   );
 }

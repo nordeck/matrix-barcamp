@@ -24,7 +24,8 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { Icon, Message, Transition } from 'semantic-ui-react';
+import { Alert, Fade, IconButton } from '@mui/material';
+import { Warning, Info, Close } from '@mui/icons-material';
 import { styled } from '../StyledComponentsThemeProvider';
 
 type NotificationType = 'error' | 'info';
@@ -101,7 +102,7 @@ const NotificationsContainer = styled.div({
   zIndex: 2000,
   width: 400,
   maxWidth: 'calc(100% - 16px)',
-});
+}) as React.ComponentType<React.HTMLProps<HTMLDivElement>>;
 
 function NotificationDisplay({
   type,
@@ -125,21 +126,30 @@ function NotificationDisplay({
   }, []);
 
   return (
-    <Transition visible={visible} onComplete={onDelete}>
-      <Message floating error={type === 'error'}>
-        {type === 'error' ? (
-          <Icon name="exclamation triangle" />
-        ) : (
-          <Icon name="info circle" />
-        )}
-        <span
-          role={latest ? 'alert' : undefined}
-          aria-live={latest ? 'assertive' : undefined}
-        >
-          {message}
-        </span>
-      </Message>
-    </Transition>
+    <Fade in={visible} onExited={onDelete} timeout={300}>
+      <Alert
+        severity={type}
+        icon={type === 'error' ? <Warning /> : <Info />}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={() => setVisible(false)}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        }
+        sx={{
+          mb: 1,
+          boxShadow: (theme) => theme.shadows[4],
+        }}
+        role={latest ? 'alert' : undefined}
+        aria-live={latest ? 'assertive' : undefined}
+      >
+        {message}
+      </Alert>
+    </Fade>
   );
 }
 
@@ -151,7 +161,7 @@ export function NotificationsDisplay({
   onDelete: (id: string) => void;
 }) {
   return (
-    <NotificationsContainer>
+    <NotificationsContainer key="notifications-container">
       {notifications
         .map((notification, idx) => (
           <NotificationDisplay

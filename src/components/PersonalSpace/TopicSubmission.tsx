@@ -16,13 +16,13 @@
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { useTranslation } from 'react-i18next';
-import { Icon } from 'semantic-ui-react';
+import { Button, CircularProgress } from '@mui/material';
+import { Check, Send, Delete } from '@mui/icons-material';
 import {
   useCreateTopicSubmissionMutation,
   usePowerLevels,
   useSpaceMembers,
 } from '../../store';
-import { ButtonWithIcon } from '../ButtonWithIcon';
 import { ConfirmDeleteDialog } from '../ConfirmDialog';
 import { StickyNote, StickyNoteButton } from '../StickyNote';
 import { Tooltip } from '../Tooltip';
@@ -81,10 +81,11 @@ export function TopicSubmission({ topic }: { topic: PersonalTopic }) {
                 onDelete={() => removeTopic(topic.localId)}
               >
                 <StickyNoteButton
-                  icon="trash"
                   type="button"
                   aria-label={deleteText}
-                />
+                >
+                  <Delete fontSize="small" />
+                </StickyNoteButton>
               </ConfirmDeleteDialog>
             </div>
           </Tooltip>
@@ -95,29 +96,27 @@ export function TopicSubmission({ topic }: { topic: PersonalTopic }) {
       author={lookupDisplayName(widgetParameters.userId ?? '')}
     >
       {isSubmitted ? (
-        <ButtonWithIcon
+        <Button
           disabled
-          basic
-          color="black"
+          variant="outlined"
           type="button"
-          fluid
-          loading={isSubmitting}
+          fullWidth
+          startIcon={isSubmitting ? <CircularProgress size={16} /> : <Check />}
         >
-          <Icon name="check" />
           {t('personalSpace.topic.alreadySubmitted', 'Already Submitted')}
-        </ButtonWithIcon>
+        </Button>
       ) : (
-        <ButtonWithIcon
+        <Button
           disabled={!isValidTopic(topic) || !canSubmitTopic}
-          primary
+          variant="contained"
+          color="primary"
           type="button"
-          fluid
-          loading={isSubmitting}
+          fullWidth
+          startIcon={isSubmitting ? <CircularProgress size={16} /> : <Send />}
           onClick={onSubmitTopic}
         >
-          <Icon name="send" />
           {t('personalSpace.topic.submit', 'Submit')}
-        </ButtonWithIcon>
+        </Button>
       )}
     </StickyNote>
   );

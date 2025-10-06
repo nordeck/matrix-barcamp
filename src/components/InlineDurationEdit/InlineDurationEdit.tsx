@@ -17,73 +17,7 @@
 import { clamp } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Input } from 'semantic-ui-react';
-import { styled } from '../StyledComponentsThemeProvider';
-
-const Container = styled.div({
-  display: 'flex',
-  alignItems: 'baseline',
-  flexDirection: 'column',
-  marginLeft: -4,
-});
-
-const DurationInput = styled(Input)({
-  '&&&&&': {
-    display: 'inline-grid',
-
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    fontStyle: 'inherit',
-    lineHeight: 'inherit',
-    color: 'inherit',
-    background: 'transparent',
-  },
-
-  '&&&&& > input, &&&&&::after, &&&&&::before': {
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    fontFamily: 'inherit',
-    lineHeight: 'inherit',
-    color: 'inherit',
-    background: 'transparent',
-    padding: 4,
-
-    gridArea: '1 / 1',
-  },
-
-  // workaround for firefox that doesn't shrink the input
-  // field based on the "max" attribute by default
-  '@-moz-document url-prefix()': {
-    '&&&&& > input': {
-      width: '6.5em',
-    },
-    '&&&&&::after, &&&&&::before': {
-      width: 'calc(6.5em - 1.5em)',
-    },
-  },
-
-  '&&&&&::before, &&&&&::after': {
-    pointerEvents: 'none',
-    whiteSpace: 'pre-wrap',
-    marginRight: '1.5em',
-
-    border: '1px solid transparent',
-  },
-
-  // This adds a hidden text node with the same styling and content to
-  // automatically sizes the text input to its contents.
-  '&&&&&::before': {
-    content: "attr(data-value) '\u00a0' attr(data-suffix)",
-    visibility: 'hidden',
-  },
-
-  // This adds a text node with the label that is displayed in the
-  // input field.
-  '&&&&&::after': {
-    content: 'attr(data-suffix)',
-    textAlign: 'right',
-  },
-});
+import { TextField, Box, InputAdornment } from '@mui/material';
 
 type InlineDurationEditProps = {
   minutes: number;
@@ -123,7 +57,7 @@ export function InlineDurationEdit({
   }
 
   return (
-    <Container>
+    <Box sx={{ display: 'flex', alignItems: 'baseline', flexDirection: 'column', ml: -0.5 }}>
       <form
         onSubmit={(ev) => {
           ev.preventDefault();
@@ -131,28 +65,33 @@ export function InlineDurationEdit({
         }}
         noValidate
       >
-        <DurationInput
-          data-value={isNaN(value) ? '' : value}
-          data-suffix={t('sessionGrid.timeSlot.durationInputSuffix', 'min.')}
-        >
-          <input
-            aria-label={t(
-              'sessionGrid.timeSlot.durationInputLabel',
-              'Track duration in minutes'
-            )}
-            type="number"
-            min="0"
-            max="1440"
-            step="5"
-            onBlur={onSubmit}
-            value={value.toString()}
-            onChange={(event) => setValue(event.target.valueAsNumber)}
-          />
-        </DurationInput>
-
+        <TextField
+          type="number"
+          aria-label={t(
+            'sessionGrid.timeSlot.durationInputLabel',
+            'Track duration in minutes'
+          )}
+          inputProps={{
+            min: 0,
+            max: 1440,
+            step: 5,
+          }}
+          onBlur={onSubmit}
+          value={isNaN(value) ? '' : value}
+          onChange={(event) => setValue(parseFloat(event.target.value) || 0)}
+          size="small"
+          variant="outlined"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {t('sessionGrid.timeSlot.durationInputSuffix', 'min.')}
+              </InputAdornment>
+            ),
+          }}
+        />
         {/* Required to make submit on enter to work in every env */}
         <input type="submit" hidden />
       </form>
-    </Container>
+    </Box>
   );
 }

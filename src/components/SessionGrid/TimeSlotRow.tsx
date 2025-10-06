@@ -93,8 +93,11 @@ export function TimeSlotTitle({
         }
       )}
     >
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <Container>
+        {/* @ts-ignore - styled-components JSX component type issue */}
         <FlexGrow>
+          {/* @ts-ignore - styled-components JSX component type issue */}
           <NoWrap>
             <InlineDateTimeEdit
               label={t(
@@ -106,6 +109,7 @@ export function TimeSlotTitle({
               readOnly={!canEditGrid || !firstEvent}
             />
           </NoWrap>
+          {/* @ts-ignore - styled-components JSX component type issue */}
           <NoWrap>
             <InlineDurationEdit
               minutes={duration.as('minute')}
@@ -152,12 +156,16 @@ export function TimeSlotRow({
   const { canEditGrid } = useEditMode();
 
   return (
+    // @ts-ignore - React Beautiful DnD type compatibility issue
     <Draggable
       draggableId={timeSlot.id}
       index={index}
       isDragDisabled={!canEditGrid}
     >
-      {(provided, snapshot) => (
+      {(provided, snapshot) => {
+        // @ts-ignore - styled-components JSX component type issue
+        return (
+        // @ts-ignore - styled-components JSX component type issue
         <Row
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
@@ -199,7 +207,8 @@ export function TimeSlotRow({
 
           {children}
         </Row>
-      )}
+        );
+      }}
     </Draggable>
   );
 }

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
+import { Delete } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'semantic-ui-react';
 import { Track } from '../../lib/events';
 import { ConfirmDeleteDialog } from '../ConfirmDialog';
 import { Tooltip } from '../Tooltip';
@@ -30,13 +31,13 @@ export function DeleteTrackButton({
   const { t } = useTranslation();
   const deleteTrackTitle = t('track.delete.title', 'Delete track');
   const trigger = (
-    <Button
+    <IconButton
       aria-label={deleteTrackTitle}
-      circular
-      compact
       disabled={onDelete === undefined}
-      icon="trash"
-    />
+      size="small"
+    >
+      <Delete />
+    </IconButton>
   );
 
   if (!onDelete) {

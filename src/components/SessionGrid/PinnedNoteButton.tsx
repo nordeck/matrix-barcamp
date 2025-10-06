@@ -15,6 +15,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { PushPin } from '@mui/icons-material';
 import { useGetTopicQuery } from '../../store';
 import { StickyNoteButton, TopicChanges } from '../StickyNote';
 import { Tooltip } from '../Tooltip';
@@ -34,16 +35,15 @@ export function PinnedNoteButton(props: PinnedNoteProps) {
     : t('topic.pin', 'Fix period');
 
   return (
-    <Tooltip content={pinButtonText} position="bottom left">
+    <Tooltip content={pinButtonText} placement="bottom-start">
       <StickyNoteButton
-        toggle
-        icon="pin"
         size="large"
-        active={topic?.content.pinned}
+        color={topic?.content.pinned ? "primary" : "inherit"}
         onClick={() => props.onUpdate({ pinned: !topic?.content.pinned })}
         aria-label={pinButtonText}
-        basic={!topic?.content.pinned}
-      />
+      >
+        <PushPin />
+      </StickyNoteButton>
     </Tooltip>
   );
 }

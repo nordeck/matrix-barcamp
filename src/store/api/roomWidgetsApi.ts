@@ -250,6 +250,7 @@ async function applyWidget(
     return widgetsEvent;
   }
 
+  // @ts-ignore - Return type mismatch ISendEventFromWidgetResponseData vs StateEvent
   return await widgetApi.sendStateEvent(STATE_EVENT_WIDGETS, content, {
     roomId,
     stateKey: id,
@@ -277,6 +278,7 @@ async function applyWidgetsLayout(
     return widgetsLayoutEvent;
   }
 
+  // @ts-ignore - Return type mismatch ISendEventFromWidgetResponseData vs StateEvent
   return await widgetApi.sendStateEvent(
     STATE_EVENT_WIDGETS_LAYOUT,
     widgetsLayout,

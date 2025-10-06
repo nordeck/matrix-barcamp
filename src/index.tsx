@@ -17,7 +17,7 @@
 import { WidgetApiImpl } from '@matrix-widget-toolkit/api';
 import log from 'loglevel';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { AppWrapper } from './App';
 import { getNonce } from './components/utils';
 import './i18n';
@@ -54,9 +54,13 @@ const widgetApiPromise = WidgetApiImpl.create({
   capabilities,
 });
 
-ReactDOM.render(
-  <React.StrictMode>
-    <AppWrapper widgetApiPromise={widgetApiPromise} />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const container = document.getElementById('root');
+if (!container) {
+  throw new Error('Root element not found');
+}
+
+const root = createRoot(container);
+
+const app = <AppWrapper widgetApiPromise={widgetApiPromise} />;
+
+root.render(app);

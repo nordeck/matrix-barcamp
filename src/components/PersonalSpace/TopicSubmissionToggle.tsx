@@ -15,7 +15,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Button } from 'semantic-ui-react';
+import { Button } from '@mui/material';
+import { LockOpen, Lock } from '@mui/icons-material';
 import { ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION } from '../../lib/events';
 import { usePatchPowerLevelsMutation, usePowerLevels } from '../../store';
 import { Tooltip } from '../Tooltip';
@@ -37,10 +38,15 @@ export function TopicSubmissionToggle() {
   return (
     <Tooltip content={submitToggleTitle}>
       <Button
+        variant={canParticipantsSubmitTopics ? "outlined" : "contained"}
+        color={canParticipantsSubmitTopics ? "primary" : "inherit"}
         aria-label={submitToggleTitle}
-        icon={canParticipantsSubmitTopics ? 'lock open' : 'lock'}
-        toggle
-        active={canParticipantsSubmitTopics}
+        sx={{
+          borderRadius: '0 4px 4px 0',
+          minWidth: 'auto',
+          px: 2,
+          height: 40,
+        }}
         onClick={() =>
           patchPowerLevels({
             changes: {
@@ -51,7 +57,9 @@ export function TopicSubmissionToggle() {
             },
           })
         }
-      />
+      >
+        {canParticipantsSubmitTopics ? <LockOpen /> : <Lock />}
+      </Button>
     </Tooltip>
   );
 }

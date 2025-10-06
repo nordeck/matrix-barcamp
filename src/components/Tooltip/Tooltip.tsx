@@ -14,50 +14,43 @@
  * limitations under the License.
  */
 
-import React, { PropsWithChildren, useState } from 'react';
-import {
-  Popup,
-  PopupContentProps,
-  SemanticShorthandItem,
-} from 'semantic-ui-react';
+import React, { PropsWithChildren } from 'react';
+import { Tooltip as MuiTooltip } from '@mui/material';
 
 export type TooltipProps = PropsWithChildren<{
-  content?: SemanticShorthandItem<PopupContentProps>;
-  position?:
-    | 'right center'
-    | 'top left'
-    | 'top right'
-    | 'bottom right'
-    | 'bottom left'
-    | 'left center'
-    | 'top center'
-    | 'bottom center'
+  content?: React.ReactNode;
+  placement?:
+    | 'right'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom-end'
+    | 'bottom-start'
+    | 'left'
+    | 'top'
+    | 'bottom'
     | undefined;
   suppress?: boolean;
 }>;
 
 export function Tooltip({
   content,
-  position,
+  placement = 'top',
   children,
   suppress,
 }: TooltipProps) {
-  const [isOpen, setOpen] = useState(false);
+  if (suppress || !content) {
+    return <>{children}</>;
+  }
 
   return (
-    <Popup
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
-      open={isOpen && !suppress}
-      basic
-      content={content}
-      hideOnScroll
-      inverted
-      mouseEnterDelay={500}
-      mouseLeaveDelay={500}
-      on={'hover'}
-      position={position}
-      trigger={React.Children.only(children)}
-    />
+    <MuiTooltip 
+      title={content} 
+      placement={placement}
+      enterDelay={500}
+      leaveDelay={500}
+      arrow
+    >
+      <span>{children}</span>
+    </MuiTooltip>
   );
 }

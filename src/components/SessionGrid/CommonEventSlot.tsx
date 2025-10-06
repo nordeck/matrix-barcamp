@@ -28,7 +28,7 @@ const CommonEventTd = styled.td(({ theme }) => ({
   '&&': {
     verticalAlign: 'middle',
   },
-}));
+})) as React.ComponentType<React.HTMLProps<HTMLTableCellElement> & { colSpan?: number }>;
 
 const CommonEventLabel = styled.div<{ trackCount: number }>(() => ({
   textAlign: 'center',
@@ -36,11 +36,11 @@ const CommonEventLabel = styled.div<{ trackCount: number }>(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   gap: 8,
-}));
+})) as React.ComponentType<React.HTMLProps<HTMLDivElement> & { trackCount: number }>;
 
 const Summary = styled.span({
   fontWeight: 'bold',
-});
+}) as React.ComponentType<React.HTMLProps<HTMLSpanElement>>;
 
 export type CommonEventTimeSlotChanges = Partial<
   Pick<CommonEventTimeSlot, 'summary' | 'icon'>
@@ -62,10 +62,10 @@ export function CommonEventSlot({
   const { t } = useTranslation();
 
   return (
-    <CommonEventTd colSpan={tracks.length} aria-label={timeSlot.summary}>
-      <CommonEventLabel trackCount={tracks.length}>
+    <CommonEventTd key="common-event-td" colSpan={tracks.length} aria-label={timeSlot.summary}>
+      <CommonEventLabel key="common-event-label" trackCount={tracks.length}>
         <IconPicker
-          size="big"
+          size="large"
           icon={timeSlot.icon}
           readOnly={!canEditGrid}
           onChange={(icon) => {
@@ -76,7 +76,7 @@ export function CommonEventSlot({
             }
           }}
         />
-        <Summary>
+        <Summary key="summary">
           <InlineTextEdit
             label={t(
               'sessionGrid.timeSlot.commonEvent.title',

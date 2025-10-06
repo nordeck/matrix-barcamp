@@ -28,10 +28,8 @@ import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
 import { spaceApi } from './spaceApi';
 
-export const linkedRoomsEntityAdapter = createEntityAdapter<
-  StateEvent<LinkedRoomEvent>
->({
-  selectId: (event) => event.state_key,
+export const linkedRoomsEntityAdapter = createEntityAdapter({
+  selectId: (event: StateEvent<LinkedRoomEvent>) => event.state_key,
   sortComparer: compareOriginServerTS,
 });
 
@@ -48,7 +46,7 @@ export const linkedRoomApi = baseApi.injectEndpoints({
      * Internal endpoint to hold a cache of all linked rooms in the space room.
      */
     getLinkedRooms: builder.query<
-      EntityState<StateEvent<LinkedRoomEvent>>,
+      EntityState<StateEvent<LinkedRoomEvent>, string>,
       void
     >({
       providesTags: () => ['SpaceRoom'],
@@ -117,7 +115,7 @@ export const linkedRoomApi = baseApi.injectEndpoints({
               spaceApi.endpoints.getSpaceRoom.initiate()
             ).unwrap();
 
-            const changeEvents = events.filter((ev) => ev.room_id === spaceId);
+            const changeEvents = events?.filter((ev) => ev.room_id === spaceId) ?? [];
 
             if (changeEvents.length > 0) {
               updateCachedData((state) =>
@@ -143,7 +141,7 @@ export const { selectAll: selectLinkedRooms, selectById: selectLinkedRoom } =
   linkedRoomsEntityAdapter.getSelectors();
 
 export function selectLinkedRoomForTopic(
-  state: EntityState<StateEvent<LinkedRoomEvent>>,
+  state: EntityState<StateEvent<LinkedRoomEvent>, string>,
   topicId: string,
   sessionGridId?: string
 ): StateEvent<LinkedRoomEvent> | undefined {

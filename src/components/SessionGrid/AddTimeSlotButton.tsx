@@ -16,7 +16,8 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown } from 'semantic-ui-react';
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import { TimeSlotTypes } from '../../lib/events';
 import { Tooltip } from '../Tooltip';
 
@@ -26,50 +27,59 @@ export function AddTimeSlotButton({
   onAddTimeSlot: (timeSlotType: TimeSlotTypes) => void;
 }) {
   const { t } = useTranslation();
-  const [isOpen, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isOpen = Boolean(anchorEl);
   const label = t(
     'sessionGrid.timeSlot.createSessionsTimeSlot',
     'Create a time slot'
   );
 
-  return (
-    // We have some extra logic to suppress the tooltip while the dropdown is
-    // open. Otherwise it behaves a bit strange
-    <Tooltip content={label} suppress={isOpen}>
-      <Dropdown
-        selectOnNavigation={false}
-        icon={'plus'}
-        className="button icon large"
-        floating
-        value={''}
-        aria-label={label}
-        trigger={<></>}
-        options={[
-          { key: 'sessions', text: label, value: 'sessions' },
-          {
-            key: 'common-event',
-            text: t(
-              'sessionGrid.timeSlot.createCommonEventTimeSlot',
-              'Create a common event'
-            ),
-            value: 'common-event',
-          },
-        ]}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        onChange={(event, data) => {
-          if (event.type === 'blur') {
-            // Ignore value if the user cancels choosing an option
-            return;
-          }
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-          if (data.value === 'common-event') {
-            onAddTimeSlot('common-event');
-          } else if (data.value === 'sessions') {
-            onAddTimeSlot('sessions');
-          }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSelect = (timeSlotType: TimeSlotTypes) => {
+    onAddTimeSlot(timeSlotType);
+    handleClose();
+  };
+
+  return (
+    <>
+      <Tooltip content={label} suppress={isOpen}>
+        <IconButton
+          size="large"
+          aria-label={label}
+          onClick={handleClick}
+          aria-controls={isOpen ? 'add-timeslot-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={isOpen ? 'true' : undefined}
+        >
+          <Add />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        id="add-timeslot-menu"
+        anchorEl={anchorEl}
+        open={isOpen}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'add-timeslot-button',
         }}
-      />
-    </Tooltip>
+      >
+        <MenuItem onClick={() => handleSelect('sessions')}>
+          {label}
+        </MenuItem>
+        <MenuItem onClick={() => handleSelect('common-event')}>
+          {t(
+            'sessionGrid.timeSlot.createCommonEventTimeSlot',
+            'Create a common event'
+          )}
+        </MenuItem>
+      </Menu>
+    </>
   );
 }

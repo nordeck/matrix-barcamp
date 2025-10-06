@@ -14,30 +14,33 @@
  * limitations under the License.
  */
 
+import { Add } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'semantic-ui-react';
 import { styled } from '../StyledComponentsThemeProvider';
 import { Tooltip } from '../Tooltip';
 
-const ButtonWithoutMargin = styled(Button)({
+const ButtonWithoutMargin = styled(IconButton)({
   '&&&&&': {
     margin: 0,
   },
-});
+}) as React.ComponentType<React.ComponentProps<typeof IconButton>>;
 
 export function AddTrackButton({ onAddTrack }: { onAddTrack: () => void }) {
   const { t } = useTranslation();
   const label = t('track.create', 'Create a track');
   return (
-    <Tooltip position={'bottom right'} content={label}>
+    <Tooltip placement={'bottom-end'} content={label}>
       {/* div is needed to position the tooltip correctly */}
       <div>
         <ButtonWithoutMargin
-          icon="plus"
+          key="add-track-button"
           size="large"
           onClick={onAddTrack}
           aria-label={label}
-        />
+        >
+          <Add />
+        </ButtonWithoutMargin>
       </div>
     </Tooltip>
   );

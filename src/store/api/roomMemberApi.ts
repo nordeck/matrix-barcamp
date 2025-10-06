@@ -28,10 +28,8 @@ import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
 import { spaceApi } from './spaceApi';
 
-const roomMemberEventEntityAdapter = createEntityAdapter<
-  StateEvent<RoomMemberStateEventContent>
->({
-  selectId: (event) => event.state_key,
+const roomMemberEventEntityAdapter = createEntityAdapter({
+  selectId: (event: StateEvent<RoomMemberStateEventContent>) => event.state_key,
 });
 
 /**
@@ -47,7 +45,7 @@ export const roomMemberApi = baseApi.injectEndpoints({
      * Return the room member events from the space room.
      */
     getRoomMembers: builder.query<
-      EntityState<StateEvent<RoomMemberStateEventContent>>,
+      EntityState<StateEvent<RoomMemberStateEventContent>, string>,
       void
     >({
       providesTags: () => ['SpaceRoom'],
@@ -122,7 +120,7 @@ export const roomMemberApi = baseApi.injectEndpoints({
               spaceApi.endpoints.getSpaceRoom.initiate()
             ).unwrap();
 
-            const changeEvents = events.filter((ev) => ev.room_id === spaceId);
+            const changeEvents = events?.filter((ev) => ev.room_id === spaceId) ?? [];
 
             if (changeEvents.length > 0) {
               updateCachedData((state) =>

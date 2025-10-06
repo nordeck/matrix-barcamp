@@ -15,7 +15,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Button } from 'semantic-ui-react';
+import { IconButton } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 import { Tooltip } from '../Tooltip';
 import { useEditMode } from './EditModeContext';
 
@@ -27,16 +28,13 @@ export function EditModeSwitcher() {
 
   return (
     <Tooltip content={text}>
-      <Button
+      <IconButton
         aria-label={text}
-        basic
-        circular
-        compact
-        icon="edit"
-        toggle
-        active={canEditGrid}
+        color={canEditGrid ? "primary" : "inherit"}
         onClick={() => setCanEditGrid((old) => !old)}
-      />
+      >
+        <Edit />
+      </IconButton>
     </Tooltip>
   );
 }

@@ -15,9 +15,12 @@
  */
 
 import {
+  isValidCreateEventSchema,
   isValidPowerLevelStateEvent,
   PowerLevelsStateEvent,
   StateEvent,
+  StateEventCreateContent,
+  STATE_EVENT_CREATE,
   STATE_EVENT_POWER_LEVELS,
 } from '@matrix-widget-toolkit/api';
 import { isEqual, isError, last, merge } from 'lodash';
@@ -51,7 +54,7 @@ export const powerLevelsApi = baseApi.injectEndpoints({
               stateKey: '',
             }
           );
-
+          console.error("FUCK2", events);
           return {
             data: { event: last(events.filter(isValidPowerLevelStateEvent)) },
           };
@@ -72,6 +75,7 @@ export const powerLevelsApi = baseApi.injectEndpoints({
         { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
+        console.error("FUCK3");
 
         // wait until first data is cached
         await cacheDataLoaded;
@@ -103,9 +107,10 @@ export const powerLevelsApi = baseApi.injectEndpoints({
       StateEvent<PowerLevelsStateEvent>,
       { roomId?: string; changes: Partial<PowerLevelsStateEvent> }
     >({
+      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ roomId, changes }, { extra }) {
         const { widgetApi } = extra as ThunkExtraArgument;
-
+        console.error("MGCM: change", changes);
         try {
           const powerLevelsEvents = await widgetApi.receiveStateEvents(
             STATE_EVENT_POWER_LEVELS,
@@ -124,6 +129,7 @@ export const powerLevelsApi = baseApi.injectEndpoints({
             powerLevelEvent &&
             isEqual(powerLevelEvent.content, powerLevels)
           ) {
+            console.error("MGCM: no changes", powerLevels);
             return { data: powerLevelEvent };
           }
 
@@ -132,7 +138,7 @@ export const powerLevelsApi = baseApi.injectEndpoints({
             powerLevels,
             { roomId }
           );
-
+          console.error("MGCM: updated", data);
           return { data };
         } catch (e) {
           return {
@@ -167,8 +173,67 @@ export const powerLevelsApi = baseApi.injectEndpoints({
         }
       },
     }),
+
+    getCreateEvent: builder.query<
+      { event: StateEvent<StateEventCreateContent> | undefined },
+      void
+    >({
+      queryFn: async (_, { extra }) => {
+        const widgetApi = await (extra as ThunkExtraArgument).widgetApi;
+
+        try {
+          const events = await widgetApi.receiveStateEvents(
+            STATE_EVENT_CREATE,
+            { stateKey: '' },
+          );
+
+          return {
+            data: { event: last(events.filter(isValidCreateEventSchema)) },
+          };
+        } catch (e) {
+          return {
+            error: {
+              name: 'LoadFailed',
+              message: `Could not load create event: ${
+                isError(e) ? e.message : e
+              }`,
+            },
+          };
+        }
+      },
+
+      async onCacheEntryAdded(
+        _,
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
+      ) {
+        const widgetApi = await (extra as ThunkExtraArgument).widgetApi;
+
+        // wait until first data is cached
+        await cacheDataLoaded;
+
+        const subscription = widgetApi
+          .observeStateEvents(STATE_EVENT_CREATE, {
+            stateKey: '',
+          })
+          .pipe(
+            filter(isValidCreateEventSchema),
+            bufferTime(0),
+            filter((list) => list.length > 0),
+          )
+          .subscribe(async (events) => {
+            updateCachedData((state) => {
+              state.event = last(events);
+            });
+          });
+
+        // wait until subscription is cancelled
+        await cacheEntryRemoved;
+
+        subscription.unsubscribe();
+      },
+    }),
   }),
 });
 
-export const { useGetPowerLevelsQuery, usePatchPowerLevelsMutation } =
+export const { useGetPowerLevelsQuery, usePatchPowerLevelsMutation, useGetCreateEventQuery } =
   powerLevelsApi;

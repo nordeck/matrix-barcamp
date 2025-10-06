@@ -17,7 +17,19 @@
 import { PropsWithChildren, useCallback, useRef, useState } from 'react';
 import { AutoFocusInside, FocusOn, InFocusGuard } from 'react-focus-on';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Form, Message, Modal } from 'semantic-ui-react';
+import { 
+  Button, 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Alert,
+  Typography,
+  FormControl,
+  FormLabel,
+  Box,
+  CircularProgress
+} from '@mui/material';
 import {
   useAssignLinkedRoomMutation,
   useGetSessionGridQuery,
@@ -135,110 +147,129 @@ export function LinkRoomDialog({ children, topicId }: LinkRoomDialogProps) {
   const assignTitle = t('linkRoomDialog.assign', 'Assign');
 
   return (
-    <Modal
-      open={modalOpen}
-      onOpen={handleOpen}
-      onClose={handleClose}
-      role="dialog"
-      aria-labelledby={headerId}
-      aria-describedby={contentId}
-      aria-modal="true"
-      trigger={children}
-    >
-      <Modal.Header id={headerId}>
-        <div ref={headerRef}>
-          {t('linkRoomDialog.title', 'Assign a Matrix room to a topic')}
-        </div>
-      </Modal.Header>
-      <Modal.Content id={contentId}>
-        <div ref={formRef}>
-          <FocusOn shards={[headerRef, actionsRef]} scrollLock={false}>
-            <Form>
-              <p>
-                {t(
-                  'linkRoomDialog.description',
-                  'Select a Matrix room where the topic “{{topicTitle}}” should be discussed. Each Matrix room can only host a single topic.',
-                  { topicTitle: topic?.content.title }
-                )}
-              </p>
-              <AutoFocusInside>
-                <InFocusGuard>
-                  <Form.Field
-                    control={SelectUnassignedRoomDropdown}
-                    roomId={roomId}
-                    onChange={setRoomId}
-                    label={t('linkRoomDialog.room', 'Matrix Room')}
-                    id="room-selection"
-                  />
-                </InFocusGuard>
-              </AutoFocusInside>
-              <Trans i18nKey="linkRoomDialog.assignmentProcedure">
-                <p>When you assign a room, the widget will:</p>
-                <ol>
-                  <li>Add a link to the session room to the sticky note.</li>
-                  <li>Update the title and topic to match the topic.</li>
-                  <li>Setup the BarCamp and the Video Conference widget.</li>
-                </ol>
-              </Trans>
-              <Message info>
-                {t(
-                  'linkRoomDialog.createRoomMessage',
-                  'You must create a room in Element before you can assign it to a topic. Use a temporary name as a title (example: “Session 1”), disable ”end-to-end encryption”, and set the join rule to “Visible to space members”. Tip: You can also create the rooms before the planning session starts to speed-up the assignment process.'
-                )}
-              </Message>
-            </Form>
-          </FocusOn>
-        </div>
-      </Modal.Content>
-      <Modal.Actions>
-        <div ref={actionsRef} className="actions">
-          <InFocusGuard>
-            <Button positive basic onClick={handleClose}>
-              {t('linkRoomDialog.cancel', 'Cancel')}
-            </Button>
+    <>
+      <Box onClick={handleOpen} sx={{ cursor: 'pointer' }}>
+        {children}
+      </Box>
+      <Dialog
+        open={modalOpen}
+        onClose={handleClose}
+        aria-labelledby={headerId}
+        aria-describedby={contentId}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle id={headerId}>
+          <div ref={headerRef}>
+            {t('linkRoomDialog.title', 'Assign a Matrix room to a topic')}
+          </div>
+        </DialogTitle>
+        <DialogContent id={contentId}>
+          <div ref={formRef}>
+            <FocusOn shards={[headerRef, actionsRef]} scrollLock={false}>
+              <Box component="form" sx={{ mt: 1 }}>
+                <Typography variant="body1" gutterBottom>
+                  {t(
+                    'linkRoomDialog.description',
+                    'Select a Matrix room where the topic "{{topicTitle}}" should be discussed. Each Matrix room can only host a single topic.',
+                    { topicTitle: topic?.content.title }
+                  )}
+                </Typography>
+                
+                <AutoFocusInside>
+                  <InFocusGuard>
+                    <FormControl fullWidth margin="normal">
+                      <FormLabel htmlFor="room-selection">
+                        {t('linkRoomDialog.room', 'Matrix Room')}
+                      </FormLabel>
+                      <SelectUnassignedRoomDropdown
+                        roomId={roomId}
+                        onChange={setRoomId}
+                        id="room-selection"
+                      />
+                    </FormControl>
+                  </InFocusGuard>
+                </AutoFocusInside>
+                
+                <Trans i18nKey="linkRoomDialog.assignmentProcedure">
+                  <Typography variant="body2" component="p" sx={{ mt: 2 }}>
+                    When you assign a room, the widget will:
+                  </Typography>
+                  <Typography variant="body2" component="ol" sx={{ ml: 2 }}>
+                    <li>Add a link to the session room to the sticky note.</li>
+                    <li>Update the title and topic to match the topic.</li>
+                    <li>Setup the BarCamp and the Video Conference widget.</li>
+                  </Typography>
+                </Trans>
+                
+                <Alert severity="info" sx={{ mt: 2 }}>
+                  {t(
+                    'linkRoomDialog.createRoomMessage',
+                    'You must create a room in Element before you can assign it to a topic. Use a temporary name as a title (example: "Session 1"), disable "end-to-end encryption", and set the join rule to "Visible to space members". Tip: You can also create the rooms before the planning session starts to speed-up the assignment process.'
+                  )}
+                </Alert>
+              </Box>
+            </FocusOn>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <div ref={actionsRef}>
+            <InFocusGuard>
+              <Button variant="outlined" onClick={handleClose}>
+                {t('linkRoomDialog.cancel', 'Cancel')}
+              </Button>
 
-            {hasRoomEncryption ? (
-              <ConfirmDialog
-                title={t(
-                  'linkRoomDialog.encryptedRoom.title',
-                  'Encrypted room'
-                )}
-                message={
-                  <Trans i18nKey="linkRoomDialog.encryptedRoom.message">
-                    <p>Do you really want to assign this room?</p>
+              {hasRoomEncryption ? (
+                <ConfirmDialog
+                  title={t(
+                    'linkRoomDialog.encryptedRoom.title',
+                    'Encrypted room'
+                  )}
+                  message={
+                    <Trans i18nKey="linkRoomDialog.encryptedRoom.message">
+                      <Typography component="p" gutterBottom>
+                        Do you really want to assign this room?
+                      </Typography>
 
-                    <p>
-                      The room you are trying to assign uses encryption. In
-                      encrypted rooms, participants that later join are unable
-                      to see the message history.
-                    </p>
+                      <Typography component="p" gutterBottom>
+                        The room you are trying to assign uses encryption. In
+                        encrypted rooms, participants that later join are unable
+                        to see the message history.
+                      </Typography>
 
-                    <p>
-                      As an alternative you can create a new room and explicitly
-                      disabled “end-to-end encryption” on creation.
-                    </p>
-                  </Trans>
-                }
-                confirmTitle={assignTitle}
-                onConfirm={handleConfirm}
-              >
-                <Button positive disabled={!roomId} loading={isLoading}>
+                      <Typography component="p">
+                        As an alternative you can create a new room and explicitly
+                        disabled "end-to-end encryption" on creation.
+                      </Typography>
+                    </Trans>
+                  }
+                  confirmTitle={assignTitle}
+                  onConfirm={handleConfirm}
+                >
+                  <Button 
+                    variant="contained" 
+                    color="primary"
+                    disabled={!roomId || isLoading}
+                    startIcon={isLoading ? <CircularProgress size={16} /> : null}
+                  >
+                    {assignTitle}
+                  </Button>
+                </ConfirmDialog>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleConfirm}
+                  disabled={!roomId || isLoading}
+                  startIcon={isLoading ? <CircularProgress size={16} /> : null}
+                >
                   {assignTitle}
                 </Button>
-              </ConfirmDialog>
-            ) : (
-              <Button
-                positive
-                onClick={handleConfirm}
-                disabled={!roomId}
-                loading={isLoading}
-              >
-                {assignTitle}
-              </Button>
-            )}
-          </InFocusGuard>
-        </div>
-      </Modal.Actions>
-    </Modal>
+              )}
+            </InFocusGuard>
+          </div>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

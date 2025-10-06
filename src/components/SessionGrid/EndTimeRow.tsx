@@ -21,7 +21,7 @@ import { TimeSlot, Track } from '../../lib/events';
 import { useEditMode } from './EditModeContext';
 
 const EndTimeLabel = styled.td(({ theme }) => ({
-  background: theme.pageBackgroundModal,
+  background: theme.pageBackground,
 
   '&&': {
     verticalAlign: 'middle',
@@ -64,6 +64,7 @@ export function EndTimeRow({
   return (
     <tr>
       <EndTimeTitle timeSlot={lastTimeSlot} />
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <EndTimeLabel colSpan={tracks.length}>
         {t('sessionGrid.timeSlot.end', 'End of the BarCamp 👋')}
       </EndTimeLabel>

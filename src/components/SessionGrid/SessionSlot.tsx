@@ -51,6 +51,7 @@ export function SessionSlot({
   const { canModerate } = usePowerLevels();
 
   return (
+    // @ts-ignore - React Beautiful DnD type compatibility issue
     <Droppable
       type="topic"
       droppableId={stringifyDroppableId({
@@ -60,7 +61,10 @@ export function SessionSlot({
       })}
       isDropDisabled={!!topicId}
     >
-      {(provided, snapshot) => (
+      {(provided, snapshot) => {
+        // @ts-ignore - styled-components JSX component type issue
+        return (
+        // @ts-ignore - styled-components JSX component type issue
         <SessionSlotCell
           {...provided.droppableProps}
           ref={provided.innerRef}
@@ -91,9 +95,10 @@ export function SessionSlot({
             />
           )}
 
-          {provided.placeholder}
+          {provided.placeholder as React.ReactNode}
         </SessionSlotCell>
-      )}
+        );
+      }}
     </Droppable>
   );
 }

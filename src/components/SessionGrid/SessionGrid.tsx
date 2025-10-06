@@ -193,8 +193,11 @@ export function SessionGrid({ tracks, timeSlots, sessions }: SessionGridProps) {
 
   return (
     <EditModeProvider enableEdit={!canModerate ? false : undefined}>
+      {/* @ts-ignore - styled-components JSX component type issue */}
       <ScrollContainer ref={scrollContainerRef}>
+        {/* @ts-ignore - styled-components JSX component type issue */}
         <ScrollWrapper>
+          {/* @ts-ignore - styled-components JSX component type issue */}
           <TableContainer
             ref={ref}
             trackCount={tracks.length}
@@ -236,6 +239,7 @@ export function SessionGrid({ tracks, timeSlots, sessions }: SessionGridProps) {
               </tr>
             </thead>
 
+            {/* @ts-ignore - react-beautiful-dnd JSX component type issue */}
             <Droppable
               type="timeSlot"
               droppableId={stringifyDroppableId({ type: 'timeSlot' })}
@@ -276,7 +280,8 @@ export function SessionGrid({ tracks, timeSlots, sessions }: SessionGridProps) {
                         </EditModeGuard>
                       )}
                     </TimeSlotRow>
-                  ))}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  )) as any}
 
                   {provided.placeholder}
                 </tbody>

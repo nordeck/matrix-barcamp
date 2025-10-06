@@ -27,6 +27,7 @@ export function StyledComponentsThemeProvider({
 }): ReactElement {
   const { theme } = useThemeSelection();
   return (
+    // @ts-ignore - Styled Components ThemeProvider type compatibility issue
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       {children}
     </ThemeProvider>

@@ -16,7 +16,15 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Icon, Loader, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  Box,
+  CircularProgress,
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+} from '@mui/material';
 import { Session, TimeSlot, Track } from '../../lib/events';
 import {
   useGetRoomNameQuery,
@@ -25,36 +33,6 @@ import {
   useSpaceMembers,
 } from '../../store';
 import { StickyNote } from '../StickyNote';
-import { styled } from '../StyledComponentsThemeProvider';
-
-const Container = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100vh',
-  padding: 8,
-});
-
-const Center = styled.div(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-}));
-
-const Header = styled.div(({ theme }) => ({
-  display: 'flex',
-  marginBottom: '1rem',
-  alignItems: 'center',
-  gap: 8,
-}));
-
-const OverflowEllipsis = styled.div({
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-});
-
-const Secondary = styled.span(({ theme }) => ({
-  color: theme.secondaryText,
-}));
 
 export function SessionLayout({
   sessionGridId,
@@ -77,67 +55,81 @@ export function SessionLayout({
   const { data: roomNameData } = useGetRoomNameQuery({ roomId: sessionGridId });
 
   return (
-    <Container>
-      <div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        p: 1,
+      }}
+    >
+      <Box sx={{ mb: 2 }}>
         <Button
-          fluid
-          basic
-          positive
+          fullWidth
+          variant="outlined"
+          color="success"
           disabled={loading}
           onClick={() => navigateToRoom(sessionGridId)}
         >
-          {t('sessionLayout.returnToLobby', 'Return to “{{roomName}}”', {
+          {t('sessionLayout.returnToLobby', 'Return to "{{roomName}}"', {
             roomName: roomNameData?.event?.content.name ?? 'Lobby',
           })}
         </Button>
-      </div>
+      </Box>
 
-      <Segment>
-        {loading ? (
-          <Center>
-            <Loader active inline />
-          </Center>
-        ) : (
-          <>
-            <Header>
-              <Icon className={track.icon} size="big" />
-
-              <OverflowEllipsis>
-                <strong>{track.name}</strong>
-                <br />
-                <Secondary>
-                  {t(
-                    'sessionLayout.timeslotTimes',
-                    '{{startTime, datetime}}–{{endTime, datetime}}',
-                    {
-                      startTime: new Date(timeSlot.startTime),
-                      endTime: new Date(timeSlot.endTime),
-                      formatParams: {
-                        startTime: {
-                          hour: 'numeric',
-                          minute: 'numeric',
-                          month: 'numeric',
-                          year: 'numeric',
-                          day: 'numeric',
+      <Card>
+        <CardContent>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+                <i className={track!.icon} style={{ fontSize: '2rem' }} />
+                <Box sx={{ 
+                  overflow: 'hidden', 
+                  textOverflow: 'ellipsis', 
+                  whiteSpace: 'nowrap',
+                  minWidth: 0
+                }}>
+                  <Typography variant="h6" component="strong">
+                    {track!.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {t(
+                      'sessionLayout.timeslotTimes',
+                      '{{startTime, datetime}}–{{endTime, datetime}}',
+                      {
+                        startTime: new Date(timeSlot!.startTime),
+                        endTime: new Date(timeSlot!.endTime),
+                        formatParams: {
+                          startTime: {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            month: 'numeric',
+                            year: 'numeric',
+                            day: 'numeric',
+                          },
+                          endTime: { hour: 'numeric', minute: 'numeric' },
                         },
-                        endTime: { hour: 'numeric', minute: 'numeric' },
-                      },
-                    }
-                  )}
-                </Secondary>
-              </OverflowEllipsis>
-            </Header>
+                      }
+                    )}
+                  </Typography>
+                </Box>
+              </Stack>
 
-            <StickyNote
-              title={data.topic.content.title}
-              description={data.topic.content.description}
-              author={lookupDisplayName(
-                data.topic.content.authors[0]?.id ?? ''
-              )}
-            />
-          </>
-        )}
-      </Segment>
-    </Container>
+              <StickyNote
+                title={data!.topic.content.title}
+                description={data!.topic.content.description}
+                author={lookupDisplayName(
+                  data!.topic.content.authors[0]?.id ?? ''
+                )}
+              />
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 }

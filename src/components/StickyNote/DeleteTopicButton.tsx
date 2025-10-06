@@ -15,6 +15,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { Delete } from '@mui/icons-material';
 import { ConfirmDeleteDialog } from '../ConfirmDialog';
 import { Tooltip } from '../Tooltip';
 import { StickyNoteButton } from './StickyNote';
@@ -31,12 +32,13 @@ export function DeleteTopicButton({
   const trigger = (
     <div>
       {/* div is required to keep the click target working */}
-      <Tooltip content={deleteTopicButtonText} position="bottom left">
+      <Tooltip content={deleteTopicButtonText} placement="bottom-start">
         <StickyNoteButton
           size="large"
           aria-label={deleteTopicButtonText}
-          icon="trash"
-        />
+        >
+          <Delete />
+        </StickyNoteButton>
       </Tooltip>
     </div>
   );
