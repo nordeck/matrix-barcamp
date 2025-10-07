@@ -106,6 +106,7 @@ export function DragAndDropProvider({
   });
 
   return (
+    // @ts-ignore Incorrect types in @types/react-beautiful-dnd
     <DragDropContext
       onBeforeDragStart={(dragStart) => {
         callbacksRef.current.onBeforeDragStartCallbacks.forEach((c) => {

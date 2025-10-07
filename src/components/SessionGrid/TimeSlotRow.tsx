@@ -173,7 +173,7 @@ export function TimeSlotRow({
         >
           <TimeSlotTitle
             firstEvent={index === 0}
-            dragHandleProps={provided.dragHandleProps}
+            dragHandleProps={provided.dragHandleProps ?? undefined}
             timeSlot={timeSlot}
             onDelete={onDelete}
             onUpdate={(changes) => onTimeSlotChange(timeSlot.id, changes)}

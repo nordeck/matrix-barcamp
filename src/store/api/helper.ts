@@ -51,8 +51,8 @@ export function recalculateTimeSlotTimestamps(
 
     return {
       ...timeSlot,
-      startTime: nextStartTime.toISO({ suppressMilliseconds: true }),
-      endTime: lastEndTime.toISO({ suppressMilliseconds: true }),
+      startTime: nextStartTime.toISO({ suppressMilliseconds: true }) ?? '',
+      endTime: lastEndTime.toISO({ suppressMilliseconds: true }) ?? '',
     };
   });
 }

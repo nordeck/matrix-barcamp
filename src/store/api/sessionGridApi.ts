@@ -18,11 +18,11 @@ import { StateEvent } from '@matrix-widget-toolkit/api';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import {
   BaseQueryApi,
-  QueryReturnValue,
-} from '@reduxjs/toolkit/dist/query/baseQueryTypes';
-import { Recipe } from '@reduxjs/toolkit/dist/query/core/buildThunks';
+  QueryReturnValue
+} from '@reduxjs/toolkit/query';
 import { t } from 'i18next';
-import produce from 'immer';
+import { produce } from 'immer';
+import type { Draft } from 'immer';
 import { first, isError, last } from 'lodash';
 import { DateTime, Duration } from 'luxon';
 import { Symbols } from 'matrix-widget-api';
@@ -233,7 +233,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
 
     addTrack: builder.mutation<{ event: StateEvent<SessionGridEvent> }, void>({
       async queryFn(_, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { tracks: Track[]; }) => {
           const count = state.tracks.length;
 
           state.tracks.push(createTrack(count));
@@ -246,7 +246,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { trackId: string; changes: TrackChanges }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { tracks: any[]; }) => {
           state.tracks = state.tracks.map((t) => {
             if (t.id === action.trackId) {
               return {
@@ -266,7 +266,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { timeSlots: any[]; sessions: any[]; parkingLot: any[]; }) => {
           if (state.timeSlots.length <= 1) {
             throw new Error('Can not delete last time slot');
           }
@@ -298,7 +298,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { trackId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { tracks: any[]; sessions: any[]; parkingLot: any[]; }) => {
           if (state.tracks.length <= 1) {
             throw new Error('Can not delete last track');
           }
@@ -323,7 +323,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotType: TimeSlotTypes }
     >({
       async queryFn({ timeSlotType }, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
           const timeSlots = state.timeSlots.concat(
             createTimeSlot(timeSlotType)
           );
@@ -338,7 +338,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string; changes: CommonEventTimeSlotChanges }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
           state.timeSlots = state.timeSlots.map((t) => {
             if (t.id === action.timeSlotId && t.type === 'common-event') {
               return {
@@ -358,7 +358,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string; changes: TimeSlotChanges }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
           if (action.changes.startTime !== undefined) {
             if (action.timeSlotId === state.timeSlots[0]?.id) {
               state.timeSlots = recalculateTimeSlotTimestamps(state.timeSlots, {
@@ -400,7 +400,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { topicId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { sessions: any[]; parkingLot: any[]; }) => {
           state.sessions = state.sessions.filter(
             (session) => session.topicId !== action.topicId
           );
@@ -417,7 +417,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string; toIndex: number }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
           const timeSlot = state.timeSlots.find(
             (t) => t.id === action.timeSlotId
           );
@@ -487,7 +487,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
           })
         );
 
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { consumedTopicSubmissions: string[]; parkingLot: { topicId: string; }[]; }) => {
           if (!state.consumedTopicSubmissions.includes(topicId)) {
             state.consumedTopicSubmissions.push(topicId);
             state.parkingLot.unshift({ topicId });
@@ -501,7 +501,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { topicId: string; trackId: string; timeSlotId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { parkingLot: any[]; sessions: any[]; tracks: any[]; timeSlots: any[]; }) => {
           const topic =
             state.parkingLot.find((t) => t.topicId === action.topicId) ??
             state.sessions.find((s) => s.topicId === action.topicId);
@@ -558,7 +558,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { topicId: string; toIndex: number }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state) => {
+        return await updateSessionGrid(api, (state: { parkingLot: any[]; sessions: any[]; }) => {
           const topic =
             state.parkingLot.find((t) => t.topicId === action.topicId) ??
             state.sessions.find((s) => s.topicId === action.topicId);
@@ -605,8 +605,8 @@ function createTimeSlot(timeSlotType: TimeSlotTypes = 'sessions'): TimeSlot {
   if (timeSlotType === 'common-event') {
     return {
       id: nanoid(),
-      startTime: startTime.toISO({ suppressMilliseconds: true }),
-      endTime: endTime.toISO({ suppressMilliseconds: true }),
+      startTime: startTime.toISO({ suppressMilliseconds: true }) ?? '',
+      endTime: endTime.toISO({ suppressMilliseconds: true }) ?? '',
       type: 'common-event',
       summary: t('sessionGrid.timeSlot.commonEvent.newName', 'Break'),
       icon: 'coffee',
@@ -615,8 +615,8 @@ function createTimeSlot(timeSlotType: TimeSlotTypes = 'sessions'): TimeSlot {
     return {
       id: nanoid(),
       type: 'sessions',
-      startTime: startTime.toISO({ suppressMilliseconds: true }),
-      endTime: endTime.toISO({ suppressMilliseconds: true }),
+      startTime: startTime.toISO({ suppressMilliseconds: true }) ?? '',
+      endTime: endTime.toISO({ suppressMilliseconds: true }) ?? '',
     };
   }
 }
@@ -635,9 +635,9 @@ export async function updateSessionGrid(
     BaseQueryApi,
     'extra'
   >,
-  recipe: Recipe<SessionGridEvent>
+  recipe: (draft: Draft<SessionGridEvent>) => void
 ): Promise<
-  QueryReturnValue<{ event: StateEvent<SessionGridEvent> }, BaseApiError>
+  QueryReturnValue<{ event: StateEvent<SessionGridEvent> }, BaseApiError, {} | undefined>
 > {
   const { dispatch, extra } = api;
   const { widgetApi } = extra as ThunkExtraArgument;

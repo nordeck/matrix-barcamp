@@ -53,6 +53,7 @@ describe('<TimeSlotRow>', () => {
         icon: 'icon-1',
       },
     ];
+    sessions = [];
 
     const widgetApi = mockWidgetApi();
 

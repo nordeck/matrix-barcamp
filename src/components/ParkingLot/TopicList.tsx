@@ -64,6 +64,7 @@ export function TopicList({
   const canDrop = dragStart?.type === 'topic';
 
   return (
+    // @ts-ignore types of react-beautiful-dnd are not compatible with React 18
     <Droppable
       type="topic"
       droppableId={stringifyDroppableId({ type: 'parkingLot' })}

@@ -103,7 +103,9 @@ export function InlineDateTimeEdit({
             const isoDate = DateTime.fromISO(input).toISO({
               suppressMilliseconds: true,
             });
-            setInput(isoDate);
+            if (isoDate !== null) {
+              setInput(isoDate);
+            }
           }}
           aria-label={label}
           size="small"

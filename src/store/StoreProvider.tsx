@@ -15,7 +15,7 @@
  */
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
-import { UnknownAsyncThunkRejectedAction } from '@reduxjs/toolkit/dist/matchers';
+import { AnyAction } from '@reduxjs/toolkit';
 import React, { PropsWithChildren, ReactElement, useState } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from './store';
@@ -27,7 +27,7 @@ export function StoreProvider({
   children,
   onError,
 }: PropsWithChildren<{
-  onError?: (action: UnknownAsyncThunkRejectedAction) => void;
+  onError?: (action: AnyAction) => void;
 }>): ReactElement {
   const widgetApi = useWidgetApi();
   const [store] = useState(() => createStore({ widgetApi, onError }));

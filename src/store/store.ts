@@ -16,12 +16,11 @@
 
 import { WidgetApi } from '@matrix-widget-toolkit/api';
 import {
-  Action,
+  type AnyAction,
   configureStore,
   isRejected,
-  Middleware,
+  type Middleware,
 } from '@reduxjs/toolkit';
-import { UnknownAsyncThunkRejectedAction } from '@reduxjs/toolkit/dist/matchers';
 import log from 'loglevel';
 import { baseApi } from './api/baseApi';
 
@@ -30,7 +29,7 @@ export function createStore({
   onError,
 }: {
   widgetApi: WidgetApi;
-  onError?: (action: UnknownAsyncThunkRejectedAction) => void;
+  onError?: (action: AnyAction) => void;
 }) {
   const roomId = widgetApi.widgetParameters.roomId;
   const userId = widgetApi.widgetParameters.userId;
@@ -39,7 +38,7 @@ export function createStore({
     throw new Error('roomId or userId empty');
   }
 
-  const errorsMiddleware: Middleware = () => (next) => (action: Action) => {
+  const errorsMiddleware: Middleware = () => (next) => (action) => {
     if (isRejected(action) && action.error.name !== 'ConditionError') {
       onError?.(action);
       log.error('Error on redux action', action);

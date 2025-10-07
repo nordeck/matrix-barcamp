@@ -14,29 +14,97 @@
  * limitations under the License.
  */
 
-import { UnknownAsyncThunkRejectedAction } from '@reduxjs/toolkit/dist/matchers';
-import {
-  MutationThunk,
-  QueryThunk,
-  RejectedAction,
-} from '@reduxjs/toolkit/dist/query/core/buildThunks';
+import { type AnyAction, isRejectedWithValue } from '@reduxjs/toolkit';
+import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { t } from 'i18next';
 
-export function getActionType(
-  action: unknown
-): 'query' | 'mutation' | undefined {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const a = action as RejectedAction<QueryThunk | MutationThunk, any>;
-
-  return a?.meta?.arg?.type;
+/**
+ * Type guard to check if an action is an RTK Query rejected action
+ */
+function isRTKQueryRejectedAction(action: AnyAction): action is AnyAction & {
+  meta: {
+    arg: {
+      type: 'query' | 'mutation';
+      endpointName: string;
+    };
+  };
+  error: {
+    message: string;
+    name?: string;
+  };
+} {
+  return (
+    action.type.endsWith('/rejected') &&
+    action.meta?.arg?.type !== undefined &&
+    ['query', 'mutation'].includes(action.meta.arg.type)
+  );
 }
 
-export function generateError(action: UnknownAsyncThunkRejectedAction): string {
-  const queryType = getActionType(action);
+/**
+ * Extracts the action type from an RTK Query action
+ */
+export function getActionType(
+  action: AnyAction
+): 'query' | 'mutation' | undefined {
+  if (isRTKQueryRejectedAction(action)) {
+    return action.meta.arg.type;
+  }
+  return undefined;
+}
 
-  if (queryType === 'query') {
-    return t('errors.queryFailed', 'Error: Data could not be loaded.');
+/**
+ * Checks if the error is a fetch-related error
+ */
+function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
+  return typeof error === 'object' && error != null && 'status' in error;
+}
+
+/**
+ * Generates a user-friendly error message from a rejected action
+ */
+export function generateError(action: AnyAction): string {
+  // Check if it's an RTK Query action with rejectWithValue
+  if (isRejectedWithValue(action) && isRTKQueryRejectedAction(action)) {
+    const { type, endpointName } = action.meta.arg;
+
+    // Handle specific error types
+    if (isFetchBaseQueryError(action.payload)) {
+      const status = action.payload.status;
+      if (status === 'FETCH_ERROR') {
+        return t('errors.networkError', 'Network error occurred. Please check your connection.');
+      }
+      if (typeof status === 'number' && status >= 500) {
+        return t('errors.serverError', 'Server error occurred. Please try again later.');
+      }
+    }
+
+    // Generate error based on operation type
+    if (type === 'query') {
+      return t(
+        'errors.queryFailed',
+        'Error: Data could not be loaded.',
+        { endpoint: endpointName }
+      );
+    }
+
+    return t(
+      'errors.mutationFailed',
+      'Error: Data could not be updated.',
+      { endpoint: endpointName }
+    );
   }
 
-  return t('errors.mutationFailed', 'Error: Data could not be updated.');
+  // Handle regular async thunk rejections
+  if (isRTKQueryRejectedAction(action)) {
+    const queryType = action.meta.arg.type;
+
+    if (queryType === 'query') {
+      return t('errors.queryFailed', 'Error: Data could not be loaded.');
+    }
+
+    return t('errors.mutationFailed', 'Error: Data could not be updated.');
+  }
+
+  // Fallback for unknown action types
+  return t('errors.unknownError', 'An unexpected error occurred.');
 }
