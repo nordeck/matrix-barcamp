@@ -54,7 +54,6 @@ export const powerLevelsApi = baseApi.injectEndpoints({
               stateKey: '',
             }
           );
-          console.error("FUCK2", events);
           return {
             data: { event: last(events.filter(isValidPowerLevelStateEvent)) },
           };
@@ -75,7 +74,6 @@ export const powerLevelsApi = baseApi.injectEndpoints({
         { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
-        console.error("FUCK3");
 
         // wait until first data is cached
         await cacheDataLoaded;
@@ -110,7 +108,6 @@ export const powerLevelsApi = baseApi.injectEndpoints({
       // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn({ roomId, changes }, { extra }) {
         const { widgetApi } = extra as ThunkExtraArgument;
-        console.error("MGCM: change", changes);
         try {
           const powerLevelsEvents = await widgetApi.receiveStateEvents(
             STATE_EVENT_POWER_LEVELS,
@@ -132,7 +129,6 @@ export const powerLevelsApi = baseApi.injectEndpoints({
             powerLevelEvent &&
             isEqual(powerLevelEvent.content, powerLevels)
           ) {
-            console.error("MGCM: no changes", powerLevels);
             return { data: powerLevelEvent };
           }
 
@@ -141,7 +137,6 @@ export const powerLevelsApi = baseApi.injectEndpoints({
             powerLevels,
             // { roomId }
           );
-          console.error("MGCM: updated", data);
           return { data };
         } catch (e) {
           return {

@@ -55,7 +55,6 @@ export function usePowerLevels(): PowerLevels {
 
   if (spaceRoom?.spaceId && spacePowerLevelsResult) {
     const spacePowerLevels = spacePowerLevelsResult.event?.content;
-    // console.error("MGCM: createEvent", createEvent);
     canModerate =
       hasStateEventPower(
         spacePowerLevels,
@@ -63,7 +62,7 @@ export function usePowerLevels(): PowerLevels {
         userId,
         STATE_EVENT_BARCAMP_SESSION_GRID
       ) &&
-      hasStateEventPower(spacePowerLevels, undefined, userId, STATE_EVENT_BARCAMP_TOPIC) &&
+      hasStateEventPower(spacePowerLevels, createEvent?.event, userId, STATE_EVENT_BARCAMP_TOPIC) &&
       hasStateEventPower(
         spacePowerLevels,
         createEvent?.event,
@@ -71,7 +70,6 @@ export function usePowerLevels(): PowerLevels {
         STATE_EVENT_BARCAMP_LINKED_ROOM
       );
   }
-  console.error("MGCM: canModerate", canModerate);
 
   if (roomPowerLevelsResult) {
     const roomPowerLevels = roomPowerLevelsResult.event?.content;
@@ -87,7 +85,6 @@ export function usePowerLevels(): PowerLevels {
       ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION
     );
   }
-  console.error("results:", canModerate, canSubmitTopic, canParticipantsSubmitTopics);
 
   return { canModerate, canSubmitTopic, canParticipantsSubmitTopics };
 }
