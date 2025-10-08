@@ -40,7 +40,7 @@ export const roomEncryptionApi = baseApi.injectEndpoints({
         try {
           const events = await widgetApi.receiveStateEvents(
             STATE_EVENT_ROOM_ENCRYPTION,
-            { roomIds: roomId ? [roomId] : undefined }
+            // { roomIds: roomId ? [roomId] : undefined }
           );
           const event = first(events.filter(isValidRoomEncryptionEvent));
           const isEncrypted = event !== undefined;

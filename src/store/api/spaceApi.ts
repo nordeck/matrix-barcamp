@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+/* eslint-disable no-unreachable */
+
 import {
   hasStateEventPower,
   isValidPowerLevelStateEvent,
@@ -39,12 +41,12 @@ import {
   STATE_EVENT_BARCAMP_SESSION_GRID,
   STATE_EVENT_ROOM_CREATE,
   STATE_EVENT_ROOM_NAME,
-  STATE_EVENT_SPACE_CHILD,
-  STATE_EVENT_SPACE_PARENT,
 } from '../../lib/events';
 import { ThunkExtraArgument } from '../store';
 import { baseApi } from './baseApi';
 import { linkedRoomApi, selectLinkedRoom } from './linkedRoomApi';
+import { STATE_EVENT_SPACE_PARENT } from '../../lib/events/spaceParentEvent';
+import { STATE_EVENT_SPACE_CHILD } from '../../lib/events/spaceChildEvent';
 
 /**
  * All endpoints that concern the storage locations of the
@@ -61,6 +63,15 @@ export const spaceApi = baseApi.injectEndpoints({
     getSpaceRoom: builder.query<{ spaceId: string }, void>({
       queryFn: async (_, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
+
+        // FOSDEM: use the current room to store everything that was intended for the space room
+        if (widgetApi.widgetParameters.roomId) {
+          return {
+            data: {
+              spaceId: widgetApi.widgetParameters.roomId,
+            },
+          };
+        }
 
         try {
           // get the canonical space event of the current room
@@ -140,6 +151,8 @@ export const spaceApi = baseApi.injectEndpoints({
         { cacheEntryRemoved, extra, getCacheEntry, dispatch }
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
+
+        return;
 
         // don't wait until first data is cached because we want to observe
         // the room for events even though the first call failed. This makes
@@ -251,6 +264,7 @@ export const spaceApi = baseApi.injectEndpoints({
           }
 
           // Cast to string to break the circular type dependency
+          // @ts-ignore - spaceId can be undefined
           const spaceId = (
             await dispatch(spaceApi.endpoints.getSpaceRoom.initiate()).unwrap()
           ).spaceId as string;
@@ -259,7 +273,7 @@ export const spaceApi = baseApi.injectEndpoints({
           const events = await widgetApi.receiveStateEvents(
             STATE_EVENT_BARCAMP_SESSION_GRID,
             {
-              roomIds: [spaceId],
+              // roomIds: [spaceId],
               stateKey: roomId,
             }
           );
@@ -305,7 +319,7 @@ export const spaceApi = baseApi.injectEndpoints({
 
         const sessionGridSubscription = widgetApi
           .observeStateEvents(STATE_EVENT_BARCAMP_SESSION_GRID, {
-            roomIds: Symbols.AnyRoom,
+            // roomIds: Symbols.AnyRoom,
             stateKey: widgetApi.widgetParameters.roomId,
           })
           .pipe(filter(isValidSessionGridEvent))
@@ -602,6 +616,7 @@ export const spaceApi = baseApi.injectEndpoints({
 
         try {
           // Cast to string to break the circular type dependency
+          // @ts-ignore - spaceId can be undefined
           const spaceId = (
             await dispatch(spaceApi.endpoints.getSpaceRoom.initiate()).unwrap()
           ).spaceId as string;
@@ -609,7 +624,10 @@ export const spaceApi = baseApi.injectEndpoints({
           const event = await widgetApi.sendStateEvent<LinkedRoomEvent>(
             STATE_EVENT_BARCAMP_LINKED_ROOM,
             { topicId, sessionGridId },
-            { stateKey: roomId, roomId: spaceId }
+            {
+              stateKey: roomId,
+              // roomId: spaceId
+            }
           );
 
           return { data: { event } };
@@ -663,7 +681,10 @@ export const spaceApi = baseApi.injectEndpoints({
           const data = await widgetApi.sendStateEvent(
             STATE_EVENT_SPACE_CHILD,
             spaceChild,
-            { stateKey: roomId, roomId: spaceId }
+            {
+              stateKey: roomId,
+              // roomId: spaceId
+            }
           );
 
           return { data };

@@ -23,7 +23,6 @@ import {
 } from '../DragAndDropProvider';
 import { DraggableStickyNote, TopicChanges } from '../StickyNote';
 import { styled } from '../StyledComponentsThemeProvider';
-import { LinkedRoomButton } from './LinkedRoomButton';
 import { PinIcon } from './PinIcon';
 import { PinnedNoteButton } from './PinnedNoteButton';
 
@@ -83,7 +82,6 @@ export function SessionSlot({
                   ? (changes) => onTopicChange(topicId, changes)
                   : undefined
               }
-              headerSlot={<LinkedRoomButton topicId={topicId} />}
               expandedHeaderSlot={
                 canModerate ? (
                   <PinnedNoteButton

@@ -68,6 +68,7 @@ const TableContainer = styled.table<{
     canDropSession,
     theme,
   }) => ({
+    width: '100%',
     borderSpacing: 0,
     background: canDropSession
       ? `repeating-linear-gradient(45deg, ${theme.pageBackground}, ${theme.pageBackground} 10px, transparent 10px, transparent 20px)`
@@ -88,8 +89,8 @@ const TableContainer = styled.table<{
     'td.session': {
       minWidth: 200,
       width: `${100 / trackCount}%`,
-      minHeight: 200,
-      height: 200,
+      minHeight: 115,
+      height: 115,
     },
 
     // set the default borders, padding, and alignment for all cells
@@ -210,7 +211,7 @@ export function SessionGrid({ tracks, timeSlots, sessions }: SessionGridProps) {
               <tr aria-label={t('sessionGrid.tracks', 'Tracks')}>
                 {/* Top left corner is empty */}
                 <th>
-                  {/* This is only a temporary location for the edit mode 
+                  {/* This is only a temporary location for the edit mode
                       switch it migth be best suited in the sidebar later on */}
                   {canModerate && <EditModeSwitcher />}
                 </th>

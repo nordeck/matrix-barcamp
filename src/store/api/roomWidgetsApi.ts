@@ -56,30 +56,13 @@ export const roomWidgetsApi = baseApi.injectEndpoints({
 
         try {
           const creatorUserId = widgetApi.widgetParameters.userId ?? '';
-          const jitsiWidget = await applyWidget(
-            widgetApi,
-            roomId,
-            createJitsiWidget(
-              roomId,
-              creatorUserId,
-              // We don't have the name of the lobby room, let's just call the
-              // conference "Lobby"
-              t('widgets.jitsi.lobbyConferenceTitle', 'Lobby')
-            )
-          );
 
           const widgetsLayout = await applyWidgetsLayout(widgetApi, roomId, {
             widgets: {
-              [jitsiWidget.state_key]: {
-                container: 'top',
-                index: 0,
-                width: 50,
-                height: 100,
-              },
               [barcampWidgetId]: {
                 container: 'top',
-                index: 1,
-                width: 50,
+                index: 0,
+                width: 100,
                 height: 100,
               },
             },
@@ -88,7 +71,7 @@ export const roomWidgetsApi = baseApi.injectEndpoints({
           return {
             data: {
               widgetsLayout,
-              widgets: [jitsiWidget],
+              widgets: [],
             },
           };
         } catch (e) {
@@ -231,7 +214,7 @@ async function applyWidget(
 ): Promise<StateEvent<WidgetsEvent>> {
   const widgetsEvents = await widgetApi.receiveStateEvents(
     STATE_EVENT_WIDGETS,
-    { roomIds: [roomId] }
+    // { roomIds: [roomId] }
   );
   const widgetsEvent = last(
     widgetsEvents
@@ -252,7 +235,7 @@ async function applyWidget(
 
   // @ts-ignore - Return type mismatch ISendEventFromWidgetResponseData vs StateEvent
   return await widgetApi.sendStateEvent(STATE_EVENT_WIDGETS, content, {
-    roomId,
+    // roomId,
     stateKey: id,
   });
 }
@@ -264,7 +247,7 @@ async function applyWidgetsLayout(
 ): Promise<StateEvent<WidgetsLayoutEvent>> {
   const widgetsLayoutEvents = await widgetApi.receiveStateEvents(
     STATE_EVENT_WIDGETS_LAYOUT,
-    { roomIds: [roomId] }
+    // { roomIds: [roomId] }
   );
   const widgetsLayoutEvent = last(
     widgetsLayoutEvents.filter(isValidWidgetsLayoutEvent)
@@ -282,7 +265,7 @@ async function applyWidgetsLayout(
   return await widgetApi.sendStateEvent(
     STATE_EVENT_WIDGETS_LAYOUT,
     widgetsLayout,
-    { roomId }
+    // { roomId }
   );
 }
 

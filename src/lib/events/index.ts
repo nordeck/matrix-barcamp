@@ -60,13 +60,11 @@ export type { SessionGridStartEvent } from './sessionGridStartEvent';
 export {
   isJoinableSpaceChildEvent,
   isValidSpaceChildEvent,
-  STATE_EVENT_SPACE_CHILD,
 } from './spaceChildEvent';
 export type { SpaceChildEvent } from './spaceChildEvent';
 export {
   isCanonicalSpaceParentEvent,
   isValidSpaceParentEvent,
-  STATE_EVENT_SPACE_PARENT,
 } from './spaceParentEvent';
 export type { SpaceParentEvent } from './spaceParentEvent';
 export { isValidTopicEvent, STATE_EVENT_BARCAMP_TOPIC } from './topicEvent';

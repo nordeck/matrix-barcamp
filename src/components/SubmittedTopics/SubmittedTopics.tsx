@@ -76,24 +76,24 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
           <ListItem key={s.event_id} disablePadding>
             <ListItemText
               primary={
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    whiteSpace: 'nowrap', 
-                    textOverflow: 'ellipsis', 
-                    overflow: 'hidden' 
+                <Typography
+                  variant="body2"
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden'
                   }}
                 >
-                  {lookupDisplayName(s.sender)}
+                  {lookupDisplayName(s.content.author ?? s.sender)}
                 </Typography>
               }
               secondary={
-                <Typography 
-                  variant="caption" 
-                  sx={{ 
-                    whiteSpace: 'nowrap', 
-                    textOverflow: 'ellipsis', 
-                    overflow: 'hidden' 
+                <Typography
+                  variant="caption"
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden'
                   }}
                 >
                   {s.content.title}
@@ -108,8 +108,8 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
 
   return (
     <Tooltip content={tooltipContent}>
-      <Card 
-        sx={{ 
+      <Card
+        sx={{
           my: 2,
           position: 'relative',
           zIndex: topics.length > 1 ? 2 : 1,
@@ -129,10 +129,10 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
         }}
       >
         <CardContent>
-          <Typography 
-            variant="body2" 
-            paragraph 
-            sx={{ 
+          <Typography
+            variant="body2"
+            paragraph
+            sx={{
               hyphens: 'auto',
               wordBreak: 'break-word'
             }}
@@ -142,7 +142,9 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
                   'submittedTopics.summary.multiple',
                   'Suggestions from {{author}} and {{count}} more…',
                   {
-                    author: lookupDisplayName(firstTopic.sender),
+                    author: lookupDisplayName(
+                      firstTopic.content.author ?? firstTopic.sender
+                    ),
                     count: topics.length - 1,
                   }
                 )
@@ -150,15 +152,17 @@ export function SubmittedTopics({ onSelectNextTopic }: SubmittedTopicsProps) {
                   'submittedTopics.summary.single',
                   'Suggestion from {{author}}',
                   {
-                    author: lookupDisplayName(firstTopic.sender),
+                    author: lookupDisplayName(
+                      firstTopic.content.author ?? firstTopic.sender
+                    ),
                   }
                 )}
           </Typography>
 
           {canModerate && (
-            <Button 
-              fullWidth 
-              variant="outlined" 
+            <Button
+              fullWidth
+              variant="outlined"
               color="success"
               onClick={onSelectNextTopic}
               startIcon={<NoteIcon />}

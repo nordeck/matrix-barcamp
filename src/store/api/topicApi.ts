@@ -17,7 +17,6 @@
 import { StateEvent } from '@matrix-widget-toolkit/api';
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit';
 import { isPlainObject } from 'lodash';
-import { Symbols } from 'matrix-widget-api';
 import { bufferTime, filter } from 'rxjs';
 import { TopicChanges } from '../../components/StickyNote';
 import {
@@ -59,13 +58,16 @@ export const topicApi = baseApi.injectEndpoints({
         const initialState = topicEventEntityAdapter.getInitialState();
 
         try {
+          // @ts-ignore - spaceId can be undefined
           const { spaceId } = await dispatch(
             spaceApi.endpoints.getSpaceRoom.initiate()
           ).unwrap();
 
           const events = await widgetApi.receiveStateEvents(
             STATE_EVENT_BARCAMP_TOPIC,
-            { roomIds: [spaceId] }
+            {
+              // roomIds: [spaceId]
+            }
           );
 
           return {
@@ -108,7 +110,7 @@ export const topicApi = baseApi.injectEndpoints({
 
         const subscription = widgetApi
           .observeStateEvents(STATE_EVENT_BARCAMP_TOPIC, {
-            roomIds: Symbols.AnyRoom,
+            // roomIds: Symbols.AnyRoom,
           })
           .pipe(
             filter(isValidTopicEvent),
@@ -211,6 +213,7 @@ export const topicApi = baseApi.injectEndpoints({
         const { widgetApi } = extra as ThunkExtraArgument;
 
         try {
+          // @ts-ignore - spaceId can be undefined
           const { spaceId } = await dispatch(
             spaceApi.endpoints.getSpaceRoom.initiate()
           ).unwrap();
@@ -231,7 +234,10 @@ export const topicApi = baseApi.injectEndpoints({
           const event = await widgetApi.sendStateEvent(
             STATE_EVENT_BARCAMP_TOPIC,
             content,
-            { roomId: spaceId, stateKey: id }
+            {
+              // roomId: spaceId,
+              stateKey: id
+            }
           );
 
           dispatch(
@@ -307,7 +313,10 @@ export const topicApi = baseApi.injectEndpoints({
           const newEvent = await widgetApi.sendStateEvent(
             STATE_EVENT_BARCAMP_TOPIC,
             { ...topic.content, ...changes },
-            { roomId: topic.room_id, stateKey: topic.state_key }
+            {
+              // roomId: topic.room_id,
+              stateKey: topic.state_key
+            }
           );
 
           return { data: { event: newEvent } };

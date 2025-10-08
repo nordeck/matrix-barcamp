@@ -15,35 +15,27 @@
  */
 
 import {
-  generateRoomTimelineCapabilities,
   STATE_EVENT_POWER_LEVELS,
   STATE_EVENT_ROOM_MEMBER,
-  WIDGET_CAPABILITY_NAVIGATE,
 } from '@matrix-widget-toolkit/api';
 import {
   EventDirection,
-  Symbols,
   WidgetEventCapability,
 } from 'matrix-widget-api';
 import {
   ROOM_EVENT_BARCAMP_SESSION_GRID_START,
   ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION,
-  STATE_EVENT_BARCAMP_LINKED_ROOM,
   STATE_EVENT_BARCAMP_SESSION_GRID,
   STATE_EVENT_BARCAMP_TOPIC,
   STATE_EVENT_ROOM_CREATE,
   STATE_EVENT_ROOM_ENCRYPTION,
   STATE_EVENT_ROOM_HISTORY_VISIBILITY,
-  STATE_EVENT_ROOM_NAME,
-  STATE_EVENT_ROOM_TOPIC,
-  STATE_EVENT_SPACE_CHILD,
-  STATE_EVENT_SPACE_PARENT,
   STATE_EVENT_WIDGETS,
   STATE_EVENT_WIDGETS_LAYOUT,
 } from './events';
 
 export const widgetRegistration = {
-  name: 'BarCamp',
+  name: 'BarCamp (by Nordeck)',
   // "clock" suffix to get a custom icon
   type: 'net.nordeck.barcamp:clock',
 };
@@ -87,18 +79,6 @@ export const capabilities = [
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_SPACE_PARENT
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Receive,
-    STATE_EVENT_SPACE_CHILD
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Send,
-    STATE_EVENT_SPACE_CHILD
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Receive,
     STATE_EVENT_ROOM_MEMBER
   ),
   WidgetEventCapability.forStateEvent(
@@ -108,30 +88,6 @@ export const capabilities = [
   WidgetEventCapability.forStateEvent(
     EventDirection.Send,
     STATE_EVENT_POWER_LEVELS
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Receive,
-    STATE_EVENT_BARCAMP_LINKED_ROOM
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Send,
-    STATE_EVENT_BARCAMP_LINKED_ROOM
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Receive,
-    STATE_EVENT_ROOM_NAME
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Send,
-    STATE_EVENT_ROOM_NAME
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Receive,
-    STATE_EVENT_ROOM_TOPIC
-  ),
-  WidgetEventCapability.forStateEvent(
-    EventDirection.Send,
-    STATE_EVENT_ROOM_TOPIC
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
@@ -158,6 +114,4 @@ export const capabilities = [
     EventDirection.Receive,
     STATE_EVENT_ROOM_ENCRYPTION
   ),
-  ...generateRoomTimelineCapabilities(Symbols.AnyRoom),
-  WIDGET_CAPABILITY_NAVIGATE,
 ];

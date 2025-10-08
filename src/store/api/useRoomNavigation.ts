@@ -19,9 +19,9 @@ import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { useCallback } from 'react';
 import {
   isValidSpaceChildEvent,
-  STATE_EVENT_SPACE_CHILD,
 } from '../../lib/events';
 import { useGetSpaceRoomQuery } from './spaceApi';
+import { STATE_EVENT_SPACE_CHILD } from '../../lib/events/spaceChildEvent';
 
 export function useRoomNavigation(): {
   navigateToRoom: (roomId: string) => Promise<void>;
@@ -37,7 +37,7 @@ export function useRoomNavigation(): {
           STATE_EVENT_SPACE_CHILD,
           {
             stateKey: roomId,
-            roomIds: [data.spaceId],
+            // roomIds: [data.spaceId],
           }
         );
 
