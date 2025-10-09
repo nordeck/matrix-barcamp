@@ -33,6 +33,8 @@ import {
   useSpaceMembers,
 } from '../../store';
 import { StickyNote } from '../StickyNote';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getIconByName } from '../IconPicker';
 
 export function SessionLayout({
   sessionGridId,
@@ -86,10 +88,10 @@ export function SessionLayout({
           ) : (
             <>
               <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
-                <i className={track!.icon} style={{ fontSize: '2rem' }} />
-                <Box sx={{ 
-                  overflow: 'hidden', 
-                  textOverflow: 'ellipsis', 
+                <FontAwesomeIcon icon={getIconByName(track!.icon)} size="xs" />
+                <Box sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                   minWidth: 0
                 }}>

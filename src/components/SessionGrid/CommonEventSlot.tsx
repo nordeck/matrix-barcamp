@@ -16,7 +16,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { CommonEventTimeSlot, Track } from '../../lib/events';
-import { IconPicker } from '../IconPicker';
+import { IconPicker, getIconByName, getIconName } from '../IconPicker';
 import { InlineTextEdit } from '../InlineTextEdit';
 import { styled } from '../StyledComponentsThemeProvider';
 import { useEditMode } from './EditModeContext';
@@ -66,12 +66,12 @@ export function CommonEventSlot({
       <CommonEventLabel key="common-event-label" trackCount={tracks.length}>
         <IconPicker
           size="large"
-          icon={timeSlot.icon}
+          icon={getIconByName(timeSlot.icon)}
           readOnly={!canEditGrid}
           onChange={(icon) => {
             if (onChange) {
               onChange(timeSlot.id, {
-                icon,
+                icon: getIconName(icon),
               });
             }
           }}

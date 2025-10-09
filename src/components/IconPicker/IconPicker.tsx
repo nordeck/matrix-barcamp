@@ -27,6 +27,8 @@ import {
 import { styled } from '@mui/material/styles';
 import { useId } from '../utils';
 import { iconSet } from './icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 const GridContainer = styled(List)({
   display: 'grid',
@@ -44,10 +46,10 @@ function IconGrid({
   onSubmit,
 }: {
   id: string;
-  selected?: string;
-  icons: string[];
-  onChange: (icon: string) => void;
-  onSubmit: (icon: string) => void;
+  selected?: IconDefinition;
+  icons: IconDefinition[];
+  onChange: (icon: IconDefinition) => void;
+  onSubmit: (icon: IconDefinition) => void;
 }) {
   const { t } = useTranslation();
 
@@ -58,13 +60,13 @@ function IconGrid({
       aria-label={t('iconPicker.icons', 'Available Icons')}
     >
       {icons.map((icon, i) => (
-        <ListItem key={icon} disablePadding>
+        <ListItem key={icon.iconName} disablePadding>
           <ListItemButton
             selected={icon === selected}
             role="option"
             aria-selected={icon === selected}
             aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
-              icon,
+              icon: icon.iconName,
             })}
             onFocus={() => onChange(icon)}
             onClick={() => onSubmit(icon)}
@@ -90,7 +92,7 @@ function IconGrid({
               }
             }}
           >
-            <i className={`${icon} large`} style={{ fontSize: '1.5em' }} />
+            <FontAwesomeIcon icon={icon} size="xl" />
           </ListItemButton>
         </ListItem>
       ))}
@@ -102,9 +104,9 @@ type IconSizeProp = 'small' | 'medium' | 'large';
 
 export type IconPickerProps = {
   size?: IconSizeProp;
-  icon: string;
+  icon: IconDefinition;
   readOnly?: boolean;
-  onChange: (icon: string) => void;
+  onChange: (icon: IconDefinition) => void;
 };
 
 export function IconPicker({
@@ -124,10 +126,10 @@ export function IconPicker({
       <span
         role="img"
         aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
-          icon,
+          icon: icon.iconName,
         })}
       >
-        <i className={icon} style={{ fontSize: size === 'large' ? '1.5em' : size === 'small' ? '0.8em' : '1em' }} />
+        <FontAwesomeIcon icon={icon} size="xl" />
       </span>
     );
   }
@@ -142,7 +144,7 @@ export function IconPicker({
           size={size}
           role="combobox"
           aria-label={t('iconPicker.icon', 'Icon "{{icon}}"', {
-            icon: displayedIcon,
+            icon: displayedIcon.iconName,
           })}
           aria-expanded={open}
           aria-controls={listId}
@@ -155,7 +157,7 @@ export function IconPicker({
             }
           }}
         >
-          <i className={displayedIcon} style={{ fontSize: size === 'large' ? '1.5em' : size === 'small' ? '0.8em' : '1em' }} />
+          <FontAwesomeIcon icon={displayedIcon} size="xs" />
         </IconButton>
       </div>
       <Popover

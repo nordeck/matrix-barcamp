@@ -16,17 +16,27 @@
 
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import {
+  faDog,
+  faStar,
+  faFrog,
+  faCoffee,
+  faCompass,
+  faFire,
+  faLemon,
+  faCheese,
+} from '@fortawesome/free-solid-svg-icons';
 import { IconPicker } from './IconPicker';
 
 describe('<IconPicker>', () => {
   it('should render read only icon', () => {
-    render(<IconPicker size="large" icon="dog" readOnly onChange={() => {}} />);
+    render(<IconPicker size="large" icon={faDog} readOnly onChange={() => {}} />);
 
     expect(screen.getByRole('img', { name: 'Icon "dog"' })).toBeInTheDocument();
   });
 
   it('should render picker button', () => {
-    render(<IconPicker size="large" icon="dog" onChange={() => {}} />);
+    render(<IconPicker size="large" icon={faDog} onChange={() => {}} />);
 
     expect(
       screen.getByRole('combobox', { name: 'Icon "dog"', expanded: false })
@@ -34,7 +44,7 @@ describe('<IconPicker>', () => {
   });
 
   it('should show selected icon in popup', async () => {
-    render(<IconPicker size="large" icon="dog" onChange={() => {}} />);
+    render(<IconPicker size="large" icon={faDog} onChange={() => {}} />);
 
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Icon "dog"', expanded: false })
@@ -42,7 +52,7 @@ describe('<IconPicker>', () => {
 
     const list = screen.getByRole('listbox', { name: /available icons/i });
 
-    expect(within(list).getAllByRole('option')).toHaveLength(25);
+    expect(within(list).getAllByRole('option')).toHaveLength(30);
     expect(
       within(list).getByRole('option', { name: 'Icon "dog"', selected: true })
     ).toBeInTheDocument();
@@ -54,7 +64,7 @@ describe('<IconPicker>', () => {
   it('should select icon by clicking', async () => {
     const onChange = jest.fn();
 
-    render(<IconPicker size="large" icon="dog" onChange={onChange} />);
+    render(<IconPicker size="large" icon={faDog} onChange={onChange} />);
 
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Icon "dog"', expanded: false })
@@ -70,12 +80,12 @@ describe('<IconPicker>', () => {
     expect(
       screen.getByRole('combobox', { expanded: false })
     ).toBeInTheDocument();
-    expect(onChange).toBeCalledWith('star');
+    expect(onChange).toBeCalledWith(faStar);
   });
 
   it('should select icon using keyboard interactions', async () => {
     const onChange = jest.fn();
-    render(<IconPicker size="large" icon="dog" onChange={onChange} />);
+    render(<IconPicker size="large" icon={faDog} onChange={onChange} />);
 
     screen
       .getByRole('combobox', { name: 'Icon "dog"', expanded: false })
@@ -109,12 +119,12 @@ describe('<IconPicker>', () => {
 
     expect(
       within(list).getByRole('option', {
-        name: 'Icon "compass"',
+        name: 'Icon "face-surprise"',
         selected: true,
       })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('combobox', { name: 'Icon "compass"', expanded: true })
+      screen.getByRole('combobox', { name: 'Icon "face-surprise"', expanded: true })
     ).toBeInTheDocument();
 
     // Go to end
@@ -122,12 +132,12 @@ describe('<IconPicker>', () => {
 
     expect(
       within(list).getByRole('option', {
-        name: 'Icon "fire"',
+        name: 'Icon "face-surprise"',
         selected: true,
       })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('combobox', { name: 'Icon "fire"', expanded: true })
+      screen.getByRole('combobox', { name: 'Icon "face-surprise"', expanded: true })
     ).toBeInTheDocument();
 
     // Wrap over last
@@ -148,11 +158,11 @@ describe('<IconPicker>', () => {
       screen.getByRole('combobox', { expanded: false })
     ).toBeInTheDocument();
 
-    expect(onChange).toBeCalledWith('lemon');
+    expect(onChange).toBeCalledWith(faLemon);
   });
 
   it('should set focus inside picker on open and restore after closing', async () => {
-    render(<IconPicker size="large" icon="dog" onChange={() => {}} />);
+    render(<IconPicker size="large" icon={faDog} onChange={() => {}} />);
 
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Icon "dog"', expanded: false })
@@ -177,7 +187,7 @@ describe('<IconPicker>', () => {
   it('should trap focus inside picker', async () => {
     render(
       <>
-        <IconPicker size="large" icon="dog" onChange={() => {}} />
+        <IconPicker size="large" icon={faDog} onChange={() => {}} />
         <button>Test</button>
       </>
     );
@@ -210,7 +220,7 @@ describe('<IconPicker>', () => {
   it('should cancel pick on click outside of the popup', async () => {
     const onChange = jest.fn();
     const { container } = render(
-      <IconPicker size="large" icon="dog" onChange={() => {}} />
+      <IconPicker size="large" icon={faDog} onChange={() => {}} />
     );
 
     await userEvent.click(
@@ -231,7 +241,7 @@ describe('<IconPicker>', () => {
 
   it('should cancel if escape key is pressed', async () => {
     const onChange = jest.fn();
-    render(<IconPicker size="large" icon="dog" onChange={() => {}} />);
+    render(<IconPicker size="large" icon={faDog} onChange={() => {}} />);
 
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Icon "dog"', expanded: false })

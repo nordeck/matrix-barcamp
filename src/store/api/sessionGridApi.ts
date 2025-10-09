@@ -27,7 +27,7 @@ import { first, isError, last } from 'lodash';
 import { DateTime, Duration } from 'luxon';
 import { nanoid } from 'nanoid';
 import { bufferTime, filter } from 'rxjs';
-import { randomIcon } from '../../components/IconPicker';
+import { randomIcon, getIconName } from '../../components/IconPicker';
 import {
   CommonEventTimeSlotChanges,
   TimeSlotChanges,
@@ -605,7 +605,7 @@ function createTrack(index: number = 0): Track {
     name: t('track.newName', 'Track {{suffix}}', {
       suffix: index + 1,
     }),
-    icon,
+    icon: getIconName(icon),
   };
 }
 

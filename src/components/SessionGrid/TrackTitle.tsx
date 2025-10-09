@@ -16,7 +16,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { Track } from '../../lib/events';
-import { IconPicker } from '../IconPicker';
+import { IconPicker, getIconByName, getIconName } from '../IconPicker';
 import { InlineTextEdit } from '../InlineTextEdit';
 import { styled } from '../StyledComponentsThemeProvider';
 import { DeleteTrackButton } from './DeleteTrackButton';
@@ -50,8 +50,8 @@ export function TrackTitle({ track, onChange, onDelete }: TrackTitleProps) {
       <Container>
         <IconPicker
           size="large"
-          icon={track.icon}
-          onChange={(icon) => onChange(track.id, { icon })}
+          icon={getIconByName(track.icon)}
+          onChange={(icon) => onChange(track.id, { icon: getIconName(icon) })}
           readOnly={!canEditGrid}
         />
         {/* @ts-ignore - styled-components JSX component type issue */}

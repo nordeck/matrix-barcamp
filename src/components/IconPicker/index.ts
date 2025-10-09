@@ -15,4 +15,5 @@
  */
 
 export { IconPicker } from './IconPicker';
-export { randomIcon } from './icons';
+export { randomIcon, getIconByName, getIconName } from './icons';
+

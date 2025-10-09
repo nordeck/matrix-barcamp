@@ -7,6 +7,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.0",
     "@matrix-widget-toolkit/api": "^5.0.2",
     "@matrix-widget-toolkit/mui": "^2.2.0",
     "@matrix-widget-toolkit/react": "^2.1.0",
