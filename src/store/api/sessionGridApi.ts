@@ -387,7 +387,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
 
                 return {
                   ...timeSlot,
-                  endTime: endTime.toISO(),
+                  endTime: endTime.toISO() ?? '',
                 };
               }
 
