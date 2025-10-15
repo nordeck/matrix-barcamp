@@ -1,0 +1,17 @@
+{
+  "linkRoomDialog": {
+    "createRoomMessage": "Du musst die Räume in Element erstellen bevor du sie einem Thema zuweisen kannst. Nutze einen temporären Titel (Beispiel: „Session 1“), deaktiviere die „Ende-zu-Ende-Verschlüsselung“ und wähle als Raumsichtbarkeit „Für Space-Mitglieder sichtbar“. Beachte dass du mindestens Moderationsrechte in der Space sowie in den Themenräumen benötigst um die Zuweisung abzuschließen. Tipp: Du kannst die Räume auch bereits vor der Themenplanung anlegen um den späteren Zuweisungsprozess zu beschleunigen.",
+    "description": "Wähle einen Matrix Raum in dem das Thema „{{topicTitle}}“ diskutiert werden soll. Jeder Raum kann jeweils nur für ein einziges Thema benutzt werden.",
+    "encryptedRoom": {
+      "message": "<0>Möchtest du diesen Raum wirklich zuweisen?</0><1>Du versuchst einen Raum zuzuweisen der Verschlüsselung verwendet. In verschlüsselten Räumen können Teilnehmer die erst später beitreteten nicht die gesamte Nachrichtenhistorie lesen.</1><2>Alternativ kannst du einen neuen Raum erstellen und dabei die „Ende-zu-Ende-Verschlüsselung“ deaktiveren.</2>"
+    }
+  },
+  "sessionLayout": {
+    "returnToLobby": "Zurück zu „{{roomName}}“"
+  },
+  "widgets": {
+    "jitsi": {
+      "lobbyConferenceTitle": "Lobby"
+    }
+  }
+}

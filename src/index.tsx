@@ -23,6 +23,7 @@ import { getNonce } from './components/utils';
 import './i18n';
 import './index.css';
 import { getEnvironment } from './lib/environment';
+import { configureFontAwesome } from './lib/fontAwesomeConfig';
 import { capabilities } from './lib/registration';
 
 declare global {
@@ -40,6 +41,9 @@ __webpack_nonce__ = getNonce();
 // Initialize nonce on window to make sure that styled-components creates style
 // tags including our nonce.
 window.__webpack_nonce__ = getNonce();
+
+// Configure Font Awesome to use nonce for CSP compliance
+configureFontAwesome();
 
 log.setDefaultLevel(process.env.NODE_ENV === 'development' ? 'debug' : 'info');
 

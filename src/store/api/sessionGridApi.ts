@@ -124,7 +124,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
 
       async onCacheEntryAdded(
         _,
-        { cacheEntryRemoved, extra, updateCachedData, dispatch, getCacheEntry }
+        { cacheEntryRemoved, extra, updateCachedData, dispatch }
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -176,7 +176,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       void
     >({
       invalidatesTags: ['SpaceRoom'],
-      // @ts-ignore - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
+      // @ts-expect-error - RTK Query return type mismatch ISendEventFromWidgetResponseData vs StateEvent
       async queryFn(_, { extra, dispatch }) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -251,7 +251,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { trackId: string; changes: TrackChanges }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { tracks: any[]; }) => {
+        return await updateSessionGrid(api, (state: { tracks: Track[]; }) => {
           state.tracks = state.tracks.map((t) => {
             if (t.id === action.trackId) {
               return {
@@ -271,7 +271,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { timeSlots: any[]; sessions: any[]; parkingLot: any[]; }) => {
+        return await updateSessionGrid(api, (state: { timeSlots: TimeSlot[]; sessions: { timeSlotId: string; topicId: string; trackId: string; }[]; parkingLot: { topicId: string; }[]; }) => {
           if (state.timeSlots.length <= 1) {
             throw new Error('Can not delete last time slot');
           }
@@ -303,7 +303,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { trackId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { tracks: any[]; sessions: any[]; parkingLot: any[]; }) => {
+        return await updateSessionGrid(api, (state: { tracks: Track[]; sessions: { trackId: string; topicId: string; }[]; parkingLot: { topicId: string; }[]; }) => {
           if (state.tracks.length <= 1) {
             throw new Error('Can not delete last track');
           }
@@ -328,7 +328,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotType: TimeSlotTypes }
     >({
       async queryFn({ timeSlotType }, api) {
-        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
+        return await updateSessionGrid(api, (state: { timeSlots: TimeSlot[]; }) => {
           const timeSlots = state.timeSlots.concat(
             createTimeSlot(timeSlotType)
           );
@@ -343,7 +343,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string; changes: CommonEventTimeSlotChanges }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
+        return await updateSessionGrid(api, (state: { timeSlots: TimeSlot[]; }) => {
           state.timeSlots = state.timeSlots.map((t) => {
             if (t.id === action.timeSlotId && t.type === 'common-event') {
               return {
@@ -363,7 +363,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string; changes: TimeSlotChanges }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
+        return await updateSessionGrid(api, (state: { timeSlots: TimeSlot[]; }) => {
           if (action.changes.startTime !== undefined) {
             if (action.timeSlotId === state.timeSlots[0]?.id) {
               state.timeSlots = recalculateTimeSlotTimestamps(state.timeSlots, {
@@ -405,7 +405,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { topicId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { sessions: any[]; parkingLot: any[]; }) => {
+        return await updateSessionGrid(api, (state: { sessions: { topicId: string; }[]; parkingLot: { topicId: string; }[]; }) => {
           state.sessions = state.sessions.filter(
             (session) => session.topicId !== action.topicId
           );
@@ -422,7 +422,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { timeSlotId: string; toIndex: number }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { timeSlots: any[]; }) => {
+        return await updateSessionGrid(api, (state: { timeSlots: TimeSlot[]; }) => {
           const timeSlot = state.timeSlots.find(
             (t) => t.id === action.timeSlotId
           );
@@ -454,19 +454,23 @@ export const sessionGridApi = baseApi.injectEndpoints({
           sessionGridApi.endpoints.getSessionGrid.initiate()
         ).unwrap();
 
+        console.error("I'M HERE");
         if (!sessionGrid) {
           return {
             error: { name: 'UpdateFailed', message: 'No session grid event' },
           };
         }
 
+        console.error("THEN HERE");
         const topicSubmissions = await dispatch(
           topicSubmissionApi.endpoints.getTopicSubmissions.initiate()
         ).unwrap();
+        console.error("ALSO HERE");
         const availableTopicSubmissions = selectAvailableSubmittedTopics(
           topicSubmissions,
           sessionGrid.content.consumedTopicSubmissions
         );
+        console.error("AND HERE");
         const nextTopicSubmission = first(availableTopicSubmissions);
 
         if (!nextTopicSubmission) {
@@ -478,8 +482,10 @@ export const sessionGridApi = baseApi.injectEndpoints({
           };
         }
 
+        console.error("STILL HERE?");
         const topicId = nextTopicSubmission.event_id;
 
+        console.error("TOO LATE HERE");
         // create the topic
         await dispatch(
           topicApi.endpoints.createTopic.initiate({
@@ -498,7 +504,9 @@ export const sessionGridApi = baseApi.injectEndpoints({
           })
         );
 
+        console.error("ALMOST DONE HERE");
         return await updateSessionGrid(api, (state: { consumedTopicSubmissions: string[]; parkingLot: { topicId: string; }[]; }) => {
+          console.error("HUHUUU HERE");
           if (!state.consumedTopicSubmissions.includes(topicId)) {
             state.consumedTopicSubmissions.push(topicId);
             state.parkingLot.unshift({ topicId });
@@ -512,7 +520,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { topicId: string; trackId: string; timeSlotId: string }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { parkingLot: any[]; sessions: any[]; tracks: any[]; timeSlots: any[]; }) => {
+        return await updateSessionGrid(api, (state: { parkingLot: { topicId: string; }[]; sessions: { topicId: string; timeSlotId: string; trackId: string; }[]; tracks: Track[]; timeSlots: TimeSlot[]; }) => {
           const topic =
             state.parkingLot.find((t) => t.topicId === action.topicId) ??
             state.sessions.find((s) => s.topicId === action.topicId);
@@ -569,7 +577,7 @@ export const sessionGridApi = baseApi.injectEndpoints({
       { topicId: string; toIndex: number }
     >({
       async queryFn(action, api) {
-        return await updateSessionGrid(api, (state: { parkingLot: any[]; sessions: any[]; }) => {
+        return await updateSessionGrid(api, (state: { parkingLot: { topicId: string; }[]; sessions: { topicId: string; }[]; }) => {
           const topic =
             state.parkingLot.find((t) => t.topicId === action.topicId) ??
             state.sessions.find((s) => s.topicId === action.topicId);
@@ -689,7 +697,7 @@ export async function updateSessionGrid(
       }
     );
 
-    // @ts-ignore - Return type mismatch ISendEventFromWidgetResponseData vs StateEvent
+    // @ts-expect-error - Return type mismatch ISendEventFromWidgetResponseData vs StateEvent
     return { data: { event: newEvent } };
   } catch (e) {
     // restore the eager update on failure

@@ -1,0 +1,17 @@
+{
+  "linkRoomDialog": {
+    "createRoomMessage": "You must create a room in Element before you can assign it to a topic. Use a temporary name as a title (example: “Session 1”), disable ”end-to-end encryption”, and set the join rule to “Visible to space members”. Tip: You can also create the rooms before the planning session starts to speed-up the assignment process.",
+    "description": "Select a Matrix room where the topic “{{topicTitle}}” should be discussed. Each Matrix room can only host a single topic.",
+    "encryptedRoom": {
+      "message": "<0>Do you really want to assign this room?</0><1>The room you are trying to assign uses encryption. In encrypted rooms, participants that later join are unable to see the message history.</1><2>As an alternative you can create a new room and explicitly disabled “end-to-end encryption” on creation.</2>"
+    }
+  },
+  "sessionLayout": {
+    "returnToLobby": "Return to “{{roomName}}”"
+  },
+  "widgets": {
+    "jitsi": {
+      "lobbyConferenceTitle": "Lobby"
+    }
+  }
+}

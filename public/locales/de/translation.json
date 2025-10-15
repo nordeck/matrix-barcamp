@@ -3,7 +3,10 @@
   "delete": "Löschen",
   "errors": {
     "mutationFailed": "Fehler: Die Daten konnten nicht gespeichert werden.",
-    "queryFailed": "Fehler: Die Daten konnten nicht geladen werden."
+    "networkError": "Network error occurred. Please check your connection.",
+    "queryFailed": "Fehler: Die Daten konnten nicht geladen werden.",
+    "serverError": "Server error occurred. Please try again later.",
+    "unknownError": "An unexpected error occurred."
   },
   "iconPicker": {
     "icon": "Symbol \"{{icon}}\"",
@@ -14,10 +17,10 @@
     "assign": "Zuweisen",
     "assignmentProcedure": "<0>Wenn du einen Raum zuweist, wird das Widget:</0><1><0>Einen Link zum Themenraum auf dem Thema hinzufügen.</0><1>Den Raumtitel und das Raumthema ändern.</1><2>Das BarCamp Widget und das Videokonferenz Widget im Raum bereitstellen.</2></1>",
     "cancel": "Abbrechen",
-    "createRoomMessage": "Du musst die Räume in Element erstellen bevor du sie einem Thema zuweisen kannst. Nutze einen temporären Titel (Beispiel: „Session 1“), deaktiviere die „Ende-zu-Ende-Verschlüsselung“ und wähle als Raumsichtbarkeit „Für Space-Mitglieder sichtbar“. Beachte dass du mindestens Moderationsrechte in der Space sowie in den Themenräumen benötigst um die Zuweisung abzuschließen. Tipp: Du kannst die Räume auch bereits vor der Themenplanung anlegen um den späteren Zuweisungsprozess zu beschleunigen.",
-    "description": "Wähle einen Matrix Raum in dem das Thema „{{topicTitle}}“ diskutiert werden soll. Jeder Raum kann jeweils nur für ein einziges Thema benutzt werden.",
+    "createRoomMessage": "You must create a room in Element before you can assign it to a topic. Use a temporary name as a title (example: \"Session 1\"), disable \"end-to-end encryption\", and set the join rule to \"Visible to space members\". Tip: You can also create the rooms before the planning session starts to speed-up the assignment process.",
+    "description": "Select a Matrix room where the topic \"{{topicTitle}}\" should be discussed. Each Matrix room can only host a single topic.",
     "encryptedRoom": {
-      "message": "<0>Möchtest du diesen Raum wirklich zuweisen?</0><1>Du versuchst einen Raum zuzuweisen der Verschlüsselung verwendet. In verschlüsselten Räumen können Teilnehmer die erst später beitreteten nicht die gesamte Nachrichtenhistorie lesen.</1><2>Alternativ kannst du einen neuen Raum erstellen und dabei die „Ende-zu-Ende-Verschlüsselung“ deaktiveren.</2>",
+      "message": "<0>Do you really want to assign this room?</0><1>The room you are trying to assign uses encryption. In encrypted rooms, participants that later join are unable to see the message history.</1><2>As an alternative you can create a new room and explicitly disabled \"end-to-end encryption\" on creation.</2>",
       "title": "Verschlüsselter Raum"
     },
     "room": "Matrix Raum",
@@ -92,7 +95,7 @@
     "tracks": "Tracks"
   },
   "sessionLayout": {
-    "returnToLobby": "Zurück zu „{{roomName}}“",
+    "returnToLobby": "Return to \"{{roomName}}\"",
     "timeslotTimes": "{{startTime, datetime}}–{{endTime, datetime}}"
   },
   "submittedTopics": {
@@ -157,7 +160,6 @@
   },
   "widgets": {
     "jitsi": {
-      "lobbyConferenceTitle": "Lobby",
       "title": "Video Konferenz"
     }
   }

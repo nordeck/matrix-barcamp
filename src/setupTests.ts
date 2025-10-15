@@ -18,11 +18,12 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import { expect, vi } from 'vitest';
-import '@testing-library/jest-dom';
 import { AxeResults } from 'axe-core';
 import log from 'loglevel';
 import { Settings } from 'luxon';
 import { TextDecoder, TextEncoder } from 'util';
+// Import jest-dom AFTER expect is imported from vitest
+import '@testing-library/jest-dom';
 // Make sure to initialize i18n (see mock below)
 import './i18n';
 

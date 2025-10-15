@@ -98,7 +98,8 @@ export function TopicSubmission({ topic }: { topic: PersonalTopic }) {
       {isSubmitted ? (
         <Button
           disabled
-          variant="outlined"
+          color="error"
+          variant="contained"
           type="button"
           fullWidth
           startIcon={isSubmitting ? <CircularProgress size={16} /> : <Check />}
