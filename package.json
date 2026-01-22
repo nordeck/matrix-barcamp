@@ -17,7 +17,7 @@
     "i18next-http-backend": "^2.4.2",
     "immer": "^9.0.21",
     "joi": "^17.13.3",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "loglevel": "^1.9.2",
     "luxon": "^3.3.0",
     "matrix-widget-api": "^1.1.1",
