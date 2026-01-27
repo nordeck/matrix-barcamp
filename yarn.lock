@@ -6692,17 +6692,17 @@ i18next-browser-languagedetector@^7.1.0:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next-chained-backend@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-4.6.2.tgz#96bd1fd8c0f719154040665b435cf3f032d7ccec"
-  integrity sha512-2P092fR+nAPQlGzPUoIIxbwo7PTBqQYgLxwv1XhSTQUAUoelLo5LkX+FqRxxSDg9WEAsrc8+2WL6mJtMGIa6WQ==
+i18next-chained-backend@^4.6.3:
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-4.6.3.tgz#3a4cc3a396dd04f50846743ea4e987489dd8a0cf"
+  integrity sha512-Yg4hAKg/98zRAMQs87vJSNevTzaPPrYF3Eb7Kpx+UEaaXLd3p69g7dulAL+hpmZQHeMQ/5gFqHVtdwva53mB0Q==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next-http-backend@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.4.2.tgz#bd53cacaed671e9f38bdcfd46ac9d1763a898186"
-  integrity sha512-wKrgGcaFQ4EPjfzBTjzMU0rbFTYpa0S5gv9N/d8WBmWS64+IgJb7cHddMvV+tUkse7vUfco3eVs2lB+nJhPo3w==
+i18next-http-backend@^2.4.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.7.3.tgz#335e5884b4c5446cdb4817cb35e81ee4ac7be9f4"
+  integrity sha512-FgZxrXdRA5u44xfYsJlEBL4/KH3f2IluBpgV/7riW0YW2VEyM8FzVt2XHAOi6id0Ppj7vZvCZVpp5LrGXnc8Ig==
   dependencies:
     cross-fetch "4.0.0"
 
@@ -6736,10 +6736,17 @@ i18next-resources-to-backend@^1.1.3:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next@^23.5.1, i18next@^23.7.11:
+i18next@^23.5.1:
   version "23.7.11"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.7.11.tgz#ee4dfa58f9b27807ebf57d7c33a6c4a0bb4bf7c8"
   integrity sha512-A/vOkw8vY99YHU9A1Td3I1dcTiYaPnwBWzrpVzfXUXSYgogK3cmBcmop/0cnXPc6QpUWIyqaugKNxRUEZVk9Nw==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
+
+i18next@^23.7.20:
+  version "23.16.8"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.16.8.tgz#3ae1373d344c2393f465556f394aba5a9233b93a"
+  integrity sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
