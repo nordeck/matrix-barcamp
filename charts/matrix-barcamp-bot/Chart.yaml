@@ -1,0 +1,7 @@
+apiVersion: v2
+name: matrix-barcamp-bot
+description: A bot accompanying the BarCamp widget to support clients without support for the required widget API calls
+type: application
+version: 0.1.0
+appVersion: "0.0.0"
+home: https://github.com/nordeck/matrix-barcamp

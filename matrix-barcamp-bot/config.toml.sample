@@ -1,0 +1,8 @@
+[simplematrixbotlib.config]
+homeserver = "https://example.org"
+username = "example-barcamp-bot"
+password = "test123"
+join_on_invite = true
+store_path = "./store/"
+allowlist = []
+blocklist = []

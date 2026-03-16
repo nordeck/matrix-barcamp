@@ -37,7 +37,7 @@ export function useRoomNavigation(): {
           STATE_EVENT_SPACE_CHILD,
           {
             stateKey: roomId,
-            roomIds: [data.spaceId],
+            //roomIds: [data.spaceId],
           }
         );
 
