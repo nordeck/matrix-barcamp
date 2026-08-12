@@ -64,7 +64,7 @@ describe('usePowerLevels', () => {
             'net.nordeck.barcamp.linked_room': 50,
           },
         },
-        room_id: '!space-id',
+        room_id: '!room-id',
       })
     );
 

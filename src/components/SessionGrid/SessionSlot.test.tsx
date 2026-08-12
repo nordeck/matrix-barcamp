@@ -145,7 +145,7 @@ describe('<SessionSlot>', () => {
 
   it('should make topics read only for participants', async () => {
     widgetApi.mockSendStateEvent(
-      mockParticipantPowerLevelsEvent({ room_id: '!space-id' })
+      mockParticipantPowerLevelsEvent({ room_id: '!room-id' })
     );
 
     render(

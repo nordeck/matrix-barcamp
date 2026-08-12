@@ -26,7 +26,6 @@ import {
 import { ROOM_EVENT_BARCAMP_TOPIC_SUBMISSION } from '../../lib/events';
 import {
   useHasRoomEncryptionQuery,
-  useMarkRoomAsSuggestedMutation,
   usePatchPowerLevelsMutation,
   usePatchRoomHistoryVisibilityMutation,
   usePowerLevels,
@@ -38,7 +37,6 @@ import { ConfirmDialog } from '../ConfirmDialog';
 function ModeratorWelcomeLayout() {
   const { t } = useTranslation();
   const [setupSessionGrid] = useSetupSessionGridMutation();
-  const [markRoomAsSuggested] = useMarkRoomAsSuggestedMutation();
   const [patchPowerLevels] = usePatchPowerLevelsMutation();
   const [patchRoomHistoryVisibility] = usePatchRoomHistoryVisibilityMutation();
   const [setupLobbyRoomWidgets] = useSetupLobbyRoomWidgetsMutation();
@@ -46,10 +44,7 @@ function ModeratorWelcomeLayout() {
 
   async function handleSetup() {
     const { event } = await setupSessionGrid().unwrap();
-    const spaceId = event.room_id;
     const roomId = event.state_key;
-
-    await markRoomAsSuggested({ spaceId, roomId }).unwrap();
 
     await patchPowerLevels({
       roomId,

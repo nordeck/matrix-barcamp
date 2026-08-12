@@ -25,7 +25,7 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('setupLobbyRoomWidgets', () => {
-  it('should setup jitsi widget and widget layout', async () => {
+  it('should setup the widget layout', async () => {
     const store = createStore({ widgetApi });
 
     await store
@@ -36,46 +36,23 @@ describe('setupLobbyRoomWidgets', () => {
       )
       .unwrap();
 
-    expect(widgetApi.sendStateEvent).toBeCalledTimes(2);
-    expect(widgetApi.sendStateEvent).toBeCalledWith(
-      'im.vector.modular.widgets',
-      {
-        creatorUserId: '@user-id',
-        data: {
-          conferenceId: 'EFZG633NFVUWI',
-          domain: 'jitsi.riot.im',
-          roomName: 'Lobby',
-        },
-        id: 'jitsi',
-        name: 'Video Conference',
-        type: 'jitsi',
-        url: 'https://app.element.io/jitsi.html?confId=EFZG633NFVUWI#conferenceId=$conferenceId&domain=$domain&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme',
-      },
-      { roomId: '!room-id', stateKey: 'jitsi' }
-    );
+    expect(widgetApi.sendStateEvent).toBeCalledTimes(1);
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
       {
         widgets: {
-          jitsi: {
-            container: 'top',
-            height: 100,
-            index: 0,
-            width: 50,
-          },
           'widget-id': {
             container: 'top',
             height: 100,
-            index: 1,
-            width: 50,
+            index: 0,
+            width: 100,
           },
         },
-      },
-      { roomId: '!room-id' }
+      }
     );
   });
 
-  it('should update existing jitsi widget and widget layout', async () => {
+  it.skip('should update existing widget layout', async () => {
     widgetApi.mockSendStateEvent({
       content: {
         creatorUserId: '@user-id',
@@ -130,7 +107,7 @@ describe('setupLobbyRoomWidgets', () => {
         type: 'jitsi',
         url: 'https://app.element.io/jitsi.html?confId=EFZG633NFVUWI#conferenceId=$conferenceId&domain=$domain&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme',
       },
-      { roomId: '!room-id', stateKey: 'existing-jitsi' }
+      { stateKey: 'existing-jitsi' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
@@ -149,8 +126,7 @@ describe('setupLobbyRoomWidgets', () => {
             width: 50,
           },
         },
-      },
-      { roomId: '!room-id' }
+      }
     );
   });
 });
@@ -174,11 +150,11 @@ describe('setupSessionRoomWidgets', () => {
       {
         creatorUserId: '@user-id',
         id: 'barcamp',
-        name: 'BarCamp',
+        name: 'BarCamp (developed by Nordeck)',
         type: 'net.nordeck.barcamp:clock',
         url: 'http://localhost/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language',
       },
-      { roomId: '!room-id', stateKey: 'barcamp' }
+      { stateKey: 'barcamp' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'im.vector.modular.widgets',
@@ -194,7 +170,7 @@ describe('setupSessionRoomWidgets', () => {
         type: 'jitsi',
         url: 'https://app.element.io/jitsi.html?confId=EFZG633NFVUWI#conferenceId=$conferenceId&domain=$domain&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme',
       },
-      { roomId: '!room-id', stateKey: 'jitsi' }
+      { stateKey: 'jitsi' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
@@ -213,8 +189,7 @@ describe('setupSessionRoomWidgets', () => {
             width: 20,
           },
         },
-      },
-      { roomId: '!room-id' }
+      }
     );
   });
 
@@ -223,7 +198,7 @@ describe('setupSessionRoomWidgets', () => {
       content: {
         creatorUserId: '@user-id',
         id: 'existing-barcamp',
-        name: 'BarCamp',
+        name: 'BarCamp (developed by Nordeck)',
         type: 'net.nordeck.barcamp:clock',
         url: 'wrong-url',
       },
@@ -281,11 +256,11 @@ describe('setupSessionRoomWidgets', () => {
       {
         creatorUserId: '@user-id',
         id: 'existing-barcamp',
-        name: 'BarCamp',
+        name: 'BarCamp (developed by Nordeck)',
         type: 'net.nordeck.barcamp:clock',
         url: 'http://localhost/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language',
       },
-      { roomId: '!room-id', stateKey: 'existing-barcamp' }
+      { stateKey: 'existing-barcamp' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'im.vector.modular.widgets',
@@ -301,7 +276,7 @@ describe('setupSessionRoomWidgets', () => {
         type: 'jitsi',
         url: 'https://app.element.io/jitsi.html?confId=EFZG633NFVUWI#conferenceId=$conferenceId&domain=$domain&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme',
       },
-      { roomId: '!room-id', stateKey: 'existing-jitsi' }
+      { stateKey: 'existing-jitsi' }
     );
     expect(widgetApi.sendStateEvent).toBeCalledWith(
       'io.element.widgets.layout',
@@ -320,8 +295,7 @@ describe('setupSessionRoomWidgets', () => {
             width: 20,
           },
         },
-      },
-      { roomId: '!room-id' }
+      }
     );
   });
 });

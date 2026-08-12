@@ -53,6 +53,23 @@ describe('isValidTopicSubmissionEvent', () => {
     ).toBe(true);
   });
 
+  it('should accept event with a different author', () => {
+    expect(
+      isValidTopicSubmissionEvent({
+        content: {
+          title: 'My Topic',
+          description: 'I want to talk about…',
+          author: '@another-user-id',
+        },
+        event_id: '$event-id',
+        origin_server_ts: 0,
+        room_id: '!room-id',
+        sender: '@user-id',
+        type: 'net.nordeck.barcamp.topic_submission',
+      })
+    ).toBe(true);
+  });
+
   it('should accept additional properties', () => {
     expect(
       isValidTopicSubmissionEvent({
@@ -79,6 +96,9 @@ describe('isValidTopicSubmissionEvent', () => {
     { description: null },
     { description: 111 },
     { description: '' },
+    { author: null },
+    { author: 111 },
+    { author: '' },
     { 'm.relates_to': { rel_type: undefined, event_id: '$event-id' } },
     { 'm.relates_to': { rel_type: null, event_id: '$event-id' } },
     { 'm.relates_to': { rel_type: '', event_id: '$event-id' } },

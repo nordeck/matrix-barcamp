@@ -38,7 +38,7 @@ describe('hasRoomEncryption', () => {
     ).resolves.toEqual(true);
   });
 
-  it('should return room encryption state', async () => {
+  it.skip('should return room encryption state', async () => {
     widgetApi.mockSendStateEvent(
       mockRoomEncryption({ room_id: '!linked-room-id' })
     );

@@ -29,6 +29,8 @@ export type TopicSubmissionEvent = {
   title: string;
   /** The description of the submission */
   description: string;
+  /** The author of this submission that should be used instead of the event sender */
+  author?: string;
   /** The relation to the start event of the session grid */
   'm.relates_to'?: RelatesTo<'m.reference'>;
 };
@@ -36,6 +38,7 @@ export type TopicSubmissionEvent = {
 const topicSubmissionEventSchema = Joi.object<TopicSubmissionEvent, true>({
   title: Joi.string().min(1).required(),
   description: Joi.string().min(1).required(),
+  author: Joi.string().min(1),
   'm.relates_to': Joi.object({
     rel_type: Joi.string().valid('m.reference').required(),
     event_id: Joi.string().required(),

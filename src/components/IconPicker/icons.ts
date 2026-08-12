@@ -42,6 +42,11 @@ export const iconSet = [
   'car',
   'compass',
   'fire',
+  'pizza slice',
+  'beer mug',
+  'comment',
+  'server',
+  'face surprise',
 ];
 
 export function randomIcon(): string {
