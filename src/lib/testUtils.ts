@@ -100,7 +100,7 @@ export function mockParticipantPowerLevelsEvent({
  */
 export function mockSessionGrid({
   state_key = '!room-id',
-  room_id = '!space-id',
+  room_id = '!room-id',
   content = {},
 }: {
   state_key?: string;
@@ -159,7 +159,7 @@ export function mockSessionGridStart({
  */
 export function mockTopic({
   state_key = 'topic-0',
-  room_id = '!space-id',
+  room_id = '!room-id',
   content = {},
 }: {
   state_key?: string;
@@ -277,7 +277,7 @@ export function mockTopicSubmission({
  */
 export function mockRoomMember({
   event_id = nanoid(),
-  room_id = '!space-id',
+  room_id = '!room-id',
   state_key = '@user-id',
   content = {},
 }: {

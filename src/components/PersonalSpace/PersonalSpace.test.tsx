@@ -123,8 +123,7 @@ describe('<PersonalSpace/>', () => {
           events: {
             'net.nordeck.barcamp.topic_submission': 0,
           },
-        }),
-        { room_id: undefined }
+        })
       );
     });
   });
@@ -153,8 +152,7 @@ describe('<PersonalSpace/>', () => {
           events: {
             'net.nordeck.barcamp.topic_submission': 50,
           },
-        }),
-        { room_id: undefined }
+        })
       );
     });
   });

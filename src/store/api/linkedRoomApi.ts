@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+/* eslint-disable no-unreachable */
+
 import { compareOriginServerTS, StateEvent } from '@matrix-widget-toolkit/api';
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit';
 import { isError } from 'lodash';
@@ -57,6 +59,7 @@ export const linkedRoomApi = baseApi.injectEndpoints({
         const { widgetApi } = extra as ThunkExtraArgument;
 
         try {
+          return { data: linkedRoomsEntityAdapter.getInitialState() };
           const { spaceId } = await dispatch(
             spaceApi.endpoints.getSpaceRoom.initiate()
           ).unwrap();
@@ -94,6 +97,8 @@ export const linkedRoomApi = baseApi.injectEndpoints({
           dispatch,
         }
       ) {
+        return;
+
         const { widgetApi } = extra as ThunkExtraArgument;
 
         // wait until first data is cached

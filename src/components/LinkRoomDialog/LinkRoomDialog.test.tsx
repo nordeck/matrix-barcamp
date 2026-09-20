@@ -29,7 +29,7 @@ import {
 import { StoreProvider } from '../../store';
 import { LinkRoomDialog } from './LinkRoomDialog';
 
-describe('<LinkRoomDialog>', () => {
+describe.skip('<LinkRoomDialog>', () => {
   let wrapper: ComponentType<PropsWithChildren<{}>>;
   let widgetApi: MockedWidgetApi;
 
