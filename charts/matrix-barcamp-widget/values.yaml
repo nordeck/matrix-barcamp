@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/nordeck/matrix-barcamp-widget
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "@sha256:22436de460392a69c33ceb1f1547449edd2de595bb9b8ec741d093e349add6c2"
 
 imagePullSecrets: []
 nameOverride: ""
